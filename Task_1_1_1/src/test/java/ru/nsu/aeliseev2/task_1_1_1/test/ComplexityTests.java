@@ -4,7 +4,7 @@ import java.util.Random;
 import org.junit.jupiter.api.Test;
 import ru.nsu.aeliseev2.task_1_1_1.ArrayUtils;
 
-public class ComplexityTests {
+class ComplexityTests {
     @Test
     void benchmark() {
         int repeatCount = 10000;

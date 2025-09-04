@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.nsu.aeliseev2.task_1_1_1.ArrayUtils;
 
-public class SortTests {
+class SortTests {
     private SortTests() {
     }
 
