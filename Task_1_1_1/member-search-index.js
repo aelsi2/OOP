@@ -1,1 +1,1 @@
-memberSearchIndex = [{"p":"ru.nsu.aeliseev2.task_1_1_1","c":"ArrayUtils","l":"heapsort(int[])"},{"p":"ru.nsu.aeliseev2.task_1_1_1","c":"App","l":"main(String[])","u":"main(java.lang.String[])"}];updateSearchResults();
+memberSearchIndex = [{"p":"ru.nsu.aeliseev2.task_1_1_1","c":"ArrayUtils","l":"heapsort(int[])"}];updateSearchResults();
