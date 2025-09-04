@@ -1,8 +1,8 @@
-package ru.nsu.aeliseev2.task_1_1_1.test;
+package ru.nsu.aeliseev2.task111.test;
 
 import java.util.Random;
 import org.junit.jupiter.api.Test;
-import ru.nsu.aeliseev2.task_1_1_1.ArrayUtils;
+import ru.nsu.aeliseev2.task111.ArrayUtils;
 
 class ComplexityTests {
     @Test

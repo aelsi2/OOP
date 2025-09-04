@@ -1,8 +1,8 @@
-package ru.nsu.aeliseev2.task_1_1_1.test;
+package ru.nsu.aeliseev2.task111.test;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.nsu.aeliseev2.task_1_1_1.ArrayUtils;
+import ru.nsu.aeliseev2.task111.ArrayUtils;
 
 class SortTests {
     private SortTests() {

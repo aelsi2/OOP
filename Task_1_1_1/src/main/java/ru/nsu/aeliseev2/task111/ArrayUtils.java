@@ -1,4 +1,4 @@
-package ru.nsu.aeliseev2.task_1_1_1;
+package ru.nsu.aeliseev2.task111;
 
 /**
  * Integer array utilities.

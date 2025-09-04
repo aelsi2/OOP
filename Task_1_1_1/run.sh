@@ -10,7 +10,7 @@ JAVA_FILES=$(find $SRC_DIR -name '*.java')
 
 javac $JAVA_FILES -d $CLASS_DIR
 cd $CLASS_DIR
-jar cfe $JAR ru.nsu.aeliseev2.task_1_1_1.App $(find . -name '*.class')
+jar cfe $JAR ru.nsu.aeliseev2.task111.App $(find . -name '*.class')
 javadoc $JAVA_FILES -d $DOC_DIR
 java -jar $JAR
 
