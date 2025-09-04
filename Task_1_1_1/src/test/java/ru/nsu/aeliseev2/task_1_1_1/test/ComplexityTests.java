@@ -11,8 +11,7 @@ public class ComplexityTests {
         int repeatCount = 10000;
         var sizes = new int[] {100, 200, 300, 400, 500, 1000, 2000};
         var random = new Random();
-        for (int sizeIndex = 0; sizeIndex < sizes.length; sizeIndex++) {
-            int size = sizes[sizeIndex];
+        for (int size : sizes) {
             var arrays = new int[repeatCount][size];
             for (int repeatIndex = 0; repeatIndex < repeatCount; repeatIndex++) {
                 for (int i = 0; i < size; i++) {

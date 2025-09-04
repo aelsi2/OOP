@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.nsu.aeliseev2.task_1_1_1.ArrayUtils;
 
-import java.util.Random;
-
 public class SortTests {
     private SortTests() {
     }
