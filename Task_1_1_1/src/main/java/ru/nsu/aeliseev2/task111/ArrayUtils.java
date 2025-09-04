@@ -47,8 +47,8 @@ public final class ArrayUtils {
      * Sorts an integer array in place using the heap sort algorithm.
      *
      * @param array The array to sort.
-     * @return The value of {@code array}
-     * @throws IllegalArgumentException The value of {@code array} is {@code null}
+     * @return The value of {@code array}.
+     * @throws IllegalArgumentException The value of {@code array} is {@code null}.
      */
     public static int[] heapsort(int[] array) throws IllegalArgumentException {
         if (array == null) {
