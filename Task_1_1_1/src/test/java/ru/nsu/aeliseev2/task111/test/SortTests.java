@@ -16,52 +16,47 @@ class SortTests {
 
     @Test
     void empty() {
-        var input = new int[0];
+        var array = new int[0];
         var expected = new int[0];
-        var result = ArrayUtils.heapsort(input);
-        Assertions.assertEquals(input, result);
-        Assertions.assertArrayEquals(expected, result);
+        ArrayUtils.heapsort(array);
+        Assertions.assertArrayEquals(expected, array);
     }
 
     @Test
     void singleElement() {
-        var input = new int[]{1};
+        var array = new int[]{1};
         var expected = new int[]{1};
-        var result = ArrayUtils.heapsort(input);
-        Assertions.assertEquals(input, result);
-        Assertions.assertArrayEquals(expected, result);
+        ArrayUtils.heapsort(array);
+        Assertions.assertArrayEquals(expected, array);
     }
 
     @Test
     void smallArrayEven() {
-        var input = new int[]{-7, 8, 800, 555, 35, 35};
+        var array = new int[]{-7, 8, 800, 555, 35, 35};
         var expected = new int[]{-7, 8, 35, 35, 555, 800};
-        var result = ArrayUtils.heapsort(input);
-        Assertions.assertEquals(input, result);
-        Assertions.assertArrayEquals(expected, result);
+        ArrayUtils.heapsort(array);
+        Assertions.assertArrayEquals(expected, array);
     }
 
     @Test
     void smallArrayOdd() {
-        var input = new int[]{4, 1, 54, 2, 5, 6, 0, -10, 20};
+        var array = new int[]{4, 1, 54, 2, 5, 6, 0, -10, 20};
         var expected = new int[]{-10, 0, 1, 2, 4, 5, 6, 20, 54};
-        var result = ArrayUtils.heapsort(input);
-        Assertions.assertEquals(input, result);
-        Assertions.assertArrayEquals(expected, result);
+        ArrayUtils.heapsort(array);
+        Assertions.assertArrayEquals(expected, array);
     }
 
     @Test
     void duplicates() {
-        var input = new int[]{6, 6, 6, -3, -3, 9, 9, 9, 9, 4, 4, 4};
+        var array = new int[]{6, 6, 6, -3, -3, 9, 9, 9, 9, 4, 4, 4};
         var expected = new int[]{-3, -3, 4, 4, 4, 6, 6, 6, 9, 9, 9, 9};
-        var result = ArrayUtils.heapsort(input);
-        Assertions.assertEquals(input, result);
-        Assertions.assertArrayEquals(expected, result);
+        ArrayUtils.heapsort(array);
+        Assertions.assertArrayEquals(expected, array);
     }
 
     @Test
     void largeArray() {
-        var input = new int[]{
+        var array = new int[]{
             581, 715, -706, -121, 251, 170, -221, 551, -481, 584, -858, -384, 64, -579, -122,
             470, -579, -324, -349, 613, -235, 132, 119, 277, -610, 217, 691, 535, 972, -965,
             -607, -372, -726, 170, 581, 407, -128, 538, -685, 139, 697, -620, -670, 886, 811,
@@ -79,8 +74,7 @@ class SortTests {
             436, 470, 501, 505, 508, 534, 535, 538, 551, 581, 581, 584, 613, 626, 634, 691,
             694, 697, 702, 715, 811, 830, 843, 886, 959, 972
         };
-        var result = ArrayUtils.heapsort(input);
-        Assertions.assertEquals(input, result);
-        Assertions.assertArrayEquals(expected, result);
+        ArrayUtils.heapsort(array);
+        Assertions.assertArrayEquals(expected, array);
     }
 }
