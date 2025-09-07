@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ru.nsu.aeliseev2.task112"},{"l":"ru.nsu.aeliseev2.task112.controllers"},{"l":"ru.nsu.aeliseev2.task112.model"}];updateSearchResults();
