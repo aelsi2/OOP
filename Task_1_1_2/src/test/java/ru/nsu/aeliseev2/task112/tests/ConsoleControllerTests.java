@@ -10,7 +10,7 @@ import ru.nsu.aeliseev2.task112.model.CardHand;
 
 class ConsoleControllerTests {
     @Test
-    void stand(){
+    void stand() {
         var expected = GameAction.STAND;
 
         var scanner = new Scanner("0\n");
@@ -22,7 +22,7 @@ class ConsoleControllerTests {
     }
 
     @Test
-    void hit(){
+    void hit() {
         var expected = GameAction.HIT;
 
         var scanner = new Scanner("1\n");
@@ -34,7 +34,7 @@ class ConsoleControllerTests {
     }
 
     @Test
-    void invalid(){
+    void invalid() {
         var expected = GameAction.HIT;
 
         var scanner = new Scanner("69\n1\n");
