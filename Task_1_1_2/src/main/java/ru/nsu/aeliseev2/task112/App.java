@@ -2,6 +2,7 @@ package ru.nsu.aeliseev2.task112;
 
 import java.util.Scanner;
 
+@NoCoverageGenerated(reason = "Contains RNG and not much game logic.")
 final class App {
     private App() {
     }

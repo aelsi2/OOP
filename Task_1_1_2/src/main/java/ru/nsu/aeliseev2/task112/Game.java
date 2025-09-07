@@ -10,6 +10,7 @@ import ru.nsu.aeliseev2.task112.model.CardPool;
 /**
  * Represents a game of blackjack with multiple rounds.
  */
+@NoCoverageGenerated(reason = "Contains RNG and not much game logic (mostly messages).")
 public class Game {
     private final PrintStream messageStream;
     private final Scanner scanner;
