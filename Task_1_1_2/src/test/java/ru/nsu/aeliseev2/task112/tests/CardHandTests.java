@@ -22,6 +22,23 @@ class CardHandTests {
     }
 
     @Test
+    void createFromPoolNull() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new CardHand(null, 10);
+        });
+    }
+
+    @Test
+    void createFromPoolNegative() {
+        var pool = new CardPool(List.of(
+            new Card(CardRank.NUM_3, CardSuit.DIAMONDS),
+            new Card(CardRank.NUM_4, CardSuit.DIAMONDS)));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new CardHand(pool, -1);
+        });
+    }
+
+    @Test
     void totalValueAceNormal() {
         var hand = new CardHand();
         hand.add(new Card(CardRank.ACE, CardSuit.SPADES));

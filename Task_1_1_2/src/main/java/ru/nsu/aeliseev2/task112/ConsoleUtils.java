@@ -14,7 +14,7 @@ public final class ConsoleUtils {
      * Prints a message and waits until the user presses Enter.
      *
      * @param messageStream The stream to print the message to.
-     * @param scanner The scanner to read the line with.
+     * @param scanner       The scanner to read the line with.
      */
     public static void pause(PrintStream messageStream, Scanner scanner) {
         messageStream.println("Нажмите Enter, чтобы продолжить.");
@@ -24,15 +24,15 @@ public final class ConsoleUtils {
     /**
      * Prompts and reads a number from the console.
      *
-     * @param scanner The scanner to read the number with.
+     * @param scanner       The scanner to read the number with.
      * @param messageStream The stream to print the message to.
-     * @param message The prompt message.
-     * @param min The min allowed value.
-     * @param max The max allowed value.
+     * @param message       The prompt message.
+     * @param min           The min allowed value.
+     * @param max           The max allowed value.
      * @return The read number.
      */
     public static int inputNumber(Scanner scanner, PrintStream messageStream,
-                                 String message, int min, int max) {
+                                  String message, int min, int max) {
         while (true) {
             messageStream.printf("%s (%d-%d)\n", message, min, max);
             try {
