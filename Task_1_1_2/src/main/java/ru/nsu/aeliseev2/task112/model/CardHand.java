@@ -108,7 +108,9 @@ public class CardHand {
      * @return The string representation of the hidden card.
      */
     public String hiddenCardToString() {
-        return cardToString(cards.getLast());
+        int index = cards.size() - 1;
+        var card = cards.get(index);
+        return cardToString(card);
     }
 
     /**
@@ -123,7 +125,7 @@ public class CardHand {
         }
         var builder = new StringBuilder();
         builder.append("[");
-        builder.append(cardToString(cards.getFirst()));
+        builder.append(cardToString(cards.get(0)));
         for (var card : cards.subList(1, cards.size() - (hideLast ? 1 : 0))) {
             builder.append(", ");
             builder.append(cardToString(card));
