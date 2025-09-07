@@ -48,7 +48,7 @@ public class CardPool {
 
     private static void shuffle(List<Card> cards) {
         var random = new Random();
-        for (int index1 = 0; index1 < cards.size() - 1; index1++){
+        for (int index1 = 0; index1 < cards.size() - 1; index1++) {
             int index2 = random.nextInt(index1, cards.size());
             var card1 = cards.get(index1);
             var card2 = cards.get(index2);
