@@ -31,6 +31,19 @@ public class CardPool {
     }
 
     /**
+     * Creates a new card pool from a predefined collection of cards.
+     * The last card in the collection is the first one to be taken.
+     *
+     * @param cards The array of cards.
+     */
+    public CardPool(Iterable<Card> cards) {
+        this.cards = new ArrayList<>();
+        for (var card : cards) {
+            this.cards.add(card);
+        }
+    }
+
+    /**
      * Takes a card removing it from the pool.
      *
      * @return The taken card.
