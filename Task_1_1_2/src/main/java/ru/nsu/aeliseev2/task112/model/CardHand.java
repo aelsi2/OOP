@@ -10,7 +10,7 @@ public class CardHand {
     private static final int WIN_VALUE = 21;
     private static final String HIDDEN_CARD_FORMAT = "<закрытая карта>";
 
-    private final List<Card> m_cards;
+    private final List<Card> cards;
 
     /**
      * Creates a new card hand.
@@ -19,7 +19,7 @@ public class CardHand {
      * @param count The number of cards to take from the pool.
      */
     public CardHand(CardPool pool, int count) {
-        m_cards = new ArrayList<>();
+        cards = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             add(pool.take());
         }
@@ -31,7 +31,7 @@ public class CardHand {
      * @param card The card to add.
      */
     public void add(Card card) {
-        m_cards.add(card);
+        cards.add(card);
     }
 
     /**
@@ -41,14 +41,14 @@ public class CardHand {
      */
     public int getValue() {
         int value = 0;
-        for (var card : m_cards) {
+        for (var card : cards) {
             value += card.getValue();
         }
         if (value <= WIN_VALUE) {
             return value;
         }
         value = 0;
-        for (var card : m_cards) {
+        for (var card : cards) {
             value += card.getBustValue();
         }
         return value;
@@ -56,7 +56,7 @@ public class CardHand {
 
     private int getCardValue(Card card) {
         int value = 0;
-        for (var existingCard : m_cards) {
+        for (var existingCard : cards) {
             value += existingCard.getValue();
         }
         if (value > WIN_VALUE) {
@@ -108,7 +108,7 @@ public class CardHand {
      * @return The string representation of the hidden card.
      */
     public String hiddenCardToString() {
-        return cardToString(m_cards.getLast());
+        return cardToString(cards.getLast());
     }
 
     /**
@@ -118,13 +118,13 @@ public class CardHand {
      * @return The string representation of the hand.
      */
     public String toString(boolean hideLast) {
-        if (m_cards.isEmpty()) {
+        if (cards.isEmpty()) {
             return "[] => 0";
         }
         var builder = new StringBuilder();
         builder.append("[");
-        builder.append(cardToString(m_cards.getFirst()));
-        for (var card : m_cards.subList(1, m_cards.size() - (hideLast ? 1 : 0))) {
+        builder.append(cardToString(cards.getFirst()));
+        for (var card : cards.subList(1, cards.size() - (hideLast ? 1 : 0))) {
             builder.append(", ");
             builder.append(cardToString(card));
         }

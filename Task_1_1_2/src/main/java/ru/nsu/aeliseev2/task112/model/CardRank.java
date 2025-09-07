@@ -69,14 +69,14 @@ public enum CardRank {
      */
     ACE("Туз", 11, 1);
 
-    private final String m_name;
-    private final int m_value;
-    private final int m_bustValue;
+    private final String name;
+    private final int value;
+    private final int bustValue;
 
     CardRank(String name, int value, int bustValue) {
-        m_name = name;
-        m_value = value;
-        m_bustValue = bustValue;
+        this.name = name;
+        this.value = value;
+        this.bustValue = bustValue;
     }
 
     /**
@@ -85,7 +85,7 @@ public enum CardRank {
      * @return The usual value.
      */
     public int getValue() {
-        return m_value;
+        return value;
     }
 
     /**
@@ -94,7 +94,7 @@ public enum CardRank {
      * @return The alternative value.
      */
     public int getBustValue() {
-        return m_bustValue;
+        return bustValue;
     }
 
     /**
@@ -104,6 +104,6 @@ public enum CardRank {
      */
     @Override
     public String toString() {
-        return m_name;
+        return name;
     }
 }

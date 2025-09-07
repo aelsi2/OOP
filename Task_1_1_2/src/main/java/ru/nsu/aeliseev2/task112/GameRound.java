@@ -8,31 +8,31 @@ import ru.nsu.aeliseev2.task112.model.CardPool;
  * Represents a game round.
  */
 public class GameRound {
-    private final Player m_player;
-    private final Player m_dealer;
-    private final CardPool m_cardPool;
-    private final PrintStream m_messageStream;
+    private final Player player;
+    private final Player dealer;
+    private final CardPool cardPool;
+    private final PrintStream messageStream;
 
     /**
      * Creates a new game round.
      *
      * @param player        The player.
      * @param dealer        The dealer.
-     * @param pool          The card pool.
+     * @param cardPool          The card pool.
      * @param messageStream The stream to print game messages to.
      */
-    public GameRound(Player player, Player dealer, CardPool pool,
+    public GameRound(Player player, Player dealer, CardPool cardPool,
                      PrintStream messageStream) {
-        m_player = player;
-        m_dealer = dealer;
-        m_cardPool = pool;
-        m_messageStream = messageStream;
+        this.player = player;
+        this.dealer = dealer;
+        this.cardPool = cardPool;
+        this.messageStream = messageStream;
     }
 
     private void printHands(boolean hideDealer) {
-        m_messageStream.printf("    Ваши карты: %s\n", m_player.getHand());
-        m_messageStream.printf("    Карты дилера: %s\n",
-            m_dealer.getHand().toString(hideDealer));
+        messageStream.printf("    Ваши карты: %s\n", player.getHand());
+        messageStream.printf("    Карты дилера: %s\n",
+            dealer.getHand().toString(hideDealer));
     }
 
     private Player processTurn(Player player, Player opponent, boolean hideDealer) {
@@ -40,9 +40,9 @@ public class GameRound {
             if (player.chooseAction() == GameAction.STAND) {
                 break;
             }
-            var card = m_cardPool.take();
+            var card = cardPool.take();
             player.getHand().add(card);
-            m_messageStream.printf("Открыта карта %s\n", player.getHand().cardToString(card));
+            messageStream.printf("Открыта карта %s\n", player.getHand().cardToString(card));
             printHands(hideDealer);
         }
         if (player.getHand().isWin()) {
@@ -60,25 +60,25 @@ public class GameRound {
      * @return The winning player or {@code null} on draw.
      */
     public Player run() {
-        m_messageStream.println("Дилер раздал карты.");
+        messageStream.println("Дилер раздал карты.");
         printHands(true);
-        m_messageStream.println();
-        m_messageStream.println("Ваш ход\n-------");
-        if (processTurn(m_player, m_dealer, true) instanceof Player winner) {
+        messageStream.println();
+        messageStream.println("Ваш ход\n-------");
+        if (processTurn(player, dealer, true) instanceof Player winner) {
             return winner;
         }
-        m_messageStream.println();
-        m_messageStream.println("Ход дилера\n----------");
-        m_messageStream.printf("Открыта закрытая карта %s\n",
-            m_dealer.getHand().hiddenCardToString());
+        messageStream.println();
+        messageStream.println("Ход дилера\n----------");
+        messageStream.printf("Открыта закрытая карта %s\n",
+            dealer.getHand().hiddenCardToString());
         printHands(false);
-        if (processTurn(m_dealer, m_player, false) instanceof Player winner) {
+        if (processTurn(dealer, player, false) instanceof Player winner) {
             return winner;
         }
-        if (m_player.getHand().getValue() > m_dealer.getHand().getValue()) {
-            return m_player;
-        } else if (m_dealer.getHand().getValue() > m_player.getHand().getValue()) {
-            return m_dealer;
+        if (player.getHand().getValue() > dealer.getHand().getValue()) {
+            return player;
+        } else if (dealer.getHand().getValue() > player.getHand().getValue()) {
+            return dealer;
         } else {
             return null;
         }

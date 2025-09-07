@@ -9,18 +9,18 @@ import ru.nsu.aeliseev2.task112.model.CardHand;
  * A player controller taking inputs from a {@code Scanner}.
  */
 public class ConsoleController implements PlayerController {
-    private final Scanner m_scanner;
-    private final PrintStream m_messageStream;
+    private final Scanner scanner;
+    private final PrintStream messageStream;
 
     /**
      * Creates a new console player controller.
      *
      * @param scanner     The scanner to take inputs from.
-     * @param printStream The stream to print messages to.
+     * @param messageStream The stream to print messages to.
      */
-    public ConsoleController(Scanner scanner, PrintStream printStream) {
-        m_scanner = scanner;
-        m_messageStream = printStream;
+    public ConsoleController(Scanner scanner, PrintStream messageStream) {
+        this.scanner = scanner;
+        this.messageStream = messageStream;
     }
 
     /**
@@ -28,7 +28,7 @@ public class ConsoleController implements PlayerController {
      */
     @Override
     public GameAction chooseAction(CardHand hand) {
-        int number = ConsoleUtils.inputNumber(m_scanner, m_messageStream,
+        int number = ConsoleUtils.inputNumber(scanner, messageStream,
             "Введите “1”, чтобы взять карту, и “0”, чтобы остановиться...", 0, 1);
         return GameAction.fromOrdinal(number);
     }
