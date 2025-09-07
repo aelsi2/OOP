@@ -40,7 +40,10 @@ public class CardPool {
             // This shouldn't ever happen.
             throw new IllegalStateException("No cards left.");
         }
-        return cards.removeLast();
+        int index = cards.size() - 1;
+        var card = cards.get(index);
+        cards.remove(index);
+        return card;
     }
 
     private static void shuffle(List<Card> cards) {

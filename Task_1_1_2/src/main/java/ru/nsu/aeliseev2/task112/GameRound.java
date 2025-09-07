@@ -62,19 +62,27 @@ public class GameRound {
     public Player run() {
         messageStream.println("Дилер раздал карты.");
         printHands(true);
+
         messageStream.println();
         messageStream.println("Ваш ход\n-------");
-        if (processTurn(player, dealer, true) instanceof Player winner) {
+
+        Player winner;
+        winner = processTurn(player, dealer, true);
+        if (winner != null) {
             return winner;
         }
+
         messageStream.println();
         messageStream.println("Ход дилера\n----------");
         messageStream.printf("Открыта закрытая карта %s\n",
             dealer.getHand().hiddenCardToString());
         printHands(false);
-        if (processTurn(dealer, player, false) instanceof Player winner) {
+
+        winner = processTurn(dealer, player, false);
+        if (winner != null) {
             return winner;
         }
+
         if (player.getHand().getValue() > dealer.getHand().getValue()) {
             return player;
         } else if (dealer.getHand().getValue() > player.getHand().getValue()) {
