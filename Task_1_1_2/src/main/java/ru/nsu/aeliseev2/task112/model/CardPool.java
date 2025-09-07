@@ -37,7 +37,7 @@ public class CardPool {
      */
     public Card take() {
         if (cards.isEmpty()) {
-            // This shouldn't ever happen.
+            // This never happen.
             throw new IllegalStateException("No cards left.");
         }
         int index = cards.size() - 1;

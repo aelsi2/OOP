@@ -13,13 +13,26 @@ public class CardHand {
     private final List<Card> cards;
 
     /**
-     * Creates a new card hand.
+     * Creates an empty card hand.
+     */
+    public CardHand() {
+        cards = new ArrayList<>();
+    }
+
+    /**
+     * Creates a new card hand taking card from a pool.
      *
      * @param pool  The pool to take cards from.
      * @param count The number of cards to take from the pool.
      */
     public CardHand(CardPool pool, int count) {
-        cards = new ArrayList<>();
+        this();
+        if (pool == null) {
+            throw new IllegalArgumentException("pool cannot be null.");
+        }
+        if (count < 0) {
+            throw new IllegalArgumentException("count must be nonnegative.");
+        }
         for (int i = 0; i < count; i++) {
             add(pool.take());
         }

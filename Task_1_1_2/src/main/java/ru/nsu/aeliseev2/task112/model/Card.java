@@ -1,5 +1,7 @@
 package ru.nsu.aeliseev2.task112.model;
 
+import java.util.Objects;
+
 /**
  * Represents a playing card.
  */
@@ -14,6 +16,12 @@ public class Card {
      * @param suit The card's suit.
      */
     public Card(CardRank rank, CardSuit suit) {
+        if (rank == null) {
+            throw new IllegalArgumentException("rank cannot be null.");
+        }
+        if (suit == null) {
+            throw new IllegalArgumentException("suit cannot be null.");
+        }
         this.rank = rank;
         this.suit = suit;
     }
@@ -44,5 +52,18 @@ public class Card {
     @Override
     public String toString() {
         return String.format("%s %s", rank, suit);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Card card)) {
+            return false;
+        }
+        return card.rank == rank && card.suit == suit;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(rank, suit);
     }
 }
