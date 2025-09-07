@@ -15,7 +15,7 @@ public class CardHand {
     /**
      * Creates a new card hand.
      *
-     * @param pool The pool to take cards from.
+     * @param pool  The pool to take cards from.
      * @param count The number of cards to take from the pool.
      */
     public CardHand(CardPool pool, int count) {
@@ -135,7 +135,7 @@ public class CardHand {
             builder.append(HIDDEN_CARD_FORMAT);
         }
         builder.append("]");
-        if (!hideLast){
+        if (!hideLast) {
             builder.append(" => ");
             builder.append(getValue());
         }
