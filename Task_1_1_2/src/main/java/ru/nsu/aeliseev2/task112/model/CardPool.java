@@ -8,7 +8,7 @@ import java.util.Random;
  * Represents a pool to take cards from in a blackjack game.
  */
 public class CardPool {
-    private final List<Card> m_cards;
+    private final List<Card> cards;
 
     /**
      * Creates a new card pool.
@@ -19,15 +19,15 @@ public class CardPool {
         if (deckCount <= 0) {
             throw new IllegalArgumentException("deckCount must be greater than zero.");
         }
-        m_cards = new ArrayList<>();
+        cards = new ArrayList<>();
         for (int i = 0; i < deckCount; i++) {
             for (var type : CardRank.values()) {
                 for (var suit : CardSuit.values()) {
-                    m_cards.add(new Card(type, suit));
+                    cards.add(new Card(type, suit));
                 }
             }
         }
-        shuffle(m_cards);
+        shuffle(cards);
     }
 
     /**
@@ -36,11 +36,11 @@ public class CardPool {
      * @return The taken card.
      */
     public Card take() {
-        if (m_cards.isEmpty()) {
+        if (cards.isEmpty()) {
             // This shouldn't ever happen.
             throw new IllegalStateException("No cards left.");
         }
-        return m_cards.removeLast();
+        return cards.removeLast();
     }
 
     private static void shuffle(List<Card> cards) {

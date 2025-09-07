@@ -4,8 +4,8 @@ package ru.nsu.aeliseev2.task112.model;
  * Represents a playing card.
  */
 public class Card {
-    private final CardRank m_rank;
-    private final CardSuit m_suit;
+    private final CardRank rank;
+    private final CardSuit suit;
 
     /**
      * Creates a new playing card.
@@ -14,8 +14,8 @@ public class Card {
      * @param suit The card's suit.
      */
     public Card(CardRank rank, CardSuit suit){
-        m_rank = rank;
-        m_suit = suit;
+        this.rank = rank;
+        this.suit = suit;
     }
 
     /**
@@ -24,7 +24,7 @@ public class Card {
      * @return The card's value in a game of blackjack.
      */
     public int getValue() {
-        return m_rank.getValue();
+        return rank.getValue();
     }
 
     /**
@@ -33,7 +33,7 @@ public class Card {
      * @return The alternative value.
      */
     public int getBustValue() {
-        return m_rank.getBustValue();
+        return rank.getBustValue();
     }
 
     /**
@@ -43,6 +43,6 @@ public class Card {
      */
     @Override
     public String toString() {
-        return String.format("%s %s", m_rank, m_suit);
+        return String.format("%s %s", rank, suit);
     }
 }

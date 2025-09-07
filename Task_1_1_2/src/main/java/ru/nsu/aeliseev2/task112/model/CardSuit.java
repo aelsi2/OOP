@@ -24,10 +24,10 @@ public enum CardSuit {
      */
     DIAMONDS("Бубны");
 
-    private final String m_name;
+    private final String name;
 
     CardSuit(String name) {
-        m_name = name;
+        this.name = name;
     }
 
     /**
@@ -37,6 +37,6 @@ public enum CardSuit {
      */
     @Override
     public String toString() {
-        return m_name;
+        return name;
     }
 }
