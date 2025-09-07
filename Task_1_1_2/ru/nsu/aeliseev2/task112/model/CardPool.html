@@ -93,6 +93,10 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color">
 <div class="block">Creates a new card pool.</div>
 </div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.Iterable)" class="member-name-link">CardPool</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Card.html" title="class in ru.nsu.aeliseev2.task112.model">Card</a>&gt;&nbsp;cards)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Creates a new card pool from a predefined collection of cards.</div>
+</div>
 </div>
 </section>
 </li>
@@ -137,6 +141,18 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>deckCount</code> - The number of standard 52-card decks to put into the pool.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(java.lang.Iterable)">
+<h3>CardPool</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CardPool</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Card.html" title="class in ru.nsu.aeliseev2.task112.model">Card</a>&gt;&nbsp;cards)</span></div>
+<div class="block">Creates a new card pool from a predefined collection of cards.
+ The last card in the collection is the first one to be taken.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>cards</code> - The array of cards.</dd>
 </dl>
 </section>
 </li>
