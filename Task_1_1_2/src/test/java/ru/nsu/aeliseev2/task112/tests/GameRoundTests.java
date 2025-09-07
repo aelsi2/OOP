@@ -7,7 +7,11 @@ import org.junit.jupiter.api.Test;
 import ru.nsu.aeliseev2.task112.GameRound;
 import ru.nsu.aeliseev2.task112.Player;
 import ru.nsu.aeliseev2.task112.controllers.GameAction;
-import ru.nsu.aeliseev2.task112.model.*;
+import ru.nsu.aeliseev2.task112.model.Card;
+import ru.nsu.aeliseev2.task112.model.CardHand;
+import ru.nsu.aeliseev2.task112.model.CardPool;
+import ru.nsu.aeliseev2.task112.model.CardRank;
+import ru.nsu.aeliseev2.task112.model.CardSuit;
 
 class GameRoundTests {
     @Test
