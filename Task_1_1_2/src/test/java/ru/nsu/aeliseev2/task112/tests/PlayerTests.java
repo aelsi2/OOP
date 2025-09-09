@@ -24,7 +24,7 @@ class PlayerTests {
         };
         var hand = new CardHand();
         hand.add(new Card(CardRank.ACE, CardSuit.DIAMONDS));
-        var player = new Player(hand, controller);
+        var player = new Player(controller, hand);
 
         var expected = GameAction.HIT;
         Assertions.assertEquals(expected, player.chooseAction());
@@ -43,7 +43,7 @@ class PlayerTests {
         };
         var hand = new CardHand();
         hand.add(new Card(CardRank.KING, CardSuit.DIAMONDS));
-        var player = new Player(hand, controller);
+        var player = new Player(controller, hand);
 
         var expected = GameAction.STAND;
         Assertions.assertEquals(expected, player.chooseAction());
