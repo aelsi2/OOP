@@ -2,9 +2,6 @@ package ru.nsu.aeliseev2.task112;
 
 import java.io.PrintStream;
 import java.util.Scanner;
-import ru.nsu.aeliseev2.task112.controllers.ConsoleController;
-import ru.nsu.aeliseev2.task112.controllers.DealerController;
-import ru.nsu.aeliseev2.task112.model.CardHand;
 
 /**
  * Represents a game of blackjack with multiple rounds.
