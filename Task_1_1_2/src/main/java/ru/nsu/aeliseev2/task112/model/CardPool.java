@@ -1,8 +1,8 @@
 package ru.nsu.aeliseev2.task112.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Represents a pool to take cards from in a blackjack game.
@@ -27,7 +27,7 @@ public class CardPool {
                 }
             }
         }
-        shuffle(cards);
+        Collections.shuffle(cards);
     }
 
     /**
@@ -55,16 +55,5 @@ public class CardPool {
         }
         int index = cards.size() - 1;
         return cards.remove(index);
-    }
-
-    private static void shuffle(List<Card> cards) {
-        var random = new Random();
-        for (int index1 = 0; index1 < cards.size() - 1; index1++) {
-            int index2 = random.nextInt(index1, cards.size());
-            var card1 = cards.get(index1);
-            var card2 = cards.get(index2);
-            cards.set(index1, card2);
-            cards.set(index2, card1);
-        }
     }
 }
