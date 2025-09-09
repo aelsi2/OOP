@@ -5,37 +5,35 @@ import java.util.Scanner;
 import ru.nsu.aeliseev2.task112.controllers.ConsoleController;
 import ru.nsu.aeliseev2.task112.controllers.DealerController;
 import ru.nsu.aeliseev2.task112.model.CardHand;
-import ru.nsu.aeliseev2.task112.model.CardPool;
+import ru.nsu.aeliseev2.task112.model.CardPoolFactory;
 
 /**
  * Represents a game of blackjack with multiple rounds.
  */
-@NoCoverageGenerated(reason = "Contains RNG and not much game logic (mostly messages).")
 public class Game {
     private final PrintStream messageStream;
     private final Scanner scanner;
-    private final int deckCount;
-    private final int roundCount;
+    private final CardPoolFactory poolFactory;
 
     /**
      * Creates a new game.
      *
      * @param messageStream The stream to print messages to.
      * @param scanner       The scanner to read player inputs from.
-     * @param deckCount     The number of decks to put in the pool.
-     * @param roundCount    The number of rounds.
+     * @param poolFactory   The factory for creating card pools for each round.
      */
-    public Game(PrintStream messageStream, Scanner scanner, int deckCount, int roundCount) {
+    public Game(PrintStream messageStream, Scanner scanner, CardPoolFactory poolFactory) {
         this.messageStream = messageStream;
         this.scanner = scanner;
-        this.deckCount = deckCount;
-        this.roundCount = roundCount;
+        this.poolFactory = poolFactory;
     }
 
     /**
      * Runs the game.
+     *
+     * @param roundCount The number of rounds in the game.
      */
-    public void run() {
+    public void run(int roundCount) {
         var playerController = new ConsoleController(scanner, messageStream);
         var dealerController = DealerController.INSTANCE;
 
@@ -43,7 +41,7 @@ public class Game {
         int playerWins = 0;
 
         for (int roundIndex = 0; roundIndex < roundCount; roundIndex++) {
-            var pool = new CardPool(deckCount);
+            var pool = poolFactory.createPool();
             var player = new Player(new CardHand(pool, 2), playerController);
             var dealer = new Player(new CardHand(pool, 2), dealerController);
             var round = new GameRound(player, dealer, pool, messageStream);
