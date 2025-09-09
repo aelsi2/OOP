@@ -46,6 +46,8 @@ public class Game {
                 case LOSE:
                     dealerWins++;
                     break;
+                default:
+                    break;
             }
             printRoundResult(result);
             printScore(playerWins, dealerWins);
