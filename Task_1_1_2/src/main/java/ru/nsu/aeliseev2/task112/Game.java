@@ -32,8 +32,9 @@ public class Game {
      * Runs the game.
      *
      * @param roundCount The number of rounds in the game.
+     * @return The outcome of the game.
      */
-    public void run(int roundCount) {
+    public GameResult run(int roundCount) {
         var playerController = new ConsoleController(scanner, messageStream);
         var dealerController = DealerController.INSTANCE;
 
@@ -45,34 +46,65 @@ public class Game {
             var player = new Player(new CardHand(pool, 2), playerController);
             var dealer = new Player(new CardHand(pool, 2), dealerController);
             var round = new GameRound(player, dealer, pool, messageStream);
-            messageStream.printf("Раунд %d\n", roundIndex + 1);
-            var winner = round.run();
-            messageStream.println();
-            if (winner == player) {
-                messageStream.println("Вы выиграли раунд!");
-                playerWins++;
-            } else if (winner == dealer) {
-                messageStream.println("Дилер выиграл раунд!");
-                dealerWins++;
-            } else {
-                messageStream.println("Ничья!");
-            }
 
+            printRoundStart(roundIndex + 1);
+            var result = round.run();
+            switch (result) {
+                case WIN:
+                    playerWins++;
+                    break;
+                case LOSE:
+                    dealerWins++;
+                    break;
+            }
+            printRoundResult(result);
             printScore(playerWins, dealerWins);
             ConsoleUtils.pause(messageStream, scanner);
         }
-        printEndMessage(playerWins, dealerWins);
+
+        GameResult result;
+        if (playerWins > dealerWins) {
+            result = GameResult.WIN;
+        } else if (dealerWins > playerWins) {
+            result = GameResult.LOSE;
+        } else {
+            result = GameResult.DRAW;
+        }
+        printFinalResult(result);
+        printScore(playerWins, dealerWins);
+        return result;
     }
 
-    private void printEndMessage(int playerWins, int dealerWins) {
-        if (playerWins > dealerWins) {
-            messageStream.println("Вы победили!");
-        } else if (dealerWins > playerWins) {
-            messageStream.println("Вы проиграли!");
-        } else {
-            messageStream.println("Ничья!");
+    private void printRoundStart(int number) {
+        messageStream.printf("Раунд %d\n", number);
+    }
+
+    private void printRoundResult(GameResult result) {
+        messageStream.println();
+        switch (result) {
+            case WIN:
+                messageStream.println("Вы выиграли раунд!");
+                break;
+            case LOSE:
+                messageStream.println("Дилер выиграл раунд!");
+                break;
+            default:
+                messageStream.println("Ничья!");
         }
-        printScore(playerWins, dealerWins);
+    }
+
+    private void printFinalResult(GameResult result) {
+        switch (result) {
+            case WIN:
+                messageStream.println("Вы победили!");
+                break;
+            case LOSE:
+                messageStream.println("Вы проиграли!");
+                break;
+            default:
+                messageStream.println("Ничья!");
+                break;
+        }
     }
 
     private void printScore(int playerWins, int dealerWins) {
