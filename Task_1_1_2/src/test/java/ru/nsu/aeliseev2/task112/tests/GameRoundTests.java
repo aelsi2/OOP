@@ -30,7 +30,7 @@ class GameRoundTests {
         var stream = new PrintStream(DummyOutputStream.INSTANCE);
         var round = new GameRound(player, dealer, pool, stream);
 
-        Assertions.assertEquals(player, round.run());
+        Assertions.assertSame(player, round.run());
     }
 
     @Test
@@ -49,7 +49,7 @@ class GameRoundTests {
         var stream = new PrintStream(DummyOutputStream.INSTANCE);
         var round = new GameRound(player, dealer, pool, stream);
 
-        Assertions.assertEquals(dealer, round.run());
+        Assertions.assertSame(dealer, round.run());
     }
 
     @Test
@@ -68,7 +68,7 @@ class GameRoundTests {
         var stream = new PrintStream(DummyOutputStream.INSTANCE);
         var round = new GameRound(player, dealer, pool, stream);
 
-        Assertions.assertEquals(dealer, round.run());
+        Assertions.assertSame(dealer, round.run());
     }
 
     @Test
@@ -87,7 +87,7 @@ class GameRoundTests {
         var stream = new PrintStream(DummyOutputStream.INSTANCE);
         var round = new GameRound(player, dealer, pool, stream);
 
-        Assertions.assertEquals(player, round.run());
+        Assertions.assertSame(player, round.run());
     }
 
     @Test
@@ -106,7 +106,7 @@ class GameRoundTests {
         var stream = new PrintStream(DummyOutputStream.INSTANCE);
         var round = new GameRound(player, dealer, pool, stream);
 
-        Assertions.assertEquals(player, round.run());
+        Assertions.assertSame(player, round.run());
     }
 
     @Test
@@ -125,7 +125,7 @@ class GameRoundTests {
         var stream = new PrintStream(DummyOutputStream.INSTANCE);
         var round = new GameRound(player, dealer, pool, stream);
 
-        Assertions.assertEquals(dealer, round.run());
+        Assertions.assertSame(dealer, round.run());
     }
 
     @Test
