@@ -20,7 +20,7 @@ class ConsoleControllerTests {
         var dummyStream = new PrintStream(DummyOutputStream.INSTANCE);
         var hand = new CardHand();
 
-        var controller = new ConsoleController(scanner, dummyStream);
+        var controller = new ConsoleController(dummyStream, scanner);
         Assertions.assertEquals(expected, controller.chooseAction(hand));
     }
 
@@ -33,7 +33,7 @@ class ConsoleControllerTests {
         var dummyStream = new PrintStream(DummyOutputStream.INSTANCE);
         var hand = new CardHand();
 
-        var controller = new ConsoleController(scanner, dummyStream);
+        var controller = new ConsoleController(dummyStream, scanner);
         Assertions.assertEquals(expected, controller.chooseAction(hand));
     }
 
@@ -46,7 +46,7 @@ class ConsoleControllerTests {
         var dummyStream = new PrintStream(DummyOutputStream.INSTANCE);
         var hand = new CardHand();
 
-        var controller = new ConsoleController(scanner, dummyStream);
+        var controller = new ConsoleController(dummyStream, scanner);
         Assertions.assertEquals(expected, controller.chooseAction(hand));
     }
 }

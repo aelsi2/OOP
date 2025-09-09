@@ -14,12 +14,12 @@ public class Player {
     /**
      * Creates a new player.
      *
-     * @param hand The player's hand.
      * @param controller The player's controller.
+     * @param hand The player's hand.
      */
-    public Player(CardHand hand, PlayerController controller) {
-        this.hand = hand;
+    public Player(PlayerController controller, CardHand hand) {
         this.controller = controller;
+        this.hand = hand;
     }
 
     /**

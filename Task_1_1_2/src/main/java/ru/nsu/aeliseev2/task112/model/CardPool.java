@@ -32,14 +32,14 @@ public class CardPool {
 
     /**
      * Creates a new card pool from a predefined collection of cards.
-     * The last card in the collection is the first one to be taken.
+     * The first card in the collection is the first one to be taken.
      *
      * @param cards The array of cards.
      */
     public CardPool(Iterable<Card> cards) {
         this.cards = new ArrayList<>();
         for (var card : cards) {
-            this.cards.add(card);
+            this.cards.add(0, card);
         }
     }
 
@@ -54,9 +54,7 @@ public class CardPool {
             throw new IllegalStateException("No cards left.");
         }
         int index = cards.size() - 1;
-        var card = cards.get(index);
-        cards.remove(index);
-        return card;
+        return cards.remove(index);
     }
 
     private static void shuffle(List<Card> cards) {

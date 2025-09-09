@@ -15,10 +15,10 @@ public class ConsoleController implements PlayerController {
     /**
      * Creates a new console player controller.
      *
-     * @param scanner     The scanner to take inputs from.
      * @param messageStream The stream to print messages to.
+     * @param scanner     The scanner to take inputs from.
      */
-    public ConsoleController(Scanner scanner, PrintStream messageStream) {
+    public ConsoleController(PrintStream messageStream, Scanner scanner) {
         this.scanner = scanner;
         this.messageStream = messageStream;
     }
