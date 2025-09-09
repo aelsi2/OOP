@@ -1,6 +1,7 @@
 package ru.nsu.aeliseev2.task112;
 
 import java.util.Scanner;
+import ru.nsu.aeliseev2.task112.model.CardPool;
 
 @NoCoverageGenerated(reason = "Contains RNG and not much game logic.")
 final class App {
@@ -18,6 +19,6 @@ final class App {
             "Сколько раундов?", 1, 15);
         messageStream.println();
 
-        new Game(messageStream, scanner, deckCount, roundCount).run();
+        new Game(messageStream, scanner, () -> new CardPool(deckCount)).run(roundCount);
     }
 }
