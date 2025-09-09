@@ -57,9 +57,9 @@ public class GameRound {
     /**
      * Runs the game round. A game round shouldn't be run more than once.
      *
-     * @return The winning player or {@code null} on draw.
+     * @return The outcome of the round.
      */
-    public Player run() {
+    public GameResult run() {
         messageStream.println("Дилер раздал карты.");
         printHands(true);
 
@@ -69,7 +69,7 @@ public class GameRound {
         Player winner;
         winner = processTurn(player, dealer, true);
         if (winner != null) {
-            return winner;
+            return playerToResult(winner);
         }
 
         messageStream.println();
@@ -80,15 +80,25 @@ public class GameRound {
 
         winner = processTurn(dealer, player, false);
         if (winner != null) {
-            return winner;
+            return playerToResult(winner);
         }
 
         if (player.getHand().getValue() > dealer.getHand().getValue()) {
-            return player;
+            return playerToResult(player);
         } else if (dealer.getHand().getValue() > player.getHand().getValue()) {
-            return dealer;
+            return playerToResult(dealer);
         } else {
-            return null;
+            return playerToResult(null);
         }
+    }
+
+    private GameResult playerToResult(Player player) {
+        if (player == this.player) {
+            return GameResult.WIN;
+        }
+        if (player == this.dealer) {
+            return GameResult.LOSE;
+        }
+        return GameResult.DRAW;
     }
 }
