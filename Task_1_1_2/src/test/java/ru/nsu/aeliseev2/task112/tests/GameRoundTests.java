@@ -115,7 +115,7 @@ class GameRoundTests {
         final var playerHand = new CardHand();
         playerHand.add(new Card(CardRank.NUM_7, CardSuit.CLUBS));
         playerHand.add(new Card(CardRank.NUM_10, CardSuit.SPADES));
-        final var player = new Player( hand -> GameAction.STAND, playerHand);
+        final var player = new Player(hand -> GameAction.STAND, playerHand);
 
         final var dealerHand = new CardHand();
         dealerHand.add(new Card(CardRank.NUM_10, CardSuit.SPADES));
