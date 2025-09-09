@@ -6,7 +6,10 @@ import ru.nsu.aeliseev2.task112.model.CardHand;
  * The AI dealer's controller. Always hits when the value of their hand is below 17 and stands
  * otherwise.
  */
-public class DealerController implements PlayerController {
+public final class DealerController implements PlayerController {
+    private DealerController() {
+    }
+
     /**
      * The default instance of the controller.
      */
