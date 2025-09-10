@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ru.nsu.aeliseev2.task113"},{"l":"ru.nsu.aeliseev2.task113.expressions"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ru.nsu.aeliseev2.task113"},{"l":"ru.nsu.aeliseev2.task113.expressions"},{"l":"ru.nsu.aeliseev2.task113.parsers"}];updateSearchResults();
