@@ -14,10 +14,9 @@ import ru.nsu.aeliseev2.task113.expressions.Division;
 }
 
 atom returns [Expression expression]
-    :   WS atom WS?     {$expression = $atom.expression;}
-    |   NUMBER          {$expression = new Number(Double.parseDouble($NUMBER.text));}
-    |   VARIABLE        {$expression = new Variable($VARIABLE.text);}
-    |   '(' expr ')'    {$expression = $expr.expression;}
+    :   WS? NUMBER WS?          {$expression = new Number(Double.parseDouble($NUMBER.text));}
+    |   WS? VARIABLE WS?        {$expression = new Variable($VARIABLE.text);}
+    |   WS? '(' expr ')' WS?    {$expression = $expr.expression;}
     ;
 
 neg returns [Expression expression]
@@ -26,20 +25,20 @@ neg returns [Expression expression]
     ;
 
 mulDiv returns [Expression expression]
-    :   neg                 {$expression = $neg.expression;}
-    |   l=mulDiv '*' r=neg  {$expression = new Multiplication($l.expression, $r.expression);}
-    |   l=mulDiv '/' r=neg  {$expression = new Division($l.expression, $r.expression);}
+    :   neg {$expression = $neg.expression;} (
+        : '*' neg {$expression = new Multiplication($expression, $neg.expression);}
+        | '/' neg {$expression = new Division($expression, $neg.expression);}
+    )*
     ;
 
 addSub returns [Expression expression]
-    :   mulDiv                  {$expression = $mulDiv.expression;}
-    |   l=addSub '+' r=mulDiv   {$expression = new Addition($l.expression, $r.expression);}
-    |   l=addSub '-' r=mulDiv   {$expression = new Subtraction($l.expression, $r.expression);}
+    :   mulDiv {$expression = $mulDiv.expression;} (
+        : '+' mulDiv {$expression = new Addition($expression, $mulDiv.expression);}
+        | '-' mulDiv {$expression = new Subtraction($expression, $mulDiv.expression);}
+    )*
     ;
 
-expr returns [Expression expression]
-    :   WS? addSub WS?  {$expression = $addSub.expression;}
-    ;
+expr returns [Expression expression]: addSub {$expression = $addSub.expression;} ;
 
 VARIABLE : [a-zA-Z_][a-zA-Z_0-9]* ;
 NUMBER  : [0-9]+('.'[0-9]+)? ;
