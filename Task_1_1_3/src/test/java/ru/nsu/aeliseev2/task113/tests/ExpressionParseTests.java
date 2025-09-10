@@ -14,6 +14,14 @@ import ru.nsu.aeliseev2.task113.expressions.Variable;
 
 class ExpressionParseTests {
     @Test
+    void invalid() {
+        String string = "1 +";
+        Assertions.assertThrows(ParseException.class, () -> {
+            Expression.parse(string);
+        });
+    }
+
+    @Test
     void variable() throws ParseException {
         String string = "  hello_World ";
         var expected = new Variable("hello_World");

@@ -40,6 +40,8 @@ addSub returns [Expression expression]
 
 expr returns [Expression expression]: addSub {$expression = $addSub.expression;} ;
 
+root returns [Expression expression]: expr {$expression = $expr.expression;} EOF;
+
 VARIABLE : [a-zA-Z_][a-zA-Z_0-9]* ;
 NUMBER  : '-'?[0-9]+('.'[0-9]+)? ;
 WS : [ \t\r\n]+ -> skip ;

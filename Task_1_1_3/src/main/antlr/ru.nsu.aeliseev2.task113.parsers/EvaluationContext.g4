@@ -6,16 +6,17 @@ package ru.nsu.aeliseev2.task113.parsers;
 import ru.nsu.aeliseev2.task113.HashMapEvaluationContext;
 }
 
-varDecl[HashMapEvaluationContext ctx]
+variableDefinition[HashMapEvaluationContext context]
     : WS? VARIABLE WS? '=' WS? NUMBER WS?
-    { ctx.setVariable($VARIABLE.text, Double.parseDouble($NUMBER.text));}
+    { context.setVariable($VARIABLE.text, Double.parseDouble($NUMBER.text));}
     ;
 
-evalContext returns [HashMapEvaluationContext ctx]
+evaluationContext returns [HashMapEvaluationContext context]
     @init {
-        $ctx = new HashMapEvaluationContext();
+        $context = new HashMapEvaluationContext();
     }
-    : varDecl[$ctx] (';' varDecl[$ctx])*
+    : variableDefinition[$context] (';' variableDefinition[$context])* EOF
+    | WS? EOF
     ;
 
 VARIABLE : [a-zA-Z_][a-zA-Z_0-9]* ;
