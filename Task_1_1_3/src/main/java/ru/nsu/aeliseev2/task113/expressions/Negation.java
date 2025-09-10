@@ -37,7 +37,7 @@ public class Negation extends Expression {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof Negation negation && inner.equals(negation);
+        return obj instanceof Negation negation && inner.equals(negation.inner);
     }
 
     @Override
