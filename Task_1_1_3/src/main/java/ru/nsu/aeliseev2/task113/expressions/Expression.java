@@ -2,9 +2,11 @@ package ru.nsu.aeliseev2.task113.expressions;
 
 import java.text.ParseException;
 import java.util.Objects;
+import org.antlr.v4.runtime.BailErrorStrategy;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.misc.ParseCancellationException;
 import ru.nsu.aeliseev2.task113.EvaluationContext;
 import ru.nsu.aeliseev2.task113.parsers.ExpressionLexer;
 import ru.nsu.aeliseev2.task113.parsers.ExpressionParser;
@@ -22,16 +24,17 @@ public abstract class Expression {
             var lexer = new ExpressionLexer(CharStreams.fromString(string));
             var tokenStream = new CommonTokenStream(lexer);
             var parser = new ExpressionParser(tokenStream);
-            return parser.expr().expression;
+            parser.setErrorHandler(new BailErrorStrategy());
+            return parser.root().expression;
         }
-        catch (RecognitionException recEx){
-            int position = recEx.getOffendingToken().getStartIndex();
-            String message = String.format(
-                "Invalid expression '%s':\n%s",
-                string,
-                recEx.getMessage());
+        catch (ParseCancellationException cancelEx){
+            int position = -1;
+            if (cancelEx.getCause() instanceof RecognitionException recEx) {
+                position = recEx.getOffendingToken().getStartIndex();
+            }
+            String message = String.format("Invalid expression '%s'", string);
             var exception = new ParseException(message, position);
-            exception.initCause(recEx);
+            exception.initCause(cancelEx);
             throw exception;
         }
     }
