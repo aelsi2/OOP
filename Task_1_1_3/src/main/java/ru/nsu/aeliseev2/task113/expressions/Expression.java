@@ -16,7 +16,7 @@ public abstract class Expression {
 
     public abstract Expression optimize();
 
-    public static Expression fromString(String string) throws ParseException {
+    public static Expression parse(String string) throws ParseException {
         Objects.requireNonNull(string, "string must be non-null.");
         try {
             var lexer = new ExpressionLexer(CharStreams.fromString(string));
@@ -26,7 +26,10 @@ public abstract class Expression {
         }
         catch (RecognitionException recEx){
             int position = recEx.getOffendingToken().getStartIndex();
-            String message = String.format("Invalid expression:\n%s", recEx.getMessage());
+            String message = String.format(
+                "Invalid expression '%s':\n%s",
+                string,
+                recEx.getMessage());
             var exception = new ParseException(message, position);
             exception.initCause(recEx);
             throw exception;
