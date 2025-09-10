@@ -69,18 +69,18 @@ class ExpressionParseTests {
     void negatedMultiplication() throws ParseException {
         String string = "-1 * -1";
         var expected = new Multiplication(
-            new Negation(new Number(1)),
-            new Negation(new Number(1)));
+            new Number(-1),
+            new Number(-1));
         var actual = Expression.fromString(string);
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
     void negatedSubtraction() throws ParseException {
-        String string = "-1---1";
+        String string = "-1----1";
         var expected = new Subtraction(
-            new Negation(new Number(1)),
-            new Negation(new Negation(new Number(1))));
+            new Number(-1),
+            new Negation(new Negation(new Number(-1))));
         var actual = Expression.fromString(string);
         Assertions.assertEquals(expected, actual);
     }
