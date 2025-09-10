@@ -17,7 +17,7 @@ class ExpressionParseTests {
     void variable() throws ParseException {
         String string = "  hello_World ";
         var expected = new Variable("hello_World");
-        var actual = Expression.fromString(string);
+        var actual = Expression.parse(string);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -25,7 +25,7 @@ class ExpressionParseTests {
     void integerNumber() throws ParseException {
         String string = "256";
         var expected = new Number(256);
-        var actual = Expression.fromString(string);
+        var actual = Expression.parse(string);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -33,7 +33,7 @@ class ExpressionParseTests {
     void fractionalNumber() throws ParseException {
         String string = "256.360";
         var expected = new Number(256.360);
-        var actual = Expression.fromString(string);
+        var actual = Expression.parse(string);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -41,7 +41,7 @@ class ExpressionParseTests {
     void addition() throws ParseException {
         String string = "1 + 2";
         var expected = new Addition(new Number(1), new Number(2));
-        var actual = Expression.fromString(string);
+        var actual = Expression.parse(string);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -51,7 +51,7 @@ class ExpressionParseTests {
         var expected = new Addition(
             new Multiplication(new Number(1), new Number(2)),
             new Number(3));
-        var actual = Expression.fromString(string);
+        var actual = Expression.parse(string);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -61,7 +61,7 @@ class ExpressionParseTests {
         var expected = new Addition(
             new Number(1),
             new Multiplication(new Number(2), new Number(3)));
-        var actual = Expression.fromString(string);
+        var actual = Expression.parse(string);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -71,7 +71,7 @@ class ExpressionParseTests {
         var expected = new Multiplication(
             new Number(-1),
             new Number(-1));
-        var actual = Expression.fromString(string);
+        var actual = Expression.parse(string);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -81,7 +81,7 @@ class ExpressionParseTests {
         var expected = new Subtraction(
             new Number(-1),
             new Negation(new Negation(new Number(-1))));
-        var actual = Expression.fromString(string);
+        var actual = Expression.parse(string);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -91,7 +91,7 @@ class ExpressionParseTests {
         var expected = new Multiplication(
             new Addition(new Number(1), new Number(2)),
             new Number(3));
-        var actual = Expression.fromString(string);
+        var actual = Expression.parse(string);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -103,7 +103,7 @@ class ExpressionParseTests {
             new Addition(
                 new Number(1),
                 new Number(2)));
-        var actual = Expression.fromString(string);
+        var actual = Expression.parse(string);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -117,7 +117,7 @@ class ExpressionParseTests {
                     new Number(2)),
                 new Number(3)),
             new Number(4));
-        var actual = Expression.fromString(string);
+        var actual = Expression.parse(string);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -131,7 +131,7 @@ class ExpressionParseTests {
                     new Number(2)),
                 new Number(3)),
             new Number(4));
-        var actual = Expression.fromString(string);
+        var actual = Expression.parse(string);
         Assertions.assertEquals(expected, actual);
     }
 }
