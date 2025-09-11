@@ -38,7 +38,7 @@ class TestReader extends Reader {
         if (sectionIndex >= sections.length) {
             return -1;
         }
-        return sections[sectionIndex].get((int) indexInSection++);
+        return sections[sectionIndex].get(indexInSection++);
     }
 
     @Override
