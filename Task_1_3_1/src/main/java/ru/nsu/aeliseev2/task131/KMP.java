@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * An implementation of the KMP (Knuth–Morris–Pratt) algorithm.
@@ -56,6 +57,12 @@ public final class KMP {
      * @throws IOException An error occurred while reading with the reader.
      */
     public static List<Long> find(Reader reader, String pattern) throws IOException {
+        Objects.requireNonNull(reader, "reader cannot be null");
+        Objects.requireNonNull(pattern, "pattern cannot be null");
+        if (pattern.isEmpty()) {
+            throw new IllegalArgumentException("pattern cannot be empty.");
+        }
+
         ArrayList<Long> result = new ArrayList<>();
 
         char[] patternChars = pattern.toCharArray();
