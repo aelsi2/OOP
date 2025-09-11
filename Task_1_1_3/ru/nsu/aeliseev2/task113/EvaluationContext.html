@@ -78,6 +78,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">EvaluationContext</span></div>
+<div class="block">A map containing the values of the variables needed for the evaluation of an expression.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -92,7 +93,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>static final <a href="EvaluationContext.html" title="interface in ru.nsu.aeliseev2.task113">EvaluationContext</a></code></div>
 <div class="col-second even-row-color"><code><a href="#EMPTY" class="member-name-link">EMPTY</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">An empty evaluation context that always throws an exception.</div>
+</div>
 </div>
 </section>
 </li>
@@ -109,7 +112,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getVariable(java.lang.String)" class="member-name-link">getVariable</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Gets the value of a variable.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static <a href="EvaluationContext.html" title="interface in ru.nsu.aeliseev2.task113">EvaluationContext</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#parse(java.lang.String)" class="member-name-link">parse</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;string)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1">&nbsp;</div>
@@ -131,6 +136,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="EMPTY">
 <h3>EMPTY</h3>
 <div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="EvaluationContext.html" title="interface in ru.nsu.aeliseev2.task113">EvaluationContext</a></span>&nbsp;<span class="element-name">EMPTY</span></div>
+<div class="block">An empty evaluation context that always throws an exception.</div>
 </section>
 </li>
 </ul>
@@ -145,6 +151,16 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getVariable(java.lang.String)">
 <h3>getVariable</h3>
 <div class="member-signature"><span class="return-type">double</span>&nbsp;<span class="element-name">getVariable</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+<div class="block">Gets the value of a variable.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - The name of the variable.</dd>
+<dt>Returns:</dt>
+<dd>The value of the variable.</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/NoSuchElementException.html" title="class or interface in java.util" class="external-link">NoSuchElementException</a></code> - The requested variable is not defined in the
+ current context.</dd>
+</dl>
 </section>
 </li>
 <li>

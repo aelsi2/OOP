@@ -83,6 +83,7 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">HashMapEvaluationContext</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="EvaluationContext.html" title="interface in ru.nsu.aeliseev2.task113">EvaluationContext</a></span></div>
+<div class="block">An implementation of <code>EvaluationContext</code> based on a <code>HashMap</code>.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -121,11 +122,15 @@ implements <a href="EvaluationContext.html" title="interface in ru.nsu.aeliseev2
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getVariable(java.lang.String)" class="member-name-link">getVariable</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the value of a variable.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVariable(java.lang.String,double)" class="member-name-link">setVariable</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  double&nbsp;value)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the value of a variable (possibly overwriting the previous value).</div>
+</div>
 </div>
 </div>
 </div>
@@ -162,15 +167,26 @@ implements <a href="EvaluationContext.html" title="interface in ru.nsu.aeliseev2
 <h3>setVariable</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setVariable</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  double&nbsp;value)</span></div>
+<div class="block">Sets the value of a variable (possibly overwriting the previous value).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - The name of the variable.</dd>
+<dd><code>value</code> - The value of the variable.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getVariable(java.lang.String)">
 <h3>getVariable</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getVariable</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+<div class="block">Gets the value of a variable.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="EvaluationContext.html#getVariable(java.lang.String)">getVariable</a></code>&nbsp;in interface&nbsp;<code><a href="EvaluationContext.html" title="interface in ru.nsu.aeliseev2.task113">EvaluationContext</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>name</code> - The name of the variable.</dd>
+<dt>Returns:</dt>
+<dd>The value of the variable.</dd>
 </dl>
 </section>
 </li>
