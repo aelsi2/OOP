@@ -43,7 +43,7 @@ public class Subtraction extends BinaryExpression {
         var leftOpt = left.optimize();
         var rightOpt = right.optimize();
         if (leftOpt instanceof Number leftNum && rightOpt instanceof Number rightNum) {
-            return new Number(leftNum.getValue() + rightNum.getValue());
+            return new Number(leftNum.getValue() - rightNum.getValue());
         }
         if (leftOpt.equals(rightOpt)) {
             return Number.ZERO;
