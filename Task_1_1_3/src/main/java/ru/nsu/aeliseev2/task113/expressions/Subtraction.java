@@ -2,16 +2,32 @@ package ru.nsu.aeliseev2.task113.expressions;
 
 import ru.nsu.aeliseev2.task113.EvaluationContext;
 
+/**
+ * A binary expression that subtracts the value of the second operand
+ * from the value of the first operand.
+ */
 public class Subtraction extends BinaryExpression {
+    /**
+     * Constructs the new subtraction expression.
+     *
+     * @param left The first operand.
+     * @param right The second operand.
+     */
     public Subtraction(Expression left, Expression right) {
         super(left, right);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double evaluate(EvaluationContext context) {
         return left.evaluate(context) - right.evaluate(context);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Expression differentiate(String variableName) {
         var leftDiff = left.differentiate(variableName);
@@ -19,6 +35,9 @@ public class Subtraction extends BinaryExpression {
         return new Subtraction(leftDiff, rightDiff);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Expression optimize() {
         var leftOpt = left.optimize();
@@ -38,6 +57,9 @@ public class Subtraction extends BinaryExpression {
         return new Subtraction(leftOpt, rightOpt);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return String.format("(%s - %s)", left, right);
