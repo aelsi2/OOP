@@ -32,11 +32,11 @@ public final class KMP {
     }
 
     /**
-     * Finds the indices of all entries of {@code pattern} in the file with the specified name
-     * using the KMP algorithm.
+     * Finds the indices of all entries of {@code pattern} in the file with the specified name using
+     * the KMP algorithm.
      *
      * @param fileName The name of the file to search in.
-     * @param pattern The string to search for.
+     * @param pattern  The string to search for.
      * @return The list of indices in ascending order.
      * @throws IOException An error occurred while reading with the reader.
      */
@@ -47,10 +47,10 @@ public final class KMP {
     }
 
     /**
-     * Finds the indices of all entries of {@code pattern} in {@code reader}
-     * using the KMP algorithm.
+     * Finds the indices of all entries of {@code pattern} in {@code reader} using the KMP
+     * algorithm.
      *
-     * @param reader The reader to search in.
+     * @param reader  The reader to search in.
      * @param pattern The string to search for.
      * @return The list of indices in ascending order.
      * @throws IOException An error occurred while reading with the reader.
@@ -65,13 +65,13 @@ public final class KMP {
 
         int ch;
         while ((ch = reader.read()) != -1) {
-            while (patternIndex > 0 && patternChars[patternIndex] != ch){
+            while (patternIndex > 0 && patternChars[patternIndex] != ch) {
                 patternIndex = prefixFunction[patternIndex - 1];
             }
-            if (ch == patternChars[patternIndex]){
+            if (ch == patternChars[patternIndex]) {
                 patternIndex++;
             }
-            if (patternIndex == patternChars.length){
+            if (patternIndex == patternChars.length) {
                 result.add(streamIndex - patternChars.length + 1);
                 patternIndex = prefixFunction[patternIndex - 1];
             }
