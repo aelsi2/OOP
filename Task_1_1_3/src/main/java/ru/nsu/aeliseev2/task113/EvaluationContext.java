@@ -27,8 +27,8 @@ public interface EvaluationContext {
      *
      * @param name The name of the variable.
      * @return The value of the variable.
-     * @exception java.util.NoSuchElementException The requested variable is not defined in the
-     * current context.
+     * @throws java.util.NoSuchElementException The requested variable is not defined in the current
+     *                                          context.
      */
     double getVariable(String name);
 

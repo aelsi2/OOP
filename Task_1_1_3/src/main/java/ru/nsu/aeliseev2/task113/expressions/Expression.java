@@ -49,8 +49,8 @@ public abstract class Expression {
      * Compares the expression to an object.
      *
      * @param obj The other object
-     * @return {@code true}, if {@code obj} is an expression with the same
-     * structure as the current one (same type and parameters), {@code false} otherwise.
+     * @return {@code true}, if {@code obj} is an expression with the same structure as the current
+     *     one (same type and parameters), {@code false} otherwise.
      */
     @Override
     public abstract boolean equals(Object obj);
