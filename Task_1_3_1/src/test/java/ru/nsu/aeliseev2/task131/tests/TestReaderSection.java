@@ -15,6 +15,6 @@ class TestReaderSection {
     }
 
     public char get(long index) {
-        return chars[(int)(index % chars.length)];
+        return chars[(int) (index % chars.length)];
     }
 }
