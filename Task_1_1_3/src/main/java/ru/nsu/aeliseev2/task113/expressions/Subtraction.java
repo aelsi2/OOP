@@ -10,7 +10,7 @@ public class Subtraction extends BinaryExpression {
     /**
      * Constructs the new subtraction expression.
      *
-     * @param left The first operand.
+     * @param left  The first operand.
      * @param right The second operand.
      */
     public Subtraction(Expression left, Expression right) {
@@ -68,6 +68,12 @@ public class Subtraction extends BinaryExpression {
      */
     @Override
     public String toString() {
-        return String.format("(%s - %s)", left, right);
+        if (right instanceof Addition ||
+            right instanceof Subtraction ||
+            right instanceof Negation ||
+            right instanceof Number number && number.getValue() < 0) {
+            return String.format("%s - (%s)", left, right);
+        }
+        return String.format("%s - %s", left, right);
     }
 }

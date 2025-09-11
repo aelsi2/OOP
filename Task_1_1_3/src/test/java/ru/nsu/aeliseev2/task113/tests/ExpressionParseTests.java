@@ -30,6 +30,38 @@ class ExpressionParseTests {
     }
 
     @Test
+    void variableNaN() throws ParseException {
+        String string = "nana";
+        var expected = new Variable("nana");
+        var actual = Expression.parse(string);
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void nanNumber() throws ParseException {
+        String string = "nan";
+        var expected = new Number(Double.NaN);
+        var actual = Expression.parse(string);
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void infinityNumber() throws ParseException {
+        String string = "inf";
+        var expected = new Number(Double.POSITIVE_INFINITY);
+        var actual = Expression.parse(string);
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void negativeInfinityNumber() throws ParseException {
+        String string = "-inf";
+        var expected = new Number(Double.NEGATIVE_INFINITY);
+        var actual = Expression.parse(string);
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
     void integerNumber() throws ParseException {
         String string = "256";
         var expected = new Number(256);

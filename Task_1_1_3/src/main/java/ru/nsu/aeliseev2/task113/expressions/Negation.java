@@ -82,6 +82,9 @@ public class Negation extends Expression {
      */
     @Override
     public String toString() {
+        if (inner instanceof Variable){
+            return String.format("-%s", inner);
+        }
         return String.format("-(%s)", inner);
     }
 }

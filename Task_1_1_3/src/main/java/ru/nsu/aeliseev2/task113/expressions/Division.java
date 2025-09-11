@@ -66,6 +66,15 @@ public class Division extends BinaryExpression {
      */
     @Override
     public String toString() {
-        return String.format("(%s / %s)", left, right);
+        String leftString = left.toString();
+        if (left instanceof Subtraction || left instanceof Addition) {
+            leftString = "(" + leftString + ")";
+        }
+        String rightString = right.toString();
+        if (!(right instanceof Variable) &&
+            !(right instanceof Number number && number.getValue() >= 0)) {
+            rightString = "(" + rightString + ")";
+        }
+        return String.format("%s / %s", leftString, rightString);
     }
 }
