@@ -2,7 +2,7 @@ package ru.nsu.aeliseev2.task113.expressions;
 
 import ru.nsu.aeliseev2.task113.EvaluationContext;
 
-public class Variable extends Expression{
+public class Variable extends Expression {
     private final String name;
 
     public Variable(String name) {

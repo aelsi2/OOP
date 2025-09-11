@@ -23,8 +23,7 @@ public interface EvaluationContext {
             var parser = new EvaluationContextParser(tokenStream);
             parser.setErrorHandler(new BailErrorStrategy());
             return parser.evaluationContext().context;
-        }
-        catch (ParseCancellationException cancelEx){
+        } catch (ParseCancellationException cancelEx) {
             int position = -1;
             if (cancelEx.getCause() instanceof RecognitionException recEx) {
                 position = recEx.getOffendingToken().getStartIndex();
