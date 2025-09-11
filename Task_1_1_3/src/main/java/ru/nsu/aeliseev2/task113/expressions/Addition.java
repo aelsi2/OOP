@@ -64,6 +64,12 @@ public class Addition extends BinaryExpression {
      */
     @Override
     public String toString() {
-        return String.format("(%s + %s)", left, right);
+        if (right instanceof Addition ||
+            right instanceof Subtraction ||
+            right instanceof Negation ||
+            right instanceof Number number && number.getValue() < 0) {
+            return String.format("%s + (%s)", left, right);
+        }
+        return String.format("%s + %s", left, right);
     }
 }

@@ -1,5 +1,8 @@
 package ru.nsu.aeliseev2.task113.expressions;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import ru.nsu.aeliseev2.task113.EvaluationContext;
 
 /**
@@ -8,6 +11,8 @@ import ru.nsu.aeliseev2.task113.EvaluationContext;
 public class Number extends Expression {
     public final static Number ZERO = new Number(0);
     public final static Number ONE = new Number(1);
+    private final static DecimalFormat FORMAT = new DecimalFormat("0.##########",
+        DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 
     private final double value;
 
@@ -58,7 +63,13 @@ public class Number extends Expression {
      */
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof Number number && value == number.value;
+        if (!(obj instanceof Number number)) {
+            return false;
+        }
+        if (Double.isNaN(value) && Double.isNaN(number.value)) {
+            return true;
+        }
+        return value == number.value;
     }
 
     /**
@@ -74,6 +85,16 @@ public class Number extends Expression {
      */
     @Override
     public String toString() {
-        return String.format("%f", value);
+        if (Double.isNaN(value)) {
+            return "NaN";
+        }
+        if (Double.isInfinite(value)) {
+            if (value > 0) {
+                return "Inf";
+            } else {
+                return "-Inf";
+            }
+        }
+        return FORMAT.format(value);
     }
 }
