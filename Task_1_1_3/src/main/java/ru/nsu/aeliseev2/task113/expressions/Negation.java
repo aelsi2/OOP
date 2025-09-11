@@ -74,7 +74,7 @@ public class Negation extends Expression {
      */
     @Override
     public int hashCode() {
-        return Objects.hash("negation", inner);
+        return Objects.hash(Negation.class, inner);
     }
 
     /**
