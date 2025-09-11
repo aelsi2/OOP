@@ -9,9 +9,9 @@ import ru.nsu.aeliseev2.task113.EvaluationContext;
  * A constant number expression.
  */
 public class Number extends Expression {
-    public final static Number ZERO = new Number(0);
-    public final static Number ONE = new Number(1);
-    private final static DecimalFormat FORMAT = new DecimalFormat("0.##########",
+    public static final Number ZERO = new Number(0);
+    public static final Number ONE = new Number(1);
+    private static final DecimalFormat FORMAT = new DecimalFormat("0.##########",
         DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 
     private final double value;

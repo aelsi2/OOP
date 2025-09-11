@@ -9,7 +9,7 @@ public class Addition extends BinaryExpression {
     /**
      * Constructs a new addition expression.
      *
-     * @param left The first operand.
+     * @param left  The first operand.
      * @param right The second operand.
      */
     public Addition(Expression left, Expression right) {
@@ -64,10 +64,10 @@ public class Addition extends BinaryExpression {
      */
     @Override
     public String toString() {
-        if (right instanceof Addition ||
-            right instanceof Subtraction ||
-            right instanceof Negation ||
-            right instanceof Number number && number.getValue() < 0) {
+        if (right instanceof Addition
+            || right instanceof Subtraction
+            || right instanceof Negation
+            || right instanceof Number number && number.getValue() < 0) {
             return String.format("%s + (%s)", left, right);
         }
         return String.format("%s + %s", left, right);

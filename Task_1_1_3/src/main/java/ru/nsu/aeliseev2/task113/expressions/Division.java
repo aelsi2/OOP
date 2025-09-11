@@ -11,7 +11,7 @@ public class Division extends BinaryExpression {
      * Constructs a new division expression.
      *
      * @param dividend The dividend (the numerator).
-     * @param divider The divider (the denominator).
+     * @param divider  The divider (the denominator).
      */
     public Division(Expression dividend, Expression divider) {
         super(dividend, divider);
@@ -71,8 +71,8 @@ public class Division extends BinaryExpression {
             leftString = "(" + leftString + ")";
         }
         String rightString = right.toString();
-        if (!(right instanceof Variable) &&
-            !(right instanceof Number number && number.getValue() >= 0)) {
+        if (!(right instanceof Variable)
+            && !(right instanceof Number number && number.getValue() >= 0)) {
             rightString = "(" + rightString + ")";
         }
         return String.format("%s / %s", leftString, rightString);

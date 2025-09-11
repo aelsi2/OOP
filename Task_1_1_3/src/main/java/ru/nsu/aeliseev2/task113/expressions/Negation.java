@@ -23,7 +23,7 @@ public class Negation extends Expression {
      *
      * @return The inner expression.
      */
-    public Expression getInner(){
+    public Expression getInner() {
         return inner;
     }
 
@@ -82,7 +82,7 @@ public class Negation extends Expression {
      */
     @Override
     public String toString() {
-        if (inner instanceof Variable){
+        if (inner instanceof Variable) {
             return String.format("-%s", inner);
         }
         return String.format("-(%s)", inner);

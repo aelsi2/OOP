@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.nsu.aeliseev2.task113.EvaluationContext;
 
-public class EvaluationContextParseTests {
+class EvaluationContextParseTests {
     @Test
     void invalid() {
         Assertions.assertThrows(ParseException.class, () -> {

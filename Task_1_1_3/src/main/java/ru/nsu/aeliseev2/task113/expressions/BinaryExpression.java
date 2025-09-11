@@ -12,7 +12,7 @@ public abstract class BinaryExpression extends Expression {
     /**
      * Constructs a new binary expression.
      *
-     * @param left The first operand.
+     * @param left  The first operand.
      * @param right The second operand.
      */
     public BinaryExpression(Expression left, Expression right) {

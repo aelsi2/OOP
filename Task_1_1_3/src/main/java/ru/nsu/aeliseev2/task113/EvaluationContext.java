@@ -32,6 +32,13 @@ public interface EvaluationContext {
      */
     double getVariable(String name);
 
+    /**
+     * Parses an evaluation context from a string.
+     *
+     * @param string The input string.
+     * @return The parsed evaluation context.
+     * @throws ParseException The input string does not contain a valid evaluation context.
+     */
     static EvaluationContext parse(String string) throws ParseException {
         Objects.requireNonNull(string, "string must be non-null.");
         try {
