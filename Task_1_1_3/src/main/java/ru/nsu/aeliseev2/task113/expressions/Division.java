@@ -32,10 +32,10 @@ public class Division extends BinaryExpression {
     public Expression differentiate(String variableName) {
         var leftDiff = left.differentiate(variableName);
         var rightDiff = right.differentiate(variableName);
-        var numerator = new Addition(
+        var numerator = new Subtraction(
             new Multiplication(leftDiff, right),
             new Multiplication(left, rightDiff));
-        var denominator = new Multiplication(left, left);
+        var denominator = new Multiplication(right, right);
         return new Division(numerator, denominator);
     }
 
