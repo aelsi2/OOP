@@ -7,13 +7,13 @@ import java.io.StringReader;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.nsu.aeliseev2.task131.KMP;
+import ru.nsu.aeliseev2.task131.Kmp;
 
 class FindTests {
     @Test
     void smallInput() throws IOException {
         var reader = new StringReader("абракадабра");
-        var result = Longs.toArray(KMP.find(reader, "бра"));
+        var result = Longs.toArray(Kmp.find(reader, "бра"));
         var expected = new long[]{1, 8};
         Assertions.assertArrayEquals(expected, result);
     }
@@ -21,7 +21,7 @@ class FindTests {
     @Test
     void smallInputOverlapping1() throws IOException {
         var reader = new StringReader("быбыбыб");
-        var result = Longs.toArray(KMP.find(reader, "быб"));
+        var result = Longs.toArray(Kmp.find(reader, "быб"));
         var expected = new long[]{0, 2, 4};
         Assertions.assertArrayEquals(expected, result);
     }
@@ -29,7 +29,7 @@ class FindTests {
     @Test
     void smallInputOverlapping2() throws IOException {
         var reader = new StringReader("ббббыбыбыхбыбыбыхбыб");
-        var result = Longs.toArray(KMP.find(reader, "быбыбых"));
+        var result = Longs.toArray(Kmp.find(reader, "быбыбых"));
         var expected = new long[]{3, 10};
         Assertions.assertArrayEquals(expected, result);
     }
@@ -37,7 +37,7 @@ class FindTests {
     @Test
     void manyMatches() throws IOException {
         var reader = new StringReader(Strings.repeat("бы", 100));
-        var result = Longs.toArray(KMP.find(reader, "быб"));
+        var result = Longs.toArray(Kmp.find(reader, "быб"));
         var expected = LongStream.range(0, 99).map(l -> l * 2).toArray();
         Assertions.assertArrayEquals(expected, result);
     }
@@ -48,7 +48,7 @@ class FindTests {
             + Strings.repeat("б", 100);
         var reader = new StringReader(string);
         var result = Longs.toArray(
-            KMP.find(reader, Strings.repeat("б", 100)));
+            Kmp.find(reader, Strings.repeat("б", 100)));
         var expected = new long[]{101};
         Assertions.assertArrayEquals(expected, result);
     }
@@ -58,7 +58,7 @@ class FindTests {
         var reader = new TestReader(
             new TestReaderSection("хыъ", 16_000_000_000L)
         );
-        var result = Longs.toArray(KMP.find(reader, "хых"));
+        var result = Longs.toArray(Kmp.find(reader, "хых"));
         var expected = new long[]{};
         Assertions.assertArrayEquals(expected, result);
     }
@@ -70,7 +70,7 @@ class FindTests {
             new TestReaderSection("хыъ", 1_000_000_000L),
             new TestReaderSection("хыхшышхых")
         );
-        var result = Longs.toArray(KMP.find(reader, "хых"));
+        var result = Longs.toArray(Kmp.find(reader, "хых"));
         var expected = new long[]{0, 1_000_000_003, 1_000_000_009};
         Assertions.assertArrayEquals(expected, result);
     }
