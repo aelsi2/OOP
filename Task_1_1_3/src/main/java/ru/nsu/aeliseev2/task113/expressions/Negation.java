@@ -19,6 +19,15 @@ public class Negation extends Expression {
     }
 
     /**
+     * Gets the inner expression (the operand) of this expression.
+     *
+     * @return The inner expression.
+     */
+    public Expression getInner(){
+        return inner;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

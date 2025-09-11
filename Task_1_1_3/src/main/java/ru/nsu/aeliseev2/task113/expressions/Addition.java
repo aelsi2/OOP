@@ -50,6 +50,12 @@ public class Addition extends BinaryExpression {
         if (rightOpt.equals(Number.ZERO)) {
             return leftOpt;
         }
+        if (rightOpt instanceof Negation negation) {
+            return new Subtraction(leftOpt, negation.getInner());
+        }
+        if (rightOpt instanceof Number number && number.getValue() < 0) {
+            return new Subtraction(leftOpt, new Number(-number.getValue()));
+        }
         return new Addition(leftOpt, rightOpt);
     }
 

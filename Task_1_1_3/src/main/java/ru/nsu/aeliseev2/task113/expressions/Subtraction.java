@@ -54,6 +54,12 @@ public class Subtraction extends BinaryExpression {
         if (leftOpt.equals(Number.ZERO)) {
             return new Negation(rightOpt);
         }
+        if (rightOpt instanceof Negation negation) {
+            return new Addition(leftOpt, negation.getInner());
+        }
+        if (rightOpt instanceof Number number && number.getValue() < 0) {
+            return new Addition(leftOpt, new Number(-number.getValue()));
+        }
         return new Subtraction(leftOpt, rightOpt);
     }
 
