@@ -1,1 +1,1 @@
-memberSearchIndex = [{"p":"ru.nsu.aeliseev2.task131","c":"StringFinder","l":"find(Reader, String)","u":"find(java.io.Reader,java.lang.String)"},{"p":"ru.nsu.aeliseev2.task131","c":"StringFinder","l":"find(String, String)","u":"find(java.lang.String,java.lang.String)"}];updateSearchResults();
+memberSearchIndex = [{"p":"ru.nsu.aeliseev2.task131","c":"KMP","l":"find(Reader, String)","u":"find(java.io.Reader,java.lang.String)"},{"p":"ru.nsu.aeliseev2.task131","c":"KMP","l":"find(String, String)","u":"find(java.lang.String,java.lang.String)"}];updateSearchResults();
