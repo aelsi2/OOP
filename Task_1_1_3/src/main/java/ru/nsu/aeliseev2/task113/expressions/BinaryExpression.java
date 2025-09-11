@@ -19,7 +19,7 @@ public abstract class BinaryExpression extends Expression {
         if (!getClass().equals(obj.getClass())) {
             return false;
         }
-        var objBe = (BinaryExpression)obj;
+        var objBe = (BinaryExpression) obj;
         return left.equals(objBe.left) && right.equals(objBe.right);
     }
 

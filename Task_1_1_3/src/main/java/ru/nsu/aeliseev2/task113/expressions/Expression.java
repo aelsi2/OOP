@@ -26,8 +26,7 @@ public abstract class Expression {
             var parser = new ExpressionParser(tokenStream);
             parser.setErrorHandler(new BailErrorStrategy());
             return parser.root().expression;
-        }
-        catch (ParseCancellationException cancelEx){
+        } catch (ParseCancellationException cancelEx) {
             int position = -1;
             if (cancelEx.getCause() instanceof RecognitionException recEx) {
                 position = recEx.getOffendingToken().getStartIndex();
