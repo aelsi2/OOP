@@ -2,16 +2,31 @@ package ru.nsu.aeliseev2.task113.expressions;
 
 import ru.nsu.aeliseev2.task113.EvaluationContext;
 
+/**
+ * A binary expression that computes the product of the values of its two operands.
+ */
 public class Multiplication extends BinaryExpression {
+    /**
+     * Constructs a new multiplication expression.
+     *
+     * @param left The first operand.
+     * @param right The second operand.
+     */
     public Multiplication(Expression left, Expression right) {
         super(left, right);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double evaluate(EvaluationContext context) {
         return left.evaluate(context) * right.evaluate(context);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Expression differentiate(String variableName) {
         var leftDiff = left.differentiate(variableName);
@@ -21,6 +36,9 @@ public class Multiplication extends BinaryExpression {
             new Multiplication(left, rightDiff));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Expression optimize() {
         var leftOpt = left.optimize();
@@ -43,6 +61,9 @@ public class Multiplication extends BinaryExpression {
         return new Multiplication(leftOpt, rightOpt);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return String.format("(%s * %s)", left, right);
