@@ -44,6 +44,17 @@ class FindTests {
     }
 
     @Test
+    void manyPotentialMatches() throws IOException {
+        var string = Strings.repeat("б", 99) + "хы"
+            + Strings.repeat("б", 100);
+        var reader = new StringReader(string);
+        var result = Longs.toArray(
+            StringFinder.find(reader, Strings.repeat("б", 100)));
+        var expected = new long[]{101};
+        Assertions.assertArrayEquals(expected, result);
+    }
+
+    @Test
     void fatAssInputNoMatches() throws IOException {
         var reader = new Reader() {
             long charsLeft = 16_000_000_000L;
