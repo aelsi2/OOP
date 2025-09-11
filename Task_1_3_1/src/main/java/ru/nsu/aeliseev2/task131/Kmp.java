@@ -12,8 +12,8 @@ import java.util.Objects;
 /**
  * An implementation of the KMP (Knuth–Morris–Pratt) algorithm.
  */
-public final class KMP {
-    private KMP() {
+public final class Kmp {
+    private Kmp() {
     }
 
     private static int[] makePrefixFunction(char[] pattern) {
