@@ -3,7 +3,6 @@ package ru.nsu.aeliseev2.task131.tests;
 import com.google.common.base.Strings;
 import com.google.common.primitives.Longs;
 import java.io.IOException;
-import java.io.Reader;
 import java.io.StringReader;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.Assertions;
@@ -56,39 +55,9 @@ class FindTests {
 
     @Test
     void fatAssInputNoMatches() throws IOException {
-        var reader = new Reader() {
-            long charsLeft = 16_000_000_000L;
-            final char[] singleCharBuffer = new char[1];
-
-            @Override
-            public int read(char[] chars, int startIndex, int count) throws IOException {
-                int readCount = 0;
-                for (int i = startIndex; i < startIndex + count; i++) {
-                    if (charsLeft <= 0) {
-                        break;
-                    }
-                    chars[i] = 'ы';
-                    readCount++;
-                    charsLeft--;
-                }
-                if (readCount == 0) {
-                    return -1;
-                }
-                return readCount;
-            }
-
-            @Override
-            public int read() throws IOException {
-                if (read(singleCharBuffer, 0, 1) == -1) {
-                    return -1;
-                }
-                return singleCharBuffer[0];
-            }
-
-            @Override
-            public void close() throws IOException {
-            }
-        };
+        var reader = new TestReader(
+            new TestReaderSection("хыъ", 16_000_000_000L)
+        );
         var result = Longs.toArray(KMP.find(reader, "хых"));
         var expected = new long[]{};
         Assertions.assertArrayEquals(expected, result);
@@ -96,47 +65,13 @@ class FindTests {
 
     @Test
     void fatAssInputStartEnd() throws IOException {
-        var startReader = new StringReader("хых");
-        var endReader = new StringReader("хых");
-        var reader = new Reader() {
-            long charsLeft = 1_000_000_000L;
-            final char[] singleCharBuffer = new char[1];
-
-            @Override
-            public int read(char[] chars, int startIndex, int count) throws IOException {
-                int startResult = startReader.read(chars, startIndex, count);
-                if (startResult != -1) {
-                    return startResult;
-                }
-                int readCount = 0;
-                for (int i = startIndex; i < startIndex + count; i++) {
-                    if (charsLeft == 0) {
-                        break;
-                    }
-                    chars[i] = 'х';
-                    readCount++;
-                    charsLeft--;
-                }
-                if (readCount != 0) {
-                    return readCount;
-                }
-                return endReader.read(chars, startIndex, count);
-            }
-
-            @Override
-            public int read() throws IOException {
-                if (read(singleCharBuffer, 0, 1) == -1) {
-                    return -1;
-                }
-                return singleCharBuffer[0];
-            }
-
-            @Override
-            public void close() throws IOException {
-            }
-        };
+        var reader = new TestReader(
+            new TestReaderSection("хых"),
+            new TestReaderSection("хыъ", 1_000_000_000L),
+            new TestReaderSection("хыхшышхых")
+        );
         var result = Longs.toArray(KMP.find(reader, "хых"));
-        var expected = new long[]{0, 1_000_000_003};
+        var expected = new long[]{0, 1_000_000_003, 1_000_000_009};
         Assertions.assertArrayEquals(expected, result);
     }
 }
