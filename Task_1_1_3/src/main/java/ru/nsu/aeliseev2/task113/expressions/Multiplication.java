@@ -9,7 +9,7 @@ public class Multiplication extends BinaryExpression {
     /**
      * Constructs a new multiplication expression.
      *
-     * @param left The first operand.
+     * @param left  The first operand.
      * @param right The second operand.
      */
     public Multiplication(Expression left, Expression right) {
@@ -71,8 +71,8 @@ public class Multiplication extends BinaryExpression {
             leftString = "(" + leftString + ")";
         }
         String rightString = right.toString();
-        if (!(right instanceof Variable) &&
-            !(right instanceof Number number && number.getValue() >= 0)) {
+        if (!(right instanceof Variable)
+            && !(right instanceof Number number && number.getValue() >= 0)) {
             rightString = "(" + rightString + ")";
         }
         return String.format("%s * %s", leftString, rightString);

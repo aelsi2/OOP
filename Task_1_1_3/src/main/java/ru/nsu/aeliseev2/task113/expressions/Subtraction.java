@@ -68,10 +68,10 @@ public class Subtraction extends BinaryExpression {
      */
     @Override
     public String toString() {
-        if (right instanceof Addition ||
-            right instanceof Subtraction ||
-            right instanceof Negation ||
-            right instanceof Number number && number.getValue() < 0) {
+        if (right instanceof Addition
+            || right instanceof Subtraction
+            || right instanceof Negation
+            || right instanceof Number number && number.getValue() < 0) {
             return String.format("%s - (%s)", left, right);
         }
         return String.format("%s - %s", left, right);
