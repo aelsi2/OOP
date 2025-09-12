@@ -19,6 +19,7 @@ class TestReader extends Reader {
             if (ch == -1) {
                 return -1;
             }
+            chars[i] = (char) ch;
             readCount++;
         }
         return readCount;
