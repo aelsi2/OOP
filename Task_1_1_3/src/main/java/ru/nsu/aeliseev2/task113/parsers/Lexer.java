@@ -3,11 +3,11 @@ package ru.nsu.aeliseev2.task113.parsers;
 /**
  * A base class for lexers.
  *
- * @param <Data> The data stored in the tokens.
+ * @param <TokenDataT> The data stored in the tokens.
  */
-public abstract class Lexer<Data> implements TokenReader<Data> {
+public abstract class Lexer<TokenDataT> implements TokenReader<TokenDataT> {
     /**
-     * The {@code reader} value corresponding to the end of file
+     * The {@code reader} value corresponding to the end of file.
      */
     protected static final int CHAR_EOF = -1;
 
@@ -15,7 +15,7 @@ public abstract class Lexer<Data> implements TokenReader<Data> {
      * The character reader.
      */
     protected final TokenReader<Integer> reader;
-    private Token<Data> nextToken;
+    private Token<TokenDataT> nextToken;
 
     /**
      * Constructs a new lexer.
@@ -32,7 +32,7 @@ public abstract class Lexer<Data> implements TokenReader<Data> {
      *
      * @return The read token.
      */
-    protected abstract Token<Data> readToken();
+    protected abstract Token<TokenDataT> readToken();
 
     /**
      * Checks if the token is an EOF token.
@@ -40,7 +40,7 @@ public abstract class Lexer<Data> implements TokenReader<Data> {
      * @param token The token.
      * @return Whether the token is an EOF token.
      */
-    protected abstract boolean isEnd(Token<Data> token);
+    protected abstract boolean isEnd(Token<TokenDataT> token);
 
     /**
      * Skips until the first non-whitespace character in the reader.
@@ -65,7 +65,7 @@ public abstract class Lexer<Data> implements TokenReader<Data> {
      * {@inheritDoc}
      */
     @Override
-    public Token<Data> peek() {
+    public Token<TokenDataT> peek() {
         if (nextToken == null) {
             nextToken = readToken();
         }
@@ -76,7 +76,7 @@ public abstract class Lexer<Data> implements TokenReader<Data> {
      * {@inheritDoc}
      */
     @Override
-    public Token<Data> consume() {
+    public Token<TokenDataT> consume() {
         if (nextToken == null) {
             nextToken = readToken();
         }
