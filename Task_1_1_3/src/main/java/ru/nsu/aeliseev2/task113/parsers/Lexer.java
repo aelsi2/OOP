@@ -1,4 +1,4 @@
-package ru.nsu.aeliseev2.task113.parsing;
+package ru.nsu.aeliseev2.task113.parsers;
 
 public abstract class Lexer<Data> implements TokenReader<Data> {
     protected static final int CHAR_EOF = -1;

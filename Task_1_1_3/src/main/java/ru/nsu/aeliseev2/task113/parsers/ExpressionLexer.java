@@ -1,18 +1,18 @@
-package ru.nsu.aeliseev2.task113.parsing;
+package ru.nsu.aeliseev2.task113.parsers;
 
 import java.io.Reader;
 import java.io.StringReader;
 
-public class EvalContextLexer extends Lexer<EvalContextTokenData> {
-    public EvalContextLexer(String string) {
+public class ExpressionLexer extends Lexer<ExpressionTokenData> {
+    public ExpressionLexer(String string) {
         this(new StringReader(string));
     }
 
-    public EvalContextLexer(Reader reader) {
+    public ExpressionLexer(Reader reader) {
         this(new CharReader(reader));
     }
 
-    public EvalContextLexer(TokenReader<Integer> reader) {
+    public ExpressionLexer(TokenReader<Integer> reader) {
         super(reader);
     }
 
@@ -28,7 +28,7 @@ public class EvalContextLexer extends Lexer<EvalContextTokenData> {
         return Character.isDigit(ch);
     }
 
-    private Token<EvalContextTokenData> readName() {
+    private Token<ExpressionTokenData> readName() {
         var builder = new StringBuilder();
         var rawToken = reader.peek();
         int position = rawToken.position();
@@ -38,15 +38,15 @@ public class EvalContextLexer extends Lexer<EvalContextTokenData> {
         }
         var value = builder.toString();
         if (value.equalsIgnoreCase("nan")) {
-            return new Token<>(EvalContextTokenData.NAN, position);
+            return new Token<>(ExpressionTokenData.NAN, position);
         }
         if (value.equalsIgnoreCase("inf")) {
-            return new Token<>(EvalContextTokenData.INF, position);
+            return new Token<>(ExpressionTokenData.INF, position);
         }
-        return new Token<>(new EvalContextTokenData.Name(value), position);
+        return new Token<>(new ExpressionTokenData.Name(value), position);
     }
 
-    private Token<EvalContextTokenData> readNumber() {
+    private Token<ExpressionTokenData> readNumber() {
         var builder = new StringBuilder();
         var rawToken = reader.peek();
         int position = rawToken.position();
@@ -55,28 +55,40 @@ public class EvalContextLexer extends Lexer<EvalContextTokenData> {
         }
         if ((char) (int) rawToken.data() != '.') {
             double value = Double.parseDouble(builder.toString());
-            return new Token<>(new EvalContextTokenData.Number(value), position);
+            return new Token<>(new ExpressionTokenData.Number(value), position);
         }
         do {
             builder.append((char) (int) reader.consume().data());
         } while (isDigit(reader.peek().data()));
         double value = Double.parseDouble(builder.toString());
-        return new Token<>(new EvalContextTokenData.Number(value), position);
+        return new Token<>(new ExpressionTokenData.Number(value), position);
     }
 
     @Override
-    protected Token<EvalContextTokenData> readToken() {
+    protected Token<ExpressionTokenData> readToken() {
         Token<Integer> rawToken = skipWhitespace();
         if (rawToken.data() == CHAR_EOF) {
-            return new Token<>(EvalContextTokenData.EOF, rawToken.position());
+            return new Token<>(ExpressionTokenData.EOF, rawToken.position());
         }
         switch ((char) (int) rawToken.data()) {
-            case '=':
+            case '(':
                 reader.consume();
-                return new Token<>(EvalContextTokenData.EQUALS, rawToken.position());
-            case ';':
+                return new Token<>(ExpressionTokenData.LEFT_PAREN, rawToken.position());
+            case ')':
                 reader.consume();
-                return new Token<>(EvalContextTokenData.SEMICOLON, rawToken.position());
+                return new Token<>(ExpressionTokenData.RIGHT_PAREN, rawToken.position());
+            case '+':
+                reader.consume();
+                return new Token<>(ExpressionTokenData.PLUS, rawToken.position());
+            case '-':
+                reader.consume();
+                return new Token<>(ExpressionTokenData.MINUS, rawToken.position());
+            case '*':
+                reader.consume();
+                return new Token<>(ExpressionTokenData.MULTIPLY, rawToken.position());
+            case '/':
+                reader.consume();
+                return new Token<>(ExpressionTokenData.DIVIDE, rawToken.position());
             default:
                 break;
         }
@@ -90,8 +102,8 @@ public class EvalContextLexer extends Lexer<EvalContextTokenData> {
     }
 
     @Override
-    protected boolean isEnd(Token<EvalContextTokenData> token) {
-        return token.data().equals(EvalContextTokenData.EOF);
+    protected boolean isEnd(Token<ExpressionTokenData> token) {
+        return token.data().equals(ExpressionTokenData.EOF);
     }
 
 }

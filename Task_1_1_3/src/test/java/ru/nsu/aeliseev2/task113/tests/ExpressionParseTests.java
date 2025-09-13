@@ -10,7 +10,7 @@ import ru.nsu.aeliseev2.task113.expressions.Negation;
 import ru.nsu.aeliseev2.task113.expressions.Number;
 import ru.nsu.aeliseev2.task113.expressions.Subtraction;
 import ru.nsu.aeliseev2.task113.expressions.Variable;
-import ru.nsu.aeliseev2.task113.parsing.ExpressionParseException;
+import ru.nsu.aeliseev2.task113.parsers.ExpressionParseException;
 
 class ExpressionParseTests {
     @Test

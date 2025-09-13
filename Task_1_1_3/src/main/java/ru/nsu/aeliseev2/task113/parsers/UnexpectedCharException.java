@@ -1,4 +1,4 @@
-package ru.nsu.aeliseev2.task113.parsing;
+package ru.nsu.aeliseev2.task113.parsers;
 
 public class UnexpectedCharException extends ExpressionParseException {
     int character;
