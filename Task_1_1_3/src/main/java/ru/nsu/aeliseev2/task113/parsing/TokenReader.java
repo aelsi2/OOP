@@ -4,6 +4,4 @@ public interface TokenReader<TokenType> extends AutoCloseable {
     Token<TokenType> peek();
 
     Token<TokenType> consume();
-
-    Token<TokenType> consume(TokenType expected);
 }
