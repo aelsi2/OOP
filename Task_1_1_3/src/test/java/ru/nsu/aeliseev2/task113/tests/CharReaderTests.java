@@ -13,25 +13,25 @@ class CharReaderTests {
     @Test
     void consume() {
         var reader = new CharReader(new StringReader("abcdef"));
-        Assertions.assertEquals(new Token<>((int)'a', 0), reader.consume());
-        Assertions.assertEquals(new Token<>((int)'b', 1), reader.consume());
-        Assertions.assertEquals(new Token<>((int)'c', 2), reader.consume());
-        Assertions.assertEquals(new Token<>((int)'d', 3), reader.consume());
-        Assertions.assertEquals(new Token<>((int)'e', 4), reader.consume());
-        Assertions.assertEquals(new Token<>((int)'f', 5), reader.consume());
+        Assertions.assertEquals(new Token<>((int) 'a', 0), reader.consume());
+        Assertions.assertEquals(new Token<>((int) 'b', 1), reader.consume());
+        Assertions.assertEquals(new Token<>((int) 'c', 2), reader.consume());
+        Assertions.assertEquals(new Token<>((int) 'd', 3), reader.consume());
+        Assertions.assertEquals(new Token<>((int) 'e', 4), reader.consume());
+        Assertions.assertEquals(new Token<>((int) 'f', 5), reader.consume());
     }
 
     @Test
     void peek() {
         var reader = new CharReader(new StringReader("abcdef"));
-        Assertions.assertEquals(new Token<>((int)'a', 0), reader.peek());
-        Assertions.assertEquals(new Token<>((int)'a', 0), reader.peek());
-        Assertions.assertEquals(new Token<>((int)'a', 0), reader.consume());
-        Assertions.assertEquals(new Token<>((int)'b', 1), reader.consume());
-        Assertions.assertEquals(new Token<>((int)'c', 2), reader.peek());
-        Assertions.assertEquals(new Token<>((int)'c', 2), reader.peek());
-        Assertions.assertEquals(new Token<>((int)'c', 2), reader.consume());
-        Assertions.assertEquals(new Token<>((int)'d', 3), reader.consume());
+        Assertions.assertEquals(new Token<>((int) 'a', 0), reader.peek());
+        Assertions.assertEquals(new Token<>((int) 'a', 0), reader.peek());
+        Assertions.assertEquals(new Token<>((int) 'a', 0), reader.consume());
+        Assertions.assertEquals(new Token<>((int) 'b', 1), reader.consume());
+        Assertions.assertEquals(new Token<>((int) 'c', 2), reader.peek());
+        Assertions.assertEquals(new Token<>((int) 'c', 2), reader.peek());
+        Assertions.assertEquals(new Token<>((int) 'c', 2), reader.consume());
+        Assertions.assertEquals(new Token<>((int) 'd', 3), reader.consume());
     }
 
     @Test
