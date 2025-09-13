@@ -5,16 +5,16 @@ public class UnexpectedCharException extends ExpressionParseException {
 
     private static String charToString(int ch) {
         if (ch == -1) {
-            return "EOF";
+            return "{EOF}";
         } else {
-            return "'" + ch + "'";
+            return String.valueOf((char)ch);
         }
     }
 
     public UnexpectedCharException(Token<Integer> token) {
         super(
             String.format(
-                "Unexpected character %s at position %d.",
+                "Unexpected character '%s' at position %d.",
                 charToString(token.data()),
                 token.position()),
             token.position());

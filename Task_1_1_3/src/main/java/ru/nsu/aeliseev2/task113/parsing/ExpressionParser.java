@@ -19,17 +19,18 @@ public class ExpressionParser implements AutoCloseable {
     private Expression parseAtom() {
         var token = lexer.consume();
         if (token.data() instanceof ExpressionTokenData.Name(String value)) {
-            if (value.equalsIgnoreCase("nan")) {
-                return new Number(Double.NaN);
-            } else if (value.equalsIgnoreCase("inf")) {
-                return new Number(Double.POSITIVE_INFINITY);
-            }
             return new Variable(value);
+        }
+        if (token.data().equals(ExpressionTokenData.INF)) {
+            return new Number(Double.POSITIVE_INFINITY);
+        }
+        if (token.data().equals(ExpressionTokenData.NAN)) {
+            return new Number(Double.NaN);
         }
         if (token.data() instanceof ExpressionTokenData.Number(double value)) {
             return new Number(value);
         }
-        if (token.data() == ExpressionTokenData.LEFT_PAREN) {
+        if (token.data().equals(ExpressionTokenData.LEFT_PAREN)) {
             var expr = parseAddSub();
             token = lexer.consume();
             if (!token.data().equals(ExpressionTokenData.RIGHT_PAREN)) {
@@ -41,16 +42,14 @@ public class ExpressionParser implements AutoCloseable {
     }
 
     private Expression parseNeg() {
-        if (lexer.peek().data() != ExpressionTokenData.MINUS) {
+        if (!lexer.peek().data().equals(ExpressionTokenData.MINUS)) {
             return parseAtom();
         }
         lexer.consume();
         var token = lexer.peek();
-        if (token.data() instanceof ExpressionTokenData.Name(String value)) {
-            if (value.equalsIgnoreCase("inf")) {
-                lexer.consume();
-                return new Number(Double.NEGATIVE_INFINITY);
-            }
+        if (token.data().equals(ExpressionTokenData.INF)) {
+            lexer.consume();
+            return new Number(Double.NEGATIVE_INFINITY);
         }
         if (token.data() instanceof ExpressionTokenData.Number(double value)) {
             lexer.consume();
@@ -63,10 +62,10 @@ public class ExpressionParser implements AutoCloseable {
         var expression = parseNeg();
         while (true) {
             var token = lexer.peek();
-            if (token.data() == ExpressionTokenData.MULTIPLY) {
+            if (token.data().equals(ExpressionTokenData.MULTIPLY)) {
                 lexer.consume();
                 expression = new Multiplication(expression, parseNeg());
-            } else if (token.data() == ExpressionTokenData.DIVIDE) {
+            } else if (token.data().equals(ExpressionTokenData.DIVIDE)) {
                 lexer.consume();
                 expression = new Division(expression, parseNeg());
             } else {
@@ -80,10 +79,10 @@ public class ExpressionParser implements AutoCloseable {
         var expression = parseMulDiv();
         while (true) {
             var token = lexer.peek();
-            if (token.data() == ExpressionTokenData.PLUS) {
+            if (token.data().equals(ExpressionTokenData.PLUS)) {
                 lexer.consume();
                 expression = new Addition(expression, parseMulDiv());
-            } else if (token.data() == ExpressionTokenData.MINUS) {
+            } else if (token.data().equals(ExpressionTokenData.MINUS)) {
                 lexer.consume();
                 expression = new Subtraction(expression, parseMulDiv());
             } else {
