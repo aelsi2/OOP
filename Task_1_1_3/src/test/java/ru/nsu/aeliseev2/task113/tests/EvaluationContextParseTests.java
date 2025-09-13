@@ -1,6 +1,5 @@
 package ru.nsu.aeliseev2.task113.tests;
 
-import java.text.ParseException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.nsu.aeliseev2.task113.EvaluationContext;
