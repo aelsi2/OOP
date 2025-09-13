@@ -3,9 +3,17 @@ package ru.nsu.aeliseev2.task113.parsers;
 import ru.nsu.aeliseev2.task113.EvaluationContext;
 import ru.nsu.aeliseev2.task113.HashMapEvaluationContext;
 
+/**
+ * A parser for {@code EvaluationContext} strings.
+ */
 public class EvalContextParser implements AutoCloseable {
     private final TokenReader<EvalContextTokenData> lexer;
 
+    /**
+     * Constructs a new evaluation context parser.
+     *
+     * @param lexer The lexer to use.
+     */
     public EvalContextParser(TokenReader<EvalContextTokenData> lexer) {
         this.lexer = lexer;
     }
@@ -47,6 +55,11 @@ public class EvalContextParser implements AutoCloseable {
         context.setVariable(name, value);
     }
 
+    /**
+     * Parses the evaluation context.
+     *
+     * @return The parsed evaluation context.
+     */
     public EvaluationContext parseEvaluationContext() {
         var evaluationContext = new HashMapEvaluationContext();
         if (lexer.peek().data().equals(EvalContextTokenData.EOF)) {
@@ -65,6 +78,11 @@ public class EvalContextParser implements AutoCloseable {
         return evaluationContext;
     }
 
+    /**
+     * Closes the lexer.
+     *
+     * @throws Exception Closing the lexer failed.
+     */
     @Override
     public void close() throws Exception {
         lexer.close();

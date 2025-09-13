@@ -9,9 +9,17 @@ import ru.nsu.aeliseev2.task113.expressions.Number;
 import ru.nsu.aeliseev2.task113.expressions.Subtraction;
 import ru.nsu.aeliseev2.task113.expressions.Variable;
 
+/**
+ * A parser for {@code Expression} strings.
+ */
 public class ExpressionParser implements AutoCloseable {
     private final TokenReader<ExpressionTokenData> lexer;
 
+    /**
+     * Constructs a new expression parser.
+     *
+     * @param lexer The lexer to use.
+     */
     public ExpressionParser(TokenReader<ExpressionTokenData> lexer) {
         this.lexer = lexer;
     }
@@ -92,6 +100,11 @@ public class ExpressionParser implements AutoCloseable {
         return expression;
     }
 
+    /**
+     * Parses the expression.
+     *
+     * @return The parsed expression.
+     */
     public Expression parseExpression() {
         var expression = parseAddSub();
         var token = lexer.consume();
@@ -101,6 +114,11 @@ public class ExpressionParser implements AutoCloseable {
         return expression;
     }
 
+    /**
+     * Closes the lexer.
+     *
+     * @throws Exception Closing the lexer failed.
+     */
     @Override
     public void close() throws Exception {
         lexer.close();

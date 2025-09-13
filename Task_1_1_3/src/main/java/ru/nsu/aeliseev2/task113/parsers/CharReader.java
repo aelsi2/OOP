@@ -3,6 +3,9 @@ package ru.nsu.aeliseev2.task113.parsers;
 import java.io.IOException;
 import java.io.Reader;
 
+/**
+ * A {@code TokenReader<>} for individual characters.
+ */
 public class CharReader implements TokenReader<Integer> {
     private static final int CHAR_EOF = -1;
     private static final int CHAR_NULL = -2;
@@ -11,6 +14,11 @@ public class CharReader implements TokenReader<Integer> {
     private int nextChar;
     private int position;
 
+    /**
+     * Constructs a new character reader.
+     *
+     * @param reader The internal reader.
+     */
     public CharReader(Reader reader) {
         this.reader = reader;
         this.position = 0;
@@ -22,13 +30,16 @@ public class CharReader implements TokenReader<Integer> {
             return;
         }
         try {
-            position++;
             nextChar = reader.read();
+            position++;
         } catch (IOException e) {
             throw new ExpressionParseException("IO error.", position, e);
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Token<Integer> peek() {
         if (nextChar == CHAR_NULL) {
@@ -37,6 +48,9 @@ public class CharReader implements TokenReader<Integer> {
         return new Token<>(nextChar, position);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Token<Integer> consume() {
         if (nextChar == CHAR_NULL) {
@@ -47,6 +61,11 @@ public class CharReader implements TokenReader<Integer> {
         return token;
     }
 
+    /**
+     * Closes the {@code reader}.
+     *
+     * @throws IOException {@code reader.close()} failed.
+     */
     @Override
     public void close() throws IOException {
         reader.close();

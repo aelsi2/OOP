@@ -3,15 +3,33 @@ package ru.nsu.aeliseev2.task113.parsers;
 import java.io.Reader;
 import java.io.StringReader;
 
+/**
+ * A lexer for {@code Expression} strings.
+ */
 public class ExpressionLexer extends Lexer<ExpressionTokenData> {
+    /**
+     * Constructs a new expression lexer from a string.
+     *
+     * @param string The string to tokenize.
+     */
     public ExpressionLexer(String string) {
         this(new StringReader(string));
     }
 
+    /**
+     * Constructs a new expression lexer from a standard reader.
+     *
+     * @param reader The {@code Reader} to use.
+     */
     public ExpressionLexer(Reader reader) {
         this(new CharReader(reader));
     }
 
+    /**
+     * Constructs a new expression lexer from a character token reader.
+     *
+     * @param reader The {@code TokenReader<>} to use.
+     */
     public ExpressionLexer(TokenReader<Integer> reader) {
         super(reader);
     }
@@ -64,6 +82,9 @@ public class ExpressionLexer extends Lexer<ExpressionTokenData> {
         return new Token<>(new ExpressionTokenData.Number(value), position);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected Token<ExpressionTokenData> readToken() {
         Token<Integer> rawToken = skipWhitespace();
@@ -101,6 +122,9 @@ public class ExpressionLexer extends Lexer<ExpressionTokenData> {
         throw new UnexpectedCharException(rawToken);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected boolean isEnd(Token<ExpressionTokenData> token) {
         return token.data().equals(ExpressionTokenData.EOF);
