@@ -20,10 +20,10 @@ public class EvalContextParser implements AutoCloseable {
 
     private String readName() {
         var token = lexer.consume();
-        if (!(token.data() instanceof EvalContextTokenData.Name(String text))) {
+        if (!(token.data() instanceof EvalContextTokenData.Name name)) {
             throw new UnexpectedCtxTokenException(token);
         }
-        return text;
+        return name.value();
     }
 
     private double readValue() {
@@ -39,8 +39,8 @@ public class EvalContextParser implements AutoCloseable {
         if (token.data().equals(EvalContextTokenData.INF)) {
             return negative ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
         }
-        if (token.data() instanceof EvalContextTokenData.Number(double value)) {
-            return negative ? -value : value;
+        if (token.data() instanceof EvalContextTokenData.Number number) {
+            return negative ? -number.value() : number.value();
         }
         throw new UnexpectedCtxTokenException(token);
     }

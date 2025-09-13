@@ -26,8 +26,8 @@ public class ExpressionParser implements AutoCloseable {
 
     private Expression parseAtom() {
         var token = lexer.consume();
-        if (token.data() instanceof ExpressionTokenData.Name(String value)) {
-            return new Variable(value);
+        if (token.data() instanceof ExpressionTokenData.Name name) {
+            return new Variable(name.value());
         }
         if (token.data().equals(ExpressionTokenData.INF)) {
             return new Number(Double.POSITIVE_INFINITY);
@@ -35,8 +35,8 @@ public class ExpressionParser implements AutoCloseable {
         if (token.data().equals(ExpressionTokenData.NAN)) {
             return new Number(Double.NaN);
         }
-        if (token.data() instanceof ExpressionTokenData.Number(double value)) {
-            return new Number(value);
+        if (token.data() instanceof ExpressionTokenData.Number number) {
+            return new Number(number.value());
         }
         if (token.data().equals(ExpressionTokenData.LEFT_PAREN)) {
             var expr = parseAddSub();
@@ -59,9 +59,9 @@ public class ExpressionParser implements AutoCloseable {
             lexer.consume();
             return new Number(Double.NEGATIVE_INFINITY);
         }
-        if (token.data() instanceof ExpressionTokenData.Number(double value)) {
+        if (token.data() instanceof ExpressionTokenData.Number number) {
             lexer.consume();
-            return new Number(-value);
+            return new Number(-number.value());
         }
         return new Negation(parseNeg());
     }
