@@ -145,15 +145,6 @@ public class ExpressionLexer implements TokenReader<ExpressionTokenData> {
     }
 
     @Override
-    public Token<ExpressionTokenData> consume(ExpressionTokenData expected) {
-        var token = consume();
-        if (!token.data().equals(expected)) {
-            throw new UnexpectedExprTokenException(token);
-        }
-        return token;
-    }
-
-    @Override
     public void close() throws Exception {
         reader.close();
     }

@@ -48,15 +48,6 @@ public class CharReader implements TokenReader<Integer> {
     }
 
     @Override
-    public Token<Integer> consume(Integer expected) {
-        var token = consume();
-        if (!token.data().equals(expected)) {
-            throw new UnexpectedCharException(token);
-        }
-        return token;
-    }
-
-    @Override
     public void close() throws IOException {
         reader.close();
     }

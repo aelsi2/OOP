@@ -9,7 +9,7 @@ import ru.nsu.aeliseev2.task113.expressions.Number;
 import ru.nsu.aeliseev2.task113.expressions.Subtraction;
 import ru.nsu.aeliseev2.task113.expressions.Variable;
 
-public class ExpressionParser {
+public class ExpressionParser implements AutoCloseable {
     private final TokenReader<ExpressionTokenData> lexer;
 
     public ExpressionParser(TokenReader<ExpressionTokenData> lexer) {
@@ -31,7 +31,10 @@ public class ExpressionParser {
         }
         if (token.data() == ExpressionTokenData.LEFT_PAREN) {
             var expr = parseAddSub();
-            lexer.consume(ExpressionTokenData.RIGHT_PAREN);
+            token = lexer.consume();
+            if (!token.data().equals(ExpressionTokenData.RIGHT_PAREN)) {
+                throw new UnexpectedExprTokenException(token);
+            }
             return expr;
         }
         throw new UnexpectedExprTokenException(token);
@@ -92,7 +95,15 @@ public class ExpressionParser {
 
     public Expression parseExpression() {
         var expression = parseAddSub();
-        lexer.consume(ExpressionTokenData.EOF);
+        var token = lexer.consume();
+        if (!token.data().equals(ExpressionTokenData.EOF)) {
+            throw new UnexpectedExprTokenException(token);
+        }
         return expression;
+    }
+
+    @Override
+    public void close() throws Exception {
+        lexer.close();
     }
 }
