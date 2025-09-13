@@ -1,18 +1,18 @@
-package ru.nsu.aeliseev2.task113.parsing;
+package ru.nsu.aeliseev2.task113.parsers;
 
 import java.io.Reader;
 import java.io.StringReader;
 
-public class ExpressionLexer extends Lexer<ExpressionTokenData> {
-    public ExpressionLexer(String string) {
+public class EvalContextLexer extends Lexer<EvalContextTokenData> {
+    public EvalContextLexer(String string) {
         this(new StringReader(string));
     }
 
-    public ExpressionLexer(Reader reader) {
+    public EvalContextLexer(Reader reader) {
         this(new CharReader(reader));
     }
 
-    public ExpressionLexer(TokenReader<Integer> reader) {
+    public EvalContextLexer(TokenReader<Integer> reader) {
         super(reader);
     }
 
@@ -28,7 +28,7 @@ public class ExpressionLexer extends Lexer<ExpressionTokenData> {
         return Character.isDigit(ch);
     }
 
-    private Token<ExpressionTokenData> readName() {
+    private Token<EvalContextTokenData> readName() {
         var builder = new StringBuilder();
         var rawToken = reader.peek();
         int position = rawToken.position();
@@ -38,15 +38,15 @@ public class ExpressionLexer extends Lexer<ExpressionTokenData> {
         }
         var value = builder.toString();
         if (value.equalsIgnoreCase("nan")) {
-            return new Token<>(ExpressionTokenData.NAN, position);
+            return new Token<>(EvalContextTokenData.NAN, position);
         }
         if (value.equalsIgnoreCase("inf")) {
-            return new Token<>(ExpressionTokenData.INF, position);
+            return new Token<>(EvalContextTokenData.INF, position);
         }
-        return new Token<>(new ExpressionTokenData.Name(value), position);
+        return new Token<>(new EvalContextTokenData.Name(value), position);
     }
 
-    private Token<ExpressionTokenData> readNumber() {
+    private Token<EvalContextTokenData> readNumber() {
         var builder = new StringBuilder();
         var rawToken = reader.peek();
         int position = rawToken.position();
@@ -55,40 +55,28 @@ public class ExpressionLexer extends Lexer<ExpressionTokenData> {
         }
         if ((char) (int) rawToken.data() != '.') {
             double value = Double.parseDouble(builder.toString());
-            return new Token<>(new ExpressionTokenData.Number(value), position);
+            return new Token<>(new EvalContextTokenData.Number(value), position);
         }
         do {
             builder.append((char) (int) reader.consume().data());
         } while (isDigit(reader.peek().data()));
         double value = Double.parseDouble(builder.toString());
-        return new Token<>(new ExpressionTokenData.Number(value), position);
+        return new Token<>(new EvalContextTokenData.Number(value), position);
     }
 
     @Override
-    protected Token<ExpressionTokenData> readToken() {
+    protected Token<EvalContextTokenData> readToken() {
         Token<Integer> rawToken = skipWhitespace();
         if (rawToken.data() == CHAR_EOF) {
-            return new Token<>(ExpressionTokenData.EOF, rawToken.position());
+            return new Token<>(EvalContextTokenData.EOF, rawToken.position());
         }
         switch ((char) (int) rawToken.data()) {
-            case '(':
+            case '=':
                 reader.consume();
-                return new Token<>(ExpressionTokenData.LEFT_PAREN, rawToken.position());
-            case ')':
+                return new Token<>(EvalContextTokenData.EQUALS, rawToken.position());
+            case ';':
                 reader.consume();
-                return new Token<>(ExpressionTokenData.RIGHT_PAREN, rawToken.position());
-            case '+':
-                reader.consume();
-                return new Token<>(ExpressionTokenData.PLUS, rawToken.position());
-            case '-':
-                reader.consume();
-                return new Token<>(ExpressionTokenData.MINUS, rawToken.position());
-            case '*':
-                reader.consume();
-                return new Token<>(ExpressionTokenData.MULTIPLY, rawToken.position());
-            case '/':
-                reader.consume();
-                return new Token<>(ExpressionTokenData.DIVIDE, rawToken.position());
+                return new Token<>(EvalContextTokenData.SEMICOLON, rawToken.position());
             default:
                 break;
         }
@@ -102,8 +90,8 @@ public class ExpressionLexer extends Lexer<ExpressionTokenData> {
     }
 
     @Override
-    protected boolean isEnd(Token<ExpressionTokenData> token) {
-        return token.data().equals(ExpressionTokenData.EOF);
+    protected boolean isEnd(Token<EvalContextTokenData> token) {
+        return token.data().equals(EvalContextTokenData.EOF);
     }
 
 }

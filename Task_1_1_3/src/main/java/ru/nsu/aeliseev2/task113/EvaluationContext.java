@@ -2,9 +2,9 @@ package ru.nsu.aeliseev2.task113;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import ru.nsu.aeliseev2.task113.parsing.EvalContextLexer;
-import ru.nsu.aeliseev2.task113.parsing.EvalContextParser;
-import ru.nsu.aeliseev2.task113.parsing.ExpressionParseException;
+import ru.nsu.aeliseev2.task113.parsers.EvalContextLexer;
+import ru.nsu.aeliseev2.task113.parsers.EvalContextParser;
+import ru.nsu.aeliseev2.task113.parsers.ExpressionParseException;
 
 /**
  * A map containing the values of the variables needed for the evaluation of an expression.

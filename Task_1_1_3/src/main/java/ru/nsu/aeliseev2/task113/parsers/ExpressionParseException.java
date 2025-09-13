@@ -1,4 +1,4 @@
-package ru.nsu.aeliseev2.task113.parsing;
+package ru.nsu.aeliseev2.task113.parsers;
 
 public class ExpressionParseException extends RuntimeException {
     public final int position;

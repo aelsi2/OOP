@@ -2,9 +2,9 @@ package ru.nsu.aeliseev2.task113.expressions;
 
 import java.util.Objects;
 import ru.nsu.aeliseev2.task113.EvaluationContext;
-import ru.nsu.aeliseev2.task113.parsing.ExpressionLexer;
-import ru.nsu.aeliseev2.task113.parsing.ExpressionParseException;
-import ru.nsu.aeliseev2.task113.parsing.ExpressionParser;
+import ru.nsu.aeliseev2.task113.parsers.ExpressionLexer;
+import ru.nsu.aeliseev2.task113.parsers.ExpressionParseException;
+import ru.nsu.aeliseev2.task113.parsers.ExpressionParser;
 
 /**
  * Represents an arithmetic expression with zero or more variables.

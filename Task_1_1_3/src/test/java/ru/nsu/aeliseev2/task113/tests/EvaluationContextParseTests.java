@@ -3,7 +3,7 @@ package ru.nsu.aeliseev2.task113.tests;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.nsu.aeliseev2.task113.EvaluationContext;
-import ru.nsu.aeliseev2.task113.parsing.ExpressionParseException;
+import ru.nsu.aeliseev2.task113.parsers.ExpressionParseException;
 
 class EvaluationContextParseTests {
     @Test
