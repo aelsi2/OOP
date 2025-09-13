@@ -11,6 +11,7 @@ import ru.nsu.aeliseev2.task113.expressions.Number;
 import ru.nsu.aeliseev2.task113.expressions.Subtraction;
 import ru.nsu.aeliseev2.task113.expressions.Variable;
 import ru.nsu.aeliseev2.task113.parsers.ExpressionParseException;
+import ru.nsu.aeliseev2.task113.parsers.UnexpectedCharException;
 
 class ExpressionParseTests {
     @Test
@@ -18,6 +19,13 @@ class ExpressionParseTests {
         String string = "1 +";
         Assertions.assertThrows(ExpressionParseException.class, () -> {
             Expression.parse(string);
+        });
+    }
+
+    @Test
+    void invalidChar() {
+        Assertions.assertThrows(UnexpectedCharException.class, () -> {
+            Expression.parse("@");
         });
     }
 

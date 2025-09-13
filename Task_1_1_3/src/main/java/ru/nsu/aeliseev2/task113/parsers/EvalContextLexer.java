@@ -92,6 +92,9 @@ public class EvalContextLexer extends Lexer<EvalContextTokenData> {
             return new Token<>(EvalContextTokenData.EOF, rawToken.position());
         }
         switch ((char) (int) rawToken.data()) {
+            case '-':
+                reader.consume();
+                return new Token<>(EvalContextTokenData.MINUS, rawToken.position());
             case '=':
                 reader.consume();
                 return new Token<>(EvalContextTokenData.EQUALS, rawToken.position());
