@@ -3,15 +3,33 @@ package ru.nsu.aeliseev2.task113.parsers;
 import java.io.Reader;
 import java.io.StringReader;
 
+/**
+ * A lexer for {@code EvaluationContext} strings.
+ */
 public class EvalContextLexer extends Lexer<EvalContextTokenData> {
+    /**
+     * Constructs a new evaluation context lexer from a string.
+     *
+     * @param string The string to tokenize.
+     */
     public EvalContextLexer(String string) {
         this(new StringReader(string));
     }
 
+    /**
+     * Constructs a new evaluation context lexer from a standard reader.
+     *
+     * @param reader The {@code Reader} to use.
+     */
     public EvalContextLexer(Reader reader) {
         this(new CharReader(reader));
     }
 
+    /**
+     * Constructs a new evaluation context lexer from a character token reader.
+     *
+     * @param reader The {@code TokenReader<>} to use.
+     */
     public EvalContextLexer(TokenReader<Integer> reader) {
         super(reader);
     }
@@ -64,6 +82,9 @@ public class EvalContextLexer extends Lexer<EvalContextTokenData> {
         return new Token<>(new EvalContextTokenData.Number(value), position);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected Token<EvalContextTokenData> readToken() {
         Token<Integer> rawToken = skipWhitespace();
@@ -89,6 +110,9 @@ public class EvalContextLexer extends Lexer<EvalContextTokenData> {
         throw new UnexpectedCharException(rawToken);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected boolean isEnd(Token<EvalContextTokenData> token) {
         return token.data().equals(EvalContextTokenData.EOF);

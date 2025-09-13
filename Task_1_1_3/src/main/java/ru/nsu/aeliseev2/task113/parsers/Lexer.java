@@ -1,19 +1,52 @@
 package ru.nsu.aeliseev2.task113.parsers;
 
+/**
+ * A base class for lexers.
+ *
+ * @param <Data> The data stored in the tokens.
+ */
 public abstract class Lexer<Data> implements TokenReader<Data> {
+    /**
+     * The {@code reader} value corresponding to the end of file
+     */
     protected static final int CHAR_EOF = -1;
 
+    /**
+     * The character reader.
+     */
     protected final TokenReader<Integer> reader;
     private Token<Data> nextToken;
 
+    /**
+     * Constructs a new lexer.
+     *
+     * @param reader The character reader.
+     */
     public Lexer(TokenReader<Integer> reader) {
         this.reader = reader;
         this.nextToken = null;
     }
 
+    /**
+     * Reads the next token from {@code reader}.
+     *
+     * @return The read token.
+     */
     protected abstract Token<Data> readToken();
+
+    /**
+     * Checks if the token is an EOF token.
+     *
+     * @param token The token.
+     * @return Whether the token is an EOF token.
+     */
     protected abstract boolean isEnd(Token<Data> token);
 
+    /**
+     * Skips until the first non-whitespace character in the reader.
+     *
+     * @return The first non-whitespace character.
+     */
     protected Token<Integer> skipWhitespace() {
         while (true) {
             var rawToken = reader.peek();
@@ -28,6 +61,9 @@ public abstract class Lexer<Data> implements TokenReader<Data> {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Token<Data> peek() {
         if (nextToken == null) {
@@ -36,6 +72,9 @@ public abstract class Lexer<Data> implements TokenReader<Data> {
         return nextToken;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Token<Data> consume() {
         if (nextToken == null) {
@@ -48,6 +87,9 @@ public abstract class Lexer<Data> implements TokenReader<Data> {
         return token;
     }
 
+    /**
+     * Closes the {@code reader}.
+     */
     @Override
     public void close() throws Exception {
         reader.close();
