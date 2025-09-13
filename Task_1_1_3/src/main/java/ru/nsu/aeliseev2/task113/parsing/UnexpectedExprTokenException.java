@@ -6,7 +6,7 @@ public class UnexpectedExprTokenException extends ExpressionParseException {
     public UnexpectedExprTokenException(Token<ExpressionTokenData> token) {
         super(
             String.format(
-                "Unexpected token %s at position %d.",
+                "Unexpected token '%s' at position %d.",
                 token.data(),
                 token.position()),
             token.position());

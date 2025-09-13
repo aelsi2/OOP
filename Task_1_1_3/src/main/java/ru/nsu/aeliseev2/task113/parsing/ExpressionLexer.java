@@ -3,12 +3,7 @@ package ru.nsu.aeliseev2.task113.parsing;
 import java.io.Reader;
 import java.io.StringReader;
 
-public class ExpressionLexer implements TokenReader<ExpressionTokenData> {
-    private static final int CHAR_EOF = -1;
-
-    private final TokenReader<Integer> reader;
-    private Token<ExpressionTokenData> nextToken;
-
+public class ExpressionLexer extends Lexer<ExpressionTokenData> {
     public ExpressionLexer(String string) {
         this(new StringReader(string));
     }
@@ -18,8 +13,7 @@ public class ExpressionLexer implements TokenReader<ExpressionTokenData> {
     }
 
     public ExpressionLexer(TokenReader<Integer> reader) {
-        this.reader = reader;
-        this.nextToken = null;
+        super(reader);
     }
 
     private static boolean isNameStart(int ch) {
@@ -43,6 +37,12 @@ public class ExpressionLexer implements TokenReader<ExpressionTokenData> {
             reader.consume();
         }
         var value = builder.toString();
+        if (value.equalsIgnoreCase("nan")) {
+            return new Token<>(ExpressionTokenData.NAN, position);
+        }
+        if (value.equalsIgnoreCase("inf")) {
+            return new Token<>(ExpressionTokenData.INF, position);
+        }
         return new Token<>(new ExpressionTokenData.Name(value), position);
     }
 
@@ -64,88 +64,46 @@ public class ExpressionLexer implements TokenReader<ExpressionTokenData> {
         return new Token<>(new ExpressionTokenData.Number(value), position);
     }
 
-    private Token<Integer> skipWhitespace() {
-        while (true) {
-            var rawToken = reader.peek();
-            if (rawToken.data() == CHAR_EOF) {
-                return rawToken;
-            }
-            if (Character.isWhitespace(rawToken.data())) {
-                reader.consume();
-                continue;
-            }
-            return rawToken;
-        }
-    }
-
-    private void readNext() {
-        if (nextToken != null && nextToken.data().equals(ExpressionTokenData.EOF)) {
-            return;
-        }
+    @Override
+    protected Token<ExpressionTokenData> readToken() {
         Token<Integer> rawToken = skipWhitespace();
         if (rawToken.data() == CHAR_EOF) {
-            nextToken = new Token<>(ExpressionTokenData.EOF, rawToken.position());
-            return;
+            return new Token<>(ExpressionTokenData.EOF, rawToken.position());
         }
         switch ((char) (int) rawToken.data()) {
             case '(':
                 reader.consume();
-                nextToken = new Token<>(ExpressionTokenData.LEFT_PAREN, rawToken.position());
-                return;
+                return new Token<>(ExpressionTokenData.LEFT_PAREN, rawToken.position());
             case ')':
                 reader.consume();
-                nextToken = new Token<>(ExpressionTokenData.RIGHT_PAREN, rawToken.position());
-                return;
+                return new Token<>(ExpressionTokenData.RIGHT_PAREN, rawToken.position());
             case '+':
                 reader.consume();
-                nextToken = new Token<>(ExpressionTokenData.PLUS, rawToken.position());
-                return;
+                return new Token<>(ExpressionTokenData.PLUS, rawToken.position());
             case '-':
                 reader.consume();
-                nextToken = new Token<>(ExpressionTokenData.MINUS, rawToken.position());
-                return;
+                return new Token<>(ExpressionTokenData.MINUS, rawToken.position());
             case '*':
                 reader.consume();
-                nextToken = new Token<>(ExpressionTokenData.MULTIPLY, rawToken.position());
-                return;
+                return new Token<>(ExpressionTokenData.MULTIPLY, rawToken.position());
             case '/':
                 reader.consume();
-                nextToken = new Token<>(ExpressionTokenData.DIVIDE, rawToken.position());
-                return;
+                return new Token<>(ExpressionTokenData.DIVIDE, rawToken.position());
             default:
                 break;
         }
         if (isNameStart(rawToken.data())) {
-            nextToken = readName();
-            return;
+            return readName();
         }
         if (isDigit(rawToken.data())) {
-            nextToken = readNumber();
-            return;
+            return readNumber();
         }
         throw new UnexpectedCharException(rawToken);
     }
 
     @Override
-    public Token<ExpressionTokenData> peek() {
-        if (nextToken == null) {
-            readNext();
-        }
-        return nextToken;
+    protected boolean isEnd(Token<ExpressionTokenData> token) {
+        return token.data().equals(ExpressionTokenData.EOF);
     }
 
-    @Override
-    public Token<ExpressionTokenData> consume() {
-        if (nextToken == null) {
-            readNext();
-        }
-        var token = nextToken;
-        nextToken = null;
-        return token;
-    }
-
-    @Override
-    public void close() throws Exception {
-        reader.close();
-    }
 }
