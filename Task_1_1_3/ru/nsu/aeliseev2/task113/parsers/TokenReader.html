@@ -68,12 +68,12 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">ru.nsu.aeliseev2.task113.parsers</a></div>
-<h1 title="Interface TokenReader" class="title">Interface TokenReader&lt;TokenType&gt;</h1>
+<h1 title="Interface TokenReader" class="title">Interface TokenReader&lt;TokenDataT&gt;</h1>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>Type Parameters:</dt>
-<dd><code>TokenType</code> - The data stored in the tokens.</dd>
+<dd><code>TokenDataT</code> - The data stored in the tokens.</dd>
 </dl>
 <dl class="notes">
 <dt>All Superinterfaces:</dt>
@@ -84,7 +84,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="CharReader.html" title="class in ru.nsu.aeliseev2.task113.parsers">CharReader</a></code>, <code><a href="EvalContextLexer.html" title="class in ru.nsu.aeliseev2.task113.parsers">EvalContextLexer</a></code>, <code><a href="ExpressionLexer.html" title="class in ru.nsu.aeliseev2.task113.parsers">ExpressionLexer</a></code>, <code><a href="Lexer.html" title="class in ru.nsu.aeliseev2.task113.parsers">Lexer</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">TokenReader&lt;TokenType&gt;</span><span class="extends-implements">
+<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">TokenReader&lt;TokenDataT&gt;</span><span class="extends-implements">
 extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/AutoCloseable.html" title="class or interface in java.lang" class="external-link">AutoCloseable</a></span></div>
 <div class="block">Represents a token reader with a single token lookahead.</div>
 </section>
@@ -101,12 +101,12 @@ extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/ja
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="Token.html" title="class in ru.nsu.aeliseev2.task113.parsers">Token</a>&lt;<a href="TokenReader.html" title="type parameter in TokenReader">TokenType</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="Token.html" title="class in ru.nsu.aeliseev2.task113.parsers">Token</a>&lt;<a href="TokenReader.html" title="type parameter in TokenReader">TokenDataT</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#consume()" class="member-name-link">consume</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Reads the next token and consumes it.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="Token.html" title="class in ru.nsu.aeliseev2.task113.parsers">Token</a>&lt;<a href="TokenReader.html" title="type parameter in TokenReader">TokenType</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="Token.html" title="class in ru.nsu.aeliseev2.task113.parsers">Token</a>&lt;<a href="TokenReader.html" title="type parameter in TokenReader">TokenDataT</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#peek()" class="member-name-link">peek</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Peeks at the next token without consuming it.</div>
@@ -131,7 +131,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/ja
 <li>
 <section class="detail" id="peek()">
 <h3>peek</h3>
-<div class="member-signature"><span class="return-type"><a href="Token.html" title="class in ru.nsu.aeliseev2.task113.parsers">Token</a>&lt;<a href="TokenReader.html" title="type parameter in TokenReader">TokenType</a>&gt;</span>&nbsp;<span class="element-name">peek</span>()</div>
+<div class="member-signature"><span class="return-type"><a href="Token.html" title="class in ru.nsu.aeliseev2.task113.parsers">Token</a>&lt;<a href="TokenReader.html" title="type parameter in TokenReader">TokenDataT</a>&gt;</span>&nbsp;<span class="element-name">peek</span>()</div>
 <div class="block">Peeks at the next token without consuming it.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -142,7 +142,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/ja
 <li>
 <section class="detail" id="consume()">
 <h3>consume</h3>
-<div class="member-signature"><span class="return-type"><a href="Token.html" title="class in ru.nsu.aeliseev2.task113.parsers">Token</a>&lt;<a href="TokenReader.html" title="type parameter in TokenReader">TokenType</a>&gt;</span>&nbsp;<span class="element-name">consume</span>()</div>
+<div class="member-signature"><span class="return-type"><a href="Token.html" title="class in ru.nsu.aeliseev2.task113.parsers">Token</a>&lt;<a href="TokenReader.html" title="type parameter in TokenReader">TokenDataT</a>&gt;</span>&nbsp;<span class="element-name">consume</span>()</div>
 <div class="block">Reads the next token and consumes it.</div>
 <dl class="notes">
 <dt>Returns:</dt>
