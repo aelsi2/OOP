@@ -1,15 +1,10 @@
 package ru.nsu.aeliseev2.task113.expressions;
 
-import java.text.ParseException;
 import java.util.Objects;
-import org.antlr.v4.runtime.BailErrorStrategy;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.RecognitionException;
-import org.antlr.v4.runtime.misc.ParseCancellationException;
 import ru.nsu.aeliseev2.task113.EvaluationContext;
-import ru.nsu.aeliseev2.task113.parsers.ExpressionLexer;
-import ru.nsu.aeliseev2.task113.parsers.ExpressionParser;
+import ru.nsu.aeliseev2.task113.parsing.ExpressionLexer;
+import ru.nsu.aeliseev2.task113.parsing.ExpressionParseException;
+import ru.nsu.aeliseev2.task113.parsing.ExpressionParser;
 
 /**
  * Represents an arithmetic expression with zero or more variables.
@@ -68,25 +63,12 @@ public abstract class Expression {
      *
      * @param string The input string.
      * @return The parsed expression.
-     * @throws ParseException The input string does not contain a valid expression.
+     * @throws ExpressionParseException The input string does not contain a valid expression.
      */
-    public static Expression parse(String string) throws ParseException {
+    public static Expression parse(String string) throws ExpressionParseException {
         Objects.requireNonNull(string, "string must be non-null.");
-        try {
-            var lexer = new ExpressionLexer(CharStreams.fromString(string));
-            var tokenStream = new CommonTokenStream(lexer);
-            var parser = new ExpressionParser(tokenStream);
-            parser.setErrorHandler(new BailErrorStrategy());
-            return parser.root().expression;
-        } catch (ParseCancellationException cancelEx) {
-            int position = -1;
-            if (cancelEx.getCause() instanceof RecognitionException recEx) {
-                position = recEx.getOffendingToken().getStartIndex();
-            }
-            String message = String.format("Invalid expression '%s'", string);
-            var exception = new ParseException(message, position);
-            exception.initCause(cancelEx);
-            throw exception;
-        }
+        var lexer = new ExpressionLexer(string);
+        var parser = new ExpressionParser(lexer);
+        return parser.parseExpression();
     }
 }

@@ -1,6 +1,5 @@
 package ru.nsu.aeliseev2.task113.tests;
 
-import java.text.ParseException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.nsu.aeliseev2.task113.expressions.Addition;
@@ -11,18 +10,19 @@ import ru.nsu.aeliseev2.task113.expressions.Negation;
 import ru.nsu.aeliseev2.task113.expressions.Number;
 import ru.nsu.aeliseev2.task113.expressions.Subtraction;
 import ru.nsu.aeliseev2.task113.expressions.Variable;
+import ru.nsu.aeliseev2.task113.parsing.ExpressionParseException;
 
 class ExpressionParseTests {
     @Test
     void invalid() {
         String string = "1 +";
-        Assertions.assertThrows(ParseException.class, () -> {
+        Assertions.assertThrows(ExpressionParseException.class, () -> {
             Expression.parse(string);
         });
     }
 
     @Test
-    void variable() throws ParseException {
+    void variable() {
         String string = "  hello_World ";
         var expected = new Variable("hello_World");
         var actual = Expression.parse(string);
@@ -30,7 +30,7 @@ class ExpressionParseTests {
     }
 
     @Test
-    void variableNaN() throws ParseException {
+    void variableNaN() {
         String string = "nana";
         var expected = new Variable("nana");
         var actual = Expression.parse(string);
@@ -38,7 +38,7 @@ class ExpressionParseTests {
     }
 
     @Test
-    void nanNumber() throws ParseException {
+    void nanNumber() {
         String string = "nan";
         var expected = new Number(Double.NaN);
         var actual = Expression.parse(string);
@@ -46,7 +46,7 @@ class ExpressionParseTests {
     }
 
     @Test
-    void infinityNumber() throws ParseException {
+    void infinityNumber() {
         String string = "inf";
         var expected = new Number(Double.POSITIVE_INFINITY);
         var actual = Expression.parse(string);
@@ -54,7 +54,7 @@ class ExpressionParseTests {
     }
 
     @Test
-    void negativeInfinityNumber() throws ParseException {
+    void negativeInfinityNumber() {
         String string = "-inf";
         var expected = new Number(Double.NEGATIVE_INFINITY);
         var actual = Expression.parse(string);
@@ -62,7 +62,7 @@ class ExpressionParseTests {
     }
 
     @Test
-    void integerNumber() throws ParseException {
+    void integerNumber() {
         String string = "256";
         var expected = new Number(256);
         var actual = Expression.parse(string);
@@ -70,7 +70,7 @@ class ExpressionParseTests {
     }
 
     @Test
-    void fractionalNumber() throws ParseException {
+    void fractionalNumber() {
         String string = "256.360";
         var expected = new Number(256.360);
         var actual = Expression.parse(string);
@@ -78,7 +78,7 @@ class ExpressionParseTests {
     }
 
     @Test
-    void addition() throws ParseException {
+    void addition() {
         String string = "1 + 2";
         var expected = new Addition(new Number(1), new Number(2));
         var actual = Expression.parse(string);
@@ -86,7 +86,7 @@ class ExpressionParseTests {
     }
 
     @Test
-    void operatorPrecedence1() throws ParseException {
+    void operatorPrecedence1() {
         String string = "1*2+3";
         var expected = new Addition(
             new Multiplication(new Number(1), new Number(2)),
@@ -96,7 +96,7 @@ class ExpressionParseTests {
     }
 
     @Test
-    void operatorPrecedence2() throws ParseException {
+    void operatorPrecedence2() {
         String string = "1+2*3";
         var expected = new Addition(
             new Number(1),
@@ -106,7 +106,7 @@ class ExpressionParseTests {
     }
 
     @Test
-    void negatedMultiplication() throws ParseException {
+    void negatedMultiplication() {
         String string = "-1 * -1";
         var expected = new Multiplication(
             new Number(-1),
@@ -116,7 +116,7 @@ class ExpressionParseTests {
     }
 
     @Test
-    void negatedSubtraction() throws ParseException {
+    void negatedSubtraction() {
         String string = "-1----1";
         var expected = new Subtraction(
             new Number(-1),
@@ -126,7 +126,7 @@ class ExpressionParseTests {
     }
 
     @Test
-    void parentheses1() throws ParseException {
+    void parentheses1() {
         String string = "(1 + 2) * 3";
         var expected = new Multiplication(
             new Addition(new Number(1), new Number(2)),
@@ -136,7 +136,7 @@ class ExpressionParseTests {
     }
 
     @Test
-    void parentheses2() throws ParseException {
+    void parentheses2() {
         String string = "5 * (1 + 2)";
         var expected = new Multiplication(
             new Number(5),
@@ -148,7 +148,7 @@ class ExpressionParseTests {
     }
 
     @Test
-    void addAssociativity() throws ParseException {
+    void addAssociativity() {
         String string = "1 + 2 - 3 + 4";
         var expected = new Addition(
             new Subtraction(
@@ -162,7 +162,7 @@ class ExpressionParseTests {
     }
 
     @Test
-    void mulAssociativity() throws ParseException {
+    void mulAssociativity() {
         String string = "1 * 2 / 3 * 4";
         var expected = new Multiplication(
             new Division(
