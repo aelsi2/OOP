@@ -21,17 +21,14 @@ public class CharReader implements TokenReader<Integer> {
      */
     public CharReader(Reader reader) {
         this.reader = reader;
-        this.position = 0;
+        this.position = -1;
         this.nextChar = CHAR_NULL;
     }
 
     private void readNext() {
-        if (nextChar == CHAR_EOF) {
-            return;
-        }
         try {
-            nextChar = reader.read();
             position++;
+            nextChar = reader.read();
         } catch (IOException e) {
             throw new ExpressionParseException("IO error.", position, e);
         }
@@ -57,7 +54,9 @@ public class CharReader implements TokenReader<Integer> {
             readNext();
         }
         var token = new Token<>(nextChar, position);
-        nextChar = CHAR_NULL;
+        if (nextChar != CHAR_EOF) {
+            nextChar = CHAR_NULL;
+        }
         return token;
     }
 
