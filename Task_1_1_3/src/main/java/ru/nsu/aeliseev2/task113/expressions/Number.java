@@ -11,10 +11,19 @@ import ru.nsu.aeliseev2.task113.EvaluationContext;
 public class Number extends Expression {
     public static final Number ZERO = new Number(0);
     public static final Number ONE = new Number(1);
-    private static final DecimalFormat FORMAT = new DecimalFormat("0.##########",
-        DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+
+    private static final DecimalFormat FORMAT = new DecimalFormat(
+        "0.##########", makeFormatSymbols());
+
+    private static DecimalFormatSymbols makeFormatSymbols() {
+        var symbols = new DecimalFormatSymbols(Locale.ENGLISH);
+        symbols.setInfinity("Inf");
+        symbols.setNaN("NaN");
+        return symbols;
+    }
 
     private final double value;
+
 
     /**
      * Constructs a new number expression.
@@ -85,16 +94,16 @@ public class Number extends Expression {
      */
     @Override
     public String toString() {
-        if (Double.isNaN(value)) {
-            return "NaN";
-        }
-        if (Double.isInfinite(value)) {
-            if (value > 0) {
-                return "Inf";
-            } else {
-                return "-Inf";
-            }
-        }
+        return formatValue(value);
+    }
+
+    /**
+     * Formats a double value as in {@code Number.toString()}.
+     *
+     * @param value The value to format.
+     * @return The string representation.
+     */
+    public static String formatValue(double value) {
         return FORMAT.format(value);
     }
 }
