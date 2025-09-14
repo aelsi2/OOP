@@ -91,7 +91,7 @@ public sealed interface ExpressionTokenData {
     record Number(double value) implements ExpressionTokenData {
         @Override
         public String toString() {
-            return new ru.nsu.aeliseev2.task113.expressions.Number(value).toString();
+            return ru.nsu.aeliseev2.task113.expressions.Number.formatValue(value);
         }
     }
 }
