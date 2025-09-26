@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -35,7 +36,7 @@ public class AdjacencyListGraph<V> implements Graph<V>, Cloneable {
         edgeSet.addAll(graph.edges());
     }
 
-    private class VertexSet implements Set<V> {
+    private class VertexSet extends AbstractSet<V> {
 
         @Override
         public int size() {
@@ -233,6 +234,25 @@ public class AdjacencyListGraph<V> implements Graph<V>, Cloneable {
         public void clear() {
             adjacent.clear();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Graph<?> graph)) {
+            return false;
+        }
+        return graph.vertices().equals(vertices()) && graph.edges().equals(edges());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(vertices(), edges());
     }
 
     /**

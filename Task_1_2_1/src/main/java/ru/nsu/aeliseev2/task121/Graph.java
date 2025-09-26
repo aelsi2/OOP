@@ -7,6 +7,10 @@ import java.util.Set;
 
 /**
  * Represents an unweighed oriented graph.
+ * <p>
+ * Note: {@code hashCode} must calculate the has code with
+ * {@code Objects.hashCode(vertices(), edges())}.
+ * </p>
  *
  * @param <V> The type of the vertices.
  */
