@@ -30,6 +30,8 @@ public class AdjacencyListGraph<V> implements Graph<V>, Cloneable {
 
     /**
      * Creates a new instance of {@code AdjacencyListGraph}.
+     *
+     * @param graph The graph to copy edges and vertices from.
      */
     public AdjacencyListGraph(Graph<V> graph) {
         this();
@@ -38,7 +40,6 @@ public class AdjacencyListGraph<V> implements Graph<V>, Cloneable {
     }
 
     private class VertexSet extends AbstractSet<V> {
-
         @Override
         public int size() {
             return adjacent.size();
