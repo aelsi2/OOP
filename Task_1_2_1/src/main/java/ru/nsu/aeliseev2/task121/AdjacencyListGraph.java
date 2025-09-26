@@ -289,4 +289,12 @@ public class AdjacencyListGraph<V> implements Graph<V>, Cloneable {
     public Collection<V> getAdjacent(V vertex) {
         return Collections.unmodifiableList(adjacent.get(vertex));
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean hasAdjacent(V vertex) {
+        return !adjacent.get(vertex).isEmpty();
+    }
 }
