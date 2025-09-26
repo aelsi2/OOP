@@ -3,10 +3,13 @@ package ru.nsu.aeliseev2.task121;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.regex.Pattern;
 
 /**
- * Represents an unweighed oriented graph.
+ * Represents an unweighted oriented graph.
  * <p>
  * Note: {@code hashCode} must calculate the has code with
  * {@code Objects.hashCode(vertices(), edges())}.
@@ -70,5 +73,35 @@ public interface Graph<V> {
             result.add(0, option.get());
         }
         return result;
+    }
+
+    /**
+     * Read and adds vertices and edges in the following format:
+     * <pre>
+     * vertex1
+     * vertex2
+     * vertex3
+     * vertex1 -> vertex2
+     * vertex1 -> vertex1
+     * </pre>
+     *
+     * @param scanner       The scanner to read with.
+     * @param vertexFactory The function to create vertices with.
+     */
+    default void read(Scanner scanner, Function<String, V> vertexFactory) {
+        var pattern = Pattern.compile("^\\s*(\\S+?)(?:\\s*->\\s*(\\S+?))?\\s*$");
+        while (scanner.hasNext(pattern)) {
+            var value = scanner.next(pattern);
+            var matcher = pattern.matcher(value);
+
+            var from = vertexFactory.apply(matcher.group(0));
+            vertices().add(from);
+
+            if (matcher.groupCount() == 2) {
+                var to = vertexFactory.apply(matcher.group(1));
+                vertices().add(to);
+                edges().add(new Edge<>(from, to));
+            }
+        }
     }
 }
