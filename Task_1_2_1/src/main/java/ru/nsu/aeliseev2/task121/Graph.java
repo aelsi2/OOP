@@ -76,14 +76,17 @@ public interface Graph<V> {
     }
 
     /**
-     * Read and adds vertices and edges in the following format:
+     * Reads vertices and edges in the following format:
      * <pre>
+     * {@code
      * vertex1
      * vertex2
      * vertex3
      * vertex1 -> vertex2
      * vertex1 -> vertex1
+     * }
      * </pre>
+     * and adds then to the graph.
      *
      * @param scanner       The scanner to read with.
      * @param vertexFactory The function to create vertices with.
