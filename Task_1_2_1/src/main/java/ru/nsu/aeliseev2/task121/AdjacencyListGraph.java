@@ -3,6 +3,7 @@ package ru.nsu.aeliseev2.task121;
 import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Objects;
@@ -286,6 +287,6 @@ public class AdjacencyListGraph<V> implements Graph<V>, Cloneable {
      */
     @Override
     public Collection<V> getAdjacent(V vertex) {
-        return adjacent.get(vertex);
+        return Collections.unmodifiableList(adjacent.get(vertex));
     }
 }
