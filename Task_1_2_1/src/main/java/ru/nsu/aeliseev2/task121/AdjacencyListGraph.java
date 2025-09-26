@@ -232,7 +232,9 @@ public class AdjacencyListGraph<V> implements Graph<V>, Cloneable {
 
         @Override
         public void clear() {
-            adjacent.clear();
+            for (var list : adjacent.values()) {
+                list.clear();
+            }
         }
     }
 
