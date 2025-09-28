@@ -2,6 +2,7 @@ package ru.nsu.aeliseev2.task121.test;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.Set;
 import org.junit.jupiter.api.Assertions;
@@ -268,6 +269,57 @@ abstract class GraphTests {
         );
         graph.edges().removeAll(removeEdges);
         Assertions.assertEquals(expectedEdges, graph.edges());
+    }
+
+    @Test
+    public void equalsTest() {
+        var graph = createGraph();
+
+        var vertices = Set.of("v1", "v2", "v3", "v4", "v5");
+        var edges = Set.of(
+            new Edge<>("v1", "v2"),
+            new Edge<>("v3", "v1"),
+            new Edge<>("v4", "v3"),
+            new Edge<>("v5", "v1"),
+            new Edge<>("v1", "v4"),
+            new Edge<>("v5", "v2")
+        );
+        graph.vertices().addAll(vertices);
+        graph.edges().addAll(edges);
+
+        var other = new Graph<String>() {
+            @Override
+            public Set<String> vertices() {
+                return vertices;
+            }
+
+            @Override
+            public Set<Edge<String>> edges() {
+                return edges;
+            }
+        };
+        Assertions.assertEquals(graph, other);
+    }
+
+    @Test
+    public void hashCodeTest() {
+        var graph = createGraph();
+
+        var vertices = Set.of("v1", "v2", "v3", "v4", "v5");
+        var edges = Set.of(
+            new Edge<>("v1", "v2"),
+            new Edge<>("v3", "v1"),
+            new Edge<>("v4", "v3"),
+            new Edge<>("v5", "v1"),
+            new Edge<>("v1", "v4"),
+            new Edge<>("v5", "v2")
+        );
+        graph.vertices().addAll(vertices);
+        graph.edges().addAll(edges);
+
+        int expected = Objects.hash(vertices, edges);
+        int actual = graph.hashCode();
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
