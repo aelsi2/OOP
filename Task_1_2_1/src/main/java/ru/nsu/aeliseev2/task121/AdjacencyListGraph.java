@@ -159,7 +159,7 @@ public class AdjacencyListGraph<V> implements Graph<V>, Cloneable {
                 return false;
             }
             var list = adjacent.get(edge.from());
-            return list.contains(edge.from());
+            return list.contains(edge.to());
         }
 
         @Override

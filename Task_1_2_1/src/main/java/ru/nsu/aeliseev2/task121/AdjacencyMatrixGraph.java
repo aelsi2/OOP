@@ -210,9 +210,15 @@ public class AdjacencyMatrixGraph<V> implements Graph<V>, Cloneable {
 
         @Override
         public boolean add(Edge<V> edge) {
-            vertices.add(edge.from());
-            vertices.add(edge.to());
-            return false;
+            vertexSet.add(edge.from());
+            vertexSet.add(edge.to());
+            int fromIndex = vertices.indexOf(edge.from());
+            int toIndex = vertices.indexOf(edge.to());
+            if (matrix[fromIndex][toIndex]) {
+                return false;
+            }
+            matrix[fromIndex][toIndex] = true;
+            return true;
         }
 
         @SuppressWarnings("SuspiciousMethodCalls")
