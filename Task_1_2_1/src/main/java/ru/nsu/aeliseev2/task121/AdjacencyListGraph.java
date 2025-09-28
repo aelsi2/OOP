@@ -14,7 +14,7 @@ import java.util.Set;
  *
  * @param <V> The type of the vertices.
  */
-public class AdjacencyListGraph<V> implements Graph<V>, Cloneable {
+public class AdjacencyListGraph<V> implements Graph<V> {
     private final HashMap<V, ArrayList<V>> adjacent;
     private final VertexSet vertexSet;
     private final EdgeSet edgeSet;
@@ -233,14 +233,6 @@ public class AdjacencyListGraph<V> implements Graph<V>, Cloneable {
     @Override
     public int hashCode() {
         return Objects.hash(vertices(), edges());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected Object clone() {
-        return new AdjacencyListGraph<>(this);
     }
 
     /**

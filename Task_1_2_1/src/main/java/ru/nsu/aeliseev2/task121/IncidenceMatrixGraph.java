@@ -13,7 +13,7 @@ import java.util.Set;
  *
  * @param <V> The type of the vertices.
  */
-public class IncidenceMatrixGraph<V> implements Graph<V>, Cloneable {
+public class IncidenceMatrixGraph<V> implements Graph<V> {
     private final ArrayList<V> vertices;
     private final IntMatrix matrix;
     private final VertexSet vertexSet;
@@ -277,14 +277,6 @@ public class IncidenceMatrixGraph<V> implements Graph<V>, Cloneable {
     @Override
     public int hashCode() {
         return Objects.hash(vertices(), edges());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected Object clone() {
-        return new IncidenceMatrixGraph<>(this);
     }
 
     /**
