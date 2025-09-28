@@ -368,4 +368,27 @@ abstract class GraphTests {
                 "(v1, v1) is not supposed to be in graph")
         );
     }
+
+    @Test
+    public void topoSort() {
+        var graph = createGraph();
+        var vertices = Set.of("v1", "v2", "v3", "v4", "v5");
+        var edges = Set.of(
+            new Edge<>("v1", "v2"),
+            new Edge<>("v4", "v3"),
+            new Edge<>("v5", "v1"),
+            new Edge<>("v1", "v4"),
+            new Edge<>("v5", "v2")
+        );
+        graph.vertices().addAll(vertices);
+        graph.edges().addAll(edges);
+        var result = graph.topoSort();
+        Assertions.assertAll(
+            () -> Assertions.assertTrue(result.indexOf("v1") < result.indexOf("v2")),
+            () -> Assertions.assertTrue(result.indexOf("v4") < result.indexOf("v3")),
+            () -> Assertions.assertTrue(result.indexOf("v5") < result.indexOf("v1")),
+            () -> Assertions.assertTrue(result.indexOf("v1") < result.indexOf("v4")),
+            () -> Assertions.assertTrue(result.indexOf("v5") < result.indexOf("v2"))
+        );
+    }
 }
