@@ -13,7 +13,7 @@ import java.util.Set;
  *
  * @param <V> The type of the vertices.
  */
-public class AdjacencyMatrixGraph<V> implements Graph<V>, Cloneable {
+public class AdjacencyMatrixGraph<V> implements Graph<V> {
     private final ArrayList<V> vertices;
     private final VertexSet vertexSet;
     private final EdgeSet edgeSet;
@@ -260,14 +260,6 @@ public class AdjacencyMatrixGraph<V> implements Graph<V>, Cloneable {
     @Override
     public int hashCode() {
         return Objects.hash(vertices(), edges());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected Object clone() {
-        return new AdjacencyMatrixGraph<>(this);
     }
 
     /**
