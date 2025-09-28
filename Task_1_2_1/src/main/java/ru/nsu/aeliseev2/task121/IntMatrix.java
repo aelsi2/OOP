@@ -84,4 +84,8 @@ class IntMatrix {
         width = 0;
         height = 0;
     }
+
+    public void removeRows() {
+        height = 0;
+    }
 }
