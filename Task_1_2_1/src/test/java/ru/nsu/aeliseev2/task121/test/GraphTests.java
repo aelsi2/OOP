@@ -324,6 +324,24 @@ abstract class GraphTests {
     }
 
     @Test
+    public void toStringTest() {
+        var graph = createGraph();
+        var vertices = Set.of("v1", "v2", "v3", "v4", "v5");
+        var edges = Set.of(
+            new Edge<>("v1", "v2"),
+            new Edge<>("v4", "v3"),
+            new Edge<>("v5", "v1"),
+            new Edge<>("v1", "v4"),
+            new Edge<>("v5", "v2")
+        );
+        graph.vertices().addAll(vertices);
+        graph.edges().addAll(edges);
+        var expected = String.format("V = %s, E = %s", graph.vertices(), graph.edges());
+        var actual = graph.toString();
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
     public void read() {
         var input = """
             v1
