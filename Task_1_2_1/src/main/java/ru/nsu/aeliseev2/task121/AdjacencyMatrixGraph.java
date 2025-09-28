@@ -17,7 +17,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V>, Cloneable {
     private final ArrayList<V> vertices;
     private final VertexSet vertexSet;
     private final EdgeSet edgeSet;
-    private boolean[][] matrix;
+    private final IntMatrix matrix;
 
     /**
      * Creates a new instance of {@code AdjacencyMatrixGraph}.
@@ -26,7 +26,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V>, Cloneable {
         this.vertices = new ArrayList<>();
         this.vertexSet = new VertexSet();
         this.edgeSet = new EdgeSet();
-        this.matrix = new boolean[0][0];
+        this.matrix = new IntMatrix();
     }
 
     /**
@@ -67,11 +67,8 @@ public class AdjacencyMatrixGraph<V> implements Graph<V>, Cloneable {
                 return false;
             }
             vertices.add(v);
-            var newMatrix = new boolean[matrix.length + 1][matrix.length + 1];
-            for (int i = 0; i < matrix.length; i++) {
-                System.arraycopy(matrix[i], 0, newMatrix[i], 0, matrix.length);
-            }
-            matrix = newMatrix;
+            matrix.addRow();
+            matrix.addColumn();
             return true;
         }
 
@@ -83,24 +80,8 @@ public class AdjacencyMatrixGraph<V> implements Graph<V>, Cloneable {
                 return false;
             }
             vertices.remove(index);
-            var newMatrix = new boolean[matrix.length - 1][matrix.length - 1];
-            for (int i = 0; i < index; i++) {
-                for (int j = 0; j < index; j++) {
-                    newMatrix[i][j] = matrix[i][j];
-                }
-                for (int j = index + 1; j < matrix.length; j++) {
-                    newMatrix[i][j - 1] = matrix[i][j];
-                }
-            }
-            for (int i = index + 1; i < matrix.length; i++) {
-                for (int j = 0; j < index; j++) {
-                    newMatrix[i - 1][j] = matrix[i][j];
-                }
-                for (int j = index + 1; j < matrix.length; j++) {
-                    newMatrix[i - 1][j - 1] = matrix[i][j];
-                }
-            }
-            matrix = newMatrix;
+            matrix.removeRow(index);
+            matrix.removeColumn(index);
             return true;
         }
 
@@ -129,7 +110,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V>, Cloneable {
         @Override
         public void clear() {
             vertices.clear();
-            matrix = new boolean[0][0];
+            matrix.removeAll();
         }
     }
 
@@ -137,9 +118,9 @@ public class AdjacencyMatrixGraph<V> implements Graph<V>, Cloneable {
         @Override
         public int size() {
             int result = 0;
-            for (int i = 0; i < matrix.length; i++) {
-                for (int j = 0; j < matrix.length; j++) {
-                    if (matrix[i][j]) {
+            for (int i = 0; i < matrix.height(); i++) {
+                for (int j = 0; j < matrix.width(); j++) {
+                    if (matrix.get(i, j) != 0) {
                         result++;
                     }
                 }
@@ -149,9 +130,9 @@ public class AdjacencyMatrixGraph<V> implements Graph<V>, Cloneable {
 
         @Override
         public boolean isEmpty() {
-            for (int i = 0; i < matrix.length; i++) {
-                for (int j = 0; j < matrix.length; j++) {
-                    if (matrix[i][j]) {
+            for (int i = 0; i < matrix.height(); i++) {
+                for (int j = 0; j < matrix.width(); j++) {
+                    if (matrix.get(i, j) != 0) {
                         return false;
                     }
                 }
@@ -170,37 +151,32 @@ public class AdjacencyMatrixGraph<V> implements Graph<V>, Cloneable {
             if (fromIndex == -1 || toIndex == -1) {
                 return false;
             }
-            return matrix[fromIndex][toIndex];
+            return matrix.get(fromIndex, toIndex) != 0;
         }
 
         @Override
         public Iterator<Edge<V>> iterator() {
             return new Iterator<>() {
-                int index = 0;
-
-                private int from() {
-                    return index / matrix.length;
-                }
-
-                private int to() {
-                    return index % matrix.length;
-                }
+                int row = 0;
+                int column = 0;
 
                 @Override
                 public boolean hasNext() {
-                    int length = matrix.length;
-                    int lengthSquared = length * length;
-                    while (!matrix[from()][to()] && index < lengthSquared) {
-                        index++;
+                    for (; row < matrix.height(); row++) {
+                        for (; column < matrix.width(); column++) {
+                            if (matrix.get(row, column) != 0) {
+                                return true;
+                            }
+                        }
                     }
-                    return index < lengthSquared;
+                    return false;
                 }
 
                 @Override
                 public Edge<V> next() {
                     if (hasNext()) {
-                        var edge = new Edge<>(vertices.get(from()), vertices.get(to()));
-                        index++;
+                        var edge = new Edge<>(vertices.get(row), vertices.get(column));
+                        column++;
                         return edge;
                     }
                     throw new NoSuchElementException();
@@ -214,10 +190,10 @@ public class AdjacencyMatrixGraph<V> implements Graph<V>, Cloneable {
             vertexSet.add(edge.to());
             int fromIndex = vertices.indexOf(edge.from());
             int toIndex = vertices.indexOf(edge.to());
-            if (matrix[fromIndex][toIndex]) {
+            if (matrix.get(fromIndex, toIndex) != 0) {
                 return false;
             }
-            matrix[fromIndex][toIndex] = true;
+            matrix.set(fromIndex, toIndex, 1);
             return true;
         }
 
@@ -232,10 +208,10 @@ public class AdjacencyMatrixGraph<V> implements Graph<V>, Cloneable {
             if (fromIndex == -1 || toIndex == -1) {
                 return false;
             }
-            if (!matrix[fromIndex][toIndex]) {
+            if (matrix.get(fromIndex, toIndex) == 0) {
                 return false;
             }
-            matrix[fromIndex][toIndex] = false;
+            matrix.set(fromIndex, toIndex, 0);
             return true;
         }
 
@@ -258,9 +234,9 @@ public class AdjacencyMatrixGraph<V> implements Graph<V>, Cloneable {
 
         @Override
         public void clear() {
-            for (int i = 0; i < matrix.length; i++) {
-                for (int j = 0; j < matrix.length; j++) {
-                    matrix[i][j] = false;
+            for (int row = 0; row < matrix.height(); row++) {
+                for (int column = 0; column < matrix.width(); column++) {
+                    matrix.set(row, column, 0);
                 }
             }
         }
@@ -319,9 +295,9 @@ public class AdjacencyMatrixGraph<V> implements Graph<V>, Cloneable {
             return Set.of();
         }
         var result = new ArrayList<V>();
-        for (int i = 0; i < matrix.length; i++) {
-            if (matrix[index][i]) {
-                result.add(vertices.get(i));
+        for (int column = 0; column < matrix.width(); column++) {
+            if (matrix.get(index, column) != 0) {
+                result.add(vertices.get(column));
             }
         }
         return result;
@@ -336,8 +312,8 @@ public class AdjacencyMatrixGraph<V> implements Graph<V>, Cloneable {
         if (index == -1) {
             return false;
         }
-        for (int i = 0; i < matrix.length; i++) {
-            if (matrix[index][i]) {
+        for (int column = 0; column < matrix.width(); column++) {
+            if (matrix.get(index, column) != 0) {
                 return true;
             }
         }
