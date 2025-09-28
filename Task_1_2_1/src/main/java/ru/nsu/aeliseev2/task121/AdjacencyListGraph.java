@@ -62,16 +62,6 @@ public class AdjacencyListGraph<V> implements Graph<V>, Cloneable {
         }
 
         @Override
-        public Object[] toArray() {
-            return adjacent.keySet().toArray();
-        }
-
-        @Override
-        public <T> T[] toArray(T[] ts) {
-            return adjacent.keySet().toArray(ts);
-        }
-
-        @Override
         public boolean add(V v) {
             if (adjacent.containsKey(v)) {
                 return false;
@@ -89,20 +79,6 @@ public class AdjacencyListGraph<V> implements Graph<V>, Cloneable {
                 list.remove(o);
             }
             return true;
-        }
-
-        @Override
-        public boolean containsAll(Collection<?> collection) {
-            return adjacent.keySet().containsAll(collection);
-        }
-
-        @Override
-        public boolean addAll(Collection<? extends V> collection) {
-            boolean changed = false;
-            for (var element : collection) {
-                changed = changed || add(element);
-            }
-            return changed;
         }
 
         @Override

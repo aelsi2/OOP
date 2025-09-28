@@ -1,7 +1,9 @@
 package ru.nsu.aeliseev2.task121.test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.nsu.aeliseev2.task121.Edge;
@@ -88,6 +90,45 @@ abstract class GraphTests {
             () -> Assertions.assertTrue(graph.edges().contains(new Edge<>("v2", "v3"))),
             () -> Assertions.assertFalse(graph.edges().contains(new Edge<>("v3", "v3")))
         );
+    }
+
+    @Test
+    public void hasAdjacent() {
+        var graph = createGraph();
+        graph.vertices().add("v1");
+        graph.vertices().add("v2");
+        graph.vertices().add("v3");
+        graph.vertices().add("v4");
+        graph.vertices().add("v5");
+        graph.edges().add(new Edge<>("v1", "v2"));
+        graph.edges().add(new Edge<>("v3", "v2"));
+        graph.edges().add(new Edge<>("v5", "v5"));
+        Assertions.assertAll(
+            () -> Assertions.assertTrue(graph.hasAdjacent("v1")),
+            () -> Assertions.assertFalse(graph.hasAdjacent("v2")),
+            () -> Assertions.assertTrue(graph.hasAdjacent("v3")),
+            () -> Assertions.assertFalse(graph.hasAdjacent("v4")),
+            () -> Assertions.assertTrue(graph.hasAdjacent("v5"))
+        );
+    }
+
+    @Test
+    public void getAdjacent() {
+        var graph = createGraph();
+        graph.vertices().add("v1");
+        graph.vertices().add("v2");
+        graph.vertices().add("v3");
+        graph.vertices().add("v4");
+        graph.vertices().add("v5");
+        graph.edges().add(new Edge<>("v1", "v2"));
+        graph.edges().add(new Edge<>("v1", "v1"));
+        graph.edges().add(new Edge<>("v1", "v3"));
+        graph.edges().add(new Edge<>("v4", "v5"));
+        graph.edges().add(new Edge<>("v5", "v1"));
+        graph.edges().add(new Edge<>("v3", "v1"));
+        var actual = new HashSet<>(graph.getAdjacent("v1"));
+        var expected = Set.of("v1", "v2", "v3");
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
