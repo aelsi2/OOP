@@ -178,6 +178,7 @@ public class IncidenceMatrixGraph<V> implements Graph<V>, Cloneable {
                             case 2:
                                 fromIndex = column;
                                 toIndex = column;
+                                break;
                             default:
                                 break;
                         }
