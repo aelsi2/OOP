@@ -143,10 +143,10 @@ public class AdjacencyListGraph<V> implements Graph<V>, Cloneable {
         public boolean isEmpty() {
             for (var list : adjacent.values()) {
                 if (!list.isEmpty()) {
-                    return true;
+                    return false;
                 }
             }
-            return false;
+            return true;
         }
 
         @SuppressWarnings("SuspiciousMethodCalls")
