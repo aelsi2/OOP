@@ -169,13 +169,14 @@ abstract class GraphTests {
         graph.edges().add(new Edge<>("v1", "v4"));
         graph.edges().add(new Edge<>("v5", "v2"));
 
+        var retainVertices = Set.of("v1", "v6", "v3", "v4", "v10");
         var expectedVertices = Set.of("v1", "v3", "v4");
         var expectedEdges = Set.of(
             new Edge<>("v3", "v1"),
             new Edge<>("v4", "v3"),
             new Edge<>("v1", "v4")
         );
-        graph.vertices().retainAll(expectedVertices);
+        graph.vertices().retainAll(retainVertices);
         Assertions.assertAll(
             () -> Assertions.assertEquals(expectedVertices, graph.vertices()),
             () -> Assertions.assertEquals(expectedEdges, graph.edges())
@@ -197,7 +198,7 @@ abstract class GraphTests {
         graph.edges().add(new Edge<>("v1", "v4"));
         graph.edges().add(new Edge<>("v5", "v2"));
 
-        var removeVertices = Set.of("v2", "v5");
+        var removeVertices = Set.of("v2", "v10", "v5", "v7");
         var expectedVertices = Set.of("v1", "v3", "v4");
         var expectedEdges = Set.of(
             new Edge<>("v3", "v1"),
