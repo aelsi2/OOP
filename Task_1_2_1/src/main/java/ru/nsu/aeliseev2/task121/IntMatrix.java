@@ -75,7 +75,11 @@ class IntMatrix {
     public void removeColumn(int index) {
         for (int i = 0; i < height; i++) {
             System.arraycopy(
-                array, i * width + index + 1, array, i * width + index, width - index - 1);
+                array,
+                i * width + index + 1,
+                array,
+                i * (width - 1) + index,
+                width - index - 1);
         }
         width--;
     }
