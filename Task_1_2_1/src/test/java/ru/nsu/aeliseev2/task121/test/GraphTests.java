@@ -132,6 +132,28 @@ abstract class GraphTests {
     }
 
     @Test
+    public void removeVerticesWithEdges() {
+        var graph = createGraph();
+        graph.vertices().add("v1");
+        graph.vertices().add("v2");
+        graph.vertices().add("v3");
+        graph.vertices().add("v4");
+        graph.vertices().add("v5");
+        graph.edges().add(new Edge<>("v1", "v2"));
+        graph.edges().add(new Edge<>("v3", "v1"));
+        graph.edges().add(new Edge<>("v4", "v3"));
+        graph.edges().add(new Edge<>("v5", "v1"));
+        graph.edges().add(new Edge<>("v1", "v4"));
+        graph.edges().add(new Edge<>("v5", "v2"));
+        graph.vertices().remove("v1");
+        var expectedEdges = Set.of(
+            new Edge<>("v4", "v3"),
+            new Edge<>("v5", "v2")
+        );
+        Assertions.assertEquals(expectedEdges, graph.edges());
+    }
+
+    @Test
     public void read() {
         var input = """
             v1
