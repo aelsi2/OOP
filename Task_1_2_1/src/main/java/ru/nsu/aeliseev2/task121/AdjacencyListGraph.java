@@ -247,6 +247,14 @@ public class AdjacencyListGraph<V> implements Graph<V>, Cloneable {
      * {@inheritDoc}
      */
     @Override
+    public String toString() {
+        return String.format("V = %s, E = %s", vertexSet, edgeSet);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Set<V> vertices() {
         return vertexSet;
     }
