@@ -92,16 +92,19 @@ public interface Graph<V> {
      * @param vertexFactory The function to create vertices with.
      */
     default void read(Scanner scanner, Function<String, V> vertexFactory) {
-        var pattern = Pattern.compile("^\\s*(\\S+?)(?:\\s*->\\s*(\\S+?))?\\s*$");
-        while (scanner.hasNext(pattern)) {
-            var value = scanner.next(pattern);
-            var matcher = pattern.matcher(value);
+        var pattern = Pattern.compile("^\\s*(\\S+?)(\\s*->\\s*(\\S+?))?\\s*$");
+        while (scanner.hasNextLine()) {
+            var line = scanner.nextLine();
+            var matcher = pattern.matcher(line);
+            if (!matcher.matches()) {
+                continue;
+            }
 
-            var from = vertexFactory.apply(matcher.group(0));
+            var from = vertexFactory.apply(matcher.group(1));
             vertices().add(from);
 
-            if (matcher.groupCount() == 2) {
-                var to = vertexFactory.apply(matcher.group(1));
+            if (matcher.group(3) != null) {
+                var to = vertexFactory.apply(matcher.group(3));
                 vertices().add(to);
                 edges().add(new Edge<>(from, to));
             }
