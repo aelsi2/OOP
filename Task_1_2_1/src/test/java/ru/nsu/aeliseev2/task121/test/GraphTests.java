@@ -154,6 +154,123 @@ abstract class GraphTests {
     }
 
     @Test
+    public void verticesRetainAll() {
+        var graph = createGraph();
+        graph.vertices().add("v1");
+        graph.vertices().add("v2");
+        graph.vertices().add("v3");
+        graph.vertices().add("v4");
+        graph.vertices().add("v5");
+        graph.edges().add(new Edge<>("v1", "v2"));
+        graph.edges().add(new Edge<>("v3", "v1"));
+        graph.edges().add(new Edge<>("v4", "v3"));
+        graph.edges().add(new Edge<>("v5", "v1"));
+        graph.edges().add(new Edge<>("v1", "v4"));
+        graph.edges().add(new Edge<>("v5", "v2"));
+
+        var expectedVertices = Set.of("v1", "v3", "v4");
+        var expectedEdges = Set.of(
+            new Edge<>("v3", "v1"),
+            new Edge<>("v4", "v3"),
+            new Edge<>("v1", "v4")
+        );
+        graph.vertices().retainAll(expectedVertices);
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(expectedVertices, graph.vertices()),
+            () -> Assertions.assertEquals(expectedEdges, graph.edges())
+        );
+    }
+
+    @Test
+    public void verticesRemoveAll() {
+        var graph = createGraph();
+        graph.vertices().add("v1");
+        graph.vertices().add("v2");
+        graph.vertices().add("v3");
+        graph.vertices().add("v4");
+        graph.vertices().add("v5");
+        graph.edges().add(new Edge<>("v1", "v2"));
+        graph.edges().add(new Edge<>("v3", "v1"));
+        graph.edges().add(new Edge<>("v4", "v3"));
+        graph.edges().add(new Edge<>("v5", "v1"));
+        graph.edges().add(new Edge<>("v1", "v4"));
+        graph.edges().add(new Edge<>("v5", "v2"));
+
+        var removeVertices = Set.of("v2", "v5");
+        var expectedVertices = Set.of("v1", "v3", "v4");
+        var expectedEdges = Set.of(
+            new Edge<>("v3", "v1"),
+            new Edge<>("v4", "v3"),
+            new Edge<>("v1", "v4")
+        );
+        graph.vertices().removeAll(removeVertices);
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(expectedVertices, graph.vertices()),
+            () -> Assertions.assertEquals(expectedEdges, graph.edges())
+        );
+    }
+
+    @Test
+    public void edgesRetainAll() {
+        var graph = createGraph();
+        graph.vertices().add("v1");
+        graph.vertices().add("v2");
+        graph.vertices().add("v3");
+        graph.vertices().add("v4");
+        graph.vertices().add("v5");
+        graph.edges().add(new Edge<>("v1", "v2"));
+        graph.edges().add(new Edge<>("v3", "v1"));
+        graph.edges().add(new Edge<>("v4", "v3"));
+        graph.edges().add(new Edge<>("v5", "v1"));
+        graph.edges().add(new Edge<>("v1", "v4"));
+        graph.edges().add(new Edge<>("v5", "v2"));
+
+        var retainEdges = Set.of(
+            new Edge<>("v3", "v1"),
+            new Edge<>("v1", "v5"),
+            new Edge<>("v1", "v4"),
+            new Edge<>("v5", "v2")
+        );
+        var expectedEdges = Set.of(
+            new Edge<>("v3", "v1"),
+            new Edge<>("v1", "v4"),
+            new Edge<>("v5", "v2")
+        );
+        graph.edges().retainAll(retainEdges);
+        Assertions.assertEquals(expectedEdges, graph.edges());
+    }
+
+    @Test
+    public void edgesRemoveAll() {
+        var graph = createGraph();
+        graph.vertices().add("v1");
+        graph.vertices().add("v2");
+        graph.vertices().add("v3");
+        graph.vertices().add("v4");
+        graph.vertices().add("v5");
+        graph.edges().add(new Edge<>("v1", "v2"));
+        graph.edges().add(new Edge<>("v3", "v1"));
+        graph.edges().add(new Edge<>("v4", "v3"));
+        graph.edges().add(new Edge<>("v5", "v1"));
+        graph.edges().add(new Edge<>("v1", "v4"));
+        graph.edges().add(new Edge<>("v5", "v2"));
+
+        var removeEdges = Set.of(
+            new Edge<>("v3", "v1"),
+            new Edge<>("v1", "v5"),
+            new Edge<>("v1", "v4"),
+            new Edge<>("v5", "v2")
+        );
+        var expectedEdges = Set.of(
+            new Edge<>("v1", "v2"),
+            new Edge<>("v4", "v3"),
+            new Edge<>("v5", "v1")
+        );
+        graph.edges().removeAll(removeEdges);
+        Assertions.assertEquals(expectedEdges, graph.edges());
+    }
+
+    @Test
     public void read() {
         var input = """
             v1

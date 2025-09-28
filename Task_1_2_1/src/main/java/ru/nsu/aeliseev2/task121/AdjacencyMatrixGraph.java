@@ -102,7 +102,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V>, Cloneable {
         public boolean removeAll(Collection<?> collection) {
             boolean changed = false;
             for (var toRemove : collection) {
-                changed = changed || remove(toRemove);
+                changed = remove(toRemove) || changed;
             }
             return changed;
         }
@@ -228,7 +228,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V>, Cloneable {
         public boolean removeAll(Collection<?> collection) {
             boolean changed = false;
             for (var toRemove : collection) {
-                changed = changed || remove(toRemove);
+                changed = remove(toRemove) || changed;
             }
             return changed;
         }
