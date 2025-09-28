@@ -1,5 +1,6 @@
 package ru.nsu.aeliseev2.task121.test;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,86 @@ import ru.nsu.aeliseev2.task121.Graph;
 
 abstract class GraphTests {
     abstract Graph<String> createGraph();
+
+    @Test
+    public void enumerateVertices() {
+        var graph = createGraph();
+        graph.vertices().add("v1");
+        graph.vertices().add("v2");
+        graph.vertices().add("v1");
+        graph.vertices().add("v3");
+        var vertices = new ArrayList<String>();
+        for (var vertex : graph.vertices()) {
+            vertices.add(vertex);
+        }
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(3, vertices.size()),
+            () -> Assertions.assertTrue(vertices.contains("v1"),
+                "v1 not returned by iterator"),
+            () -> Assertions.assertTrue(vertices.contains("v2"),
+                "v2 not returned by iterator"),
+            () -> Assertions.assertTrue(vertices.contains("v3"),
+                "v3 not returned by iterator")
+        );
+    }
+
+    @Test
+    public void addRemoveVertices() {
+        var graph = createGraph();
+        graph.vertices().add("v1");
+        graph.vertices().add("v2");
+        graph.vertices().remove("v1");
+        graph.vertices().add("v3");
+        Assertions.assertAll(
+            () -> Assertions.assertFalse(graph.vertices().contains("v1"),
+                "v1 is not supposed to be in graph"),
+            () -> Assertions.assertTrue(graph.vertices().contains("v2"),
+                "v2 not in graph"),
+            () -> Assertions.assertTrue(graph.vertices().contains("v3"),
+                "v3 not in graph")
+        );
+    }
+
+    @Test
+    public void enumerateEdges() {
+        var graph = createGraph();
+        graph.vertices().add("v1");
+        graph.vertices().add("v2");
+        graph.vertices().add("v3");
+        graph.edges().add(new Edge<>("v1", "v2"));
+        graph.edges().add(new Edge<>("v2", "v3"));
+        graph.edges().add(new Edge<>("v3", "v3"));
+        graph.edges().add(new Edge<>("v3", "v3"));
+        graph.edges().add(new Edge<>("v1", "v2"));
+        var edges = new ArrayList<Edge<String>>();
+        for (var edge : graph.edges()) {
+            edges.add(edge);
+        }
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(3, edges.size()),
+            () -> Assertions.assertTrue(edges.contains(new Edge<>("v1", "v2"))),
+            () -> Assertions.assertTrue(edges.contains(new Edge<>("v2", "v3"))),
+            () -> Assertions.assertTrue(edges.contains(new Edge<>("v3", "v3")))
+        );
+    }
+
+    @Test
+    public void addRemoveEdges() {
+        var graph = createGraph();
+        graph.vertices().add("v1");
+        graph.vertices().add("v2");
+        graph.vertices().add("v3");
+        graph.edges().add(new Edge<>("v1", "v2"));
+        graph.edges().add(new Edge<>("v2", "v3"));
+        graph.edges().add(new Edge<>("v3", "v3"));
+        graph.edges().remove(new Edge<>("v3", "v3"));
+        graph.edges().remove(new Edge<>("v1", "v2"));
+        Assertions.assertAll(
+            () -> Assertions.assertFalse(graph.edges().contains(new Edge<>("v1", "v2"))),
+            () -> Assertions.assertTrue(graph.edges().contains(new Edge<>("v2", "v3"))),
+            () -> Assertions.assertFalse(graph.edges().contains(new Edge<>("v3", "v3")))
+        );
+    }
 
     @Test
     public void read() {

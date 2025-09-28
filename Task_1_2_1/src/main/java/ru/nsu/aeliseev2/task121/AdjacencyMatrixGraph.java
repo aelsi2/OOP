@@ -168,6 +168,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V>, Cloneable {
                                 return true;
                             }
                         }
+                        column = 0;
                     }
                     return false;
                 }
