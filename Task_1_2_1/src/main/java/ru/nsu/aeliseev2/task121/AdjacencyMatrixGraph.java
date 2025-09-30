@@ -14,6 +14,9 @@ import java.util.Set;
  * @param <V> The type of the vertices.
  */
 public class AdjacencyMatrixGraph<V> implements Graph<V> {
+    private static final int EDGE_EXISTS = 1;
+    private static final int EDGE_NOT_EXISTS = 0;
+
     private final ArrayList<V> vertices;
     private final VertexSet vertexSet;
     private final EdgeSet edgeSet;
@@ -120,7 +123,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
             int result = 0;
             for (int i = 0; i < matrix.height(); i++) {
                 for (int j = 0; j < matrix.width(); j++) {
-                    if (matrix.get(i, j) != 0) {
+                    if (matrix.get(i, j) == EDGE_EXISTS) {
                         result++;
                     }
                 }
@@ -132,7 +135,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
         public boolean isEmpty() {
             for (int i = 0; i < matrix.height(); i++) {
                 for (int j = 0; j < matrix.width(); j++) {
-                    if (matrix.get(i, j) != 0) {
+                    if (matrix.get(i, j) == EDGE_EXISTS) {
                         return false;
                     }
                 }
@@ -151,7 +154,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
             if (fromIndex == -1 || toIndex == -1) {
                 return false;
             }
-            return matrix.get(fromIndex, toIndex) != 0;
+            return matrix.get(fromIndex, toIndex) == EDGE_EXISTS;
         }
 
         @Override
@@ -164,7 +167,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
                 public boolean hasNext() {
                     for (; row < matrix.height(); row++) {
                         for (; column < matrix.width(); column++) {
-                            if (matrix.get(row, column) != 0) {
+                            if (matrix.get(row, column) == EDGE_EXISTS) {
                                 return true;
                             }
                         }
@@ -191,10 +194,10 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
             vertexSet.add(edge.to());
             int fromIndex = vertices.indexOf(edge.from());
             int toIndex = vertices.indexOf(edge.to());
-            if (matrix.get(fromIndex, toIndex) != 0) {
+            if (matrix.get(fromIndex, toIndex) == EDGE_EXISTS) {
                 return false;
             }
-            matrix.set(fromIndex, toIndex, 1);
+            matrix.set(fromIndex, toIndex, EDGE_EXISTS);
             return true;
         }
 
@@ -209,10 +212,10 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
             if (fromIndex == -1 || toIndex == -1) {
                 return false;
             }
-            if (matrix.get(fromIndex, toIndex) == 0) {
+            if (matrix.get(fromIndex, toIndex) == EDGE_NOT_EXISTS) {
                 return false;
             }
-            matrix.set(fromIndex, toIndex, 0);
+            matrix.set(fromIndex, toIndex, EDGE_NOT_EXISTS);
             return true;
         }
 
@@ -237,7 +240,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
         public void clear() {
             for (int row = 0; row < matrix.height(); row++) {
                 for (int column = 0; column < matrix.width(); column++) {
-                    matrix.set(row, column, 0);
+                    matrix.set(row, column, EDGE_NOT_EXISTS);
                 }
             }
         }
@@ -297,7 +300,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
         }
         var result = new ArrayList<V>();
         for (int column = 0; column < matrix.width(); column++) {
-            if (matrix.get(index, column) != 0) {
+            if (matrix.get(index, column) == EDGE_EXISTS) {
                 result.add(vertices.get(column));
             }
         }
@@ -314,7 +317,7 @@ public class AdjacencyMatrixGraph<V> implements Graph<V> {
             return false;
         }
         for (int column = 0; column < matrix.width(); column++) {
-            if (matrix.get(index, column) != 0) {
+            if (matrix.get(index, column) == EDGE_EXISTS) {
                 return true;
             }
         }

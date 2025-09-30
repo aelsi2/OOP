@@ -14,6 +14,11 @@ import java.util.Set;
  * @param <V> The type of the vertices.
  */
 public class IncidenceMatrixGraph<V> implements Graph<V> {
+    private static final int EDGE_OUT = -1;
+    private static final int EDGE_IN = 1;
+    private static final int EDGE_SELF = 2;
+    private static final int EDGE_NONE = 0;
+
     private final ArrayList<V> vertices;
     private final IntMatrix matrix;
     private final VertexSet vertexSet;
@@ -80,7 +85,7 @@ public class IncidenceMatrixGraph<V> implements Graph<V> {
             }
             vertices.remove(index);
             for (int row = matrix.height() - 1; row >= 0; row--) {
-                if (matrix.get(row, index) != 0) {
+                if (matrix.get(row, index) != EDGE_NONE) {
                     matrix.removeRow(row);
                 }
             }
@@ -140,10 +145,10 @@ public class IncidenceMatrixGraph<V> implements Graph<V> {
                 return false;
             }
             for (int row = 0; row < matrix.height(); row++) {
-                if (fromIndex == toIndex && matrix.get(row, fromIndex) == 2) {
+                if (fromIndex == toIndex && matrix.get(row, fromIndex) == EDGE_SELF) {
                     return true;
                 }
-                if (matrix.get(row, fromIndex) == -1 && matrix.get(row, toIndex) == 1) {
+                if (matrix.get(row, fromIndex) == EDGE_OUT && matrix.get(row, toIndex) == EDGE_IN) {
                     return true;
                 }
             }
@@ -169,13 +174,13 @@ public class IncidenceMatrixGraph<V> implements Graph<V> {
                     int toIndex = 0;
                     for (int column = 0; column < matrix.width(); column++) {
                         switch (matrix.get(row, column)) {
-                            case -1:
+                            case EDGE_OUT:
                                 fromIndex = column;
                                 break;
-                            case 1:
+                            case EDGE_IN:
                                 toIndex = column;
                                 break;
-                            case 2:
+                            case EDGE_SELF:
                                 fromIndex = column;
                                 toIndex = column;
                                 break;
@@ -196,19 +201,19 @@ public class IncidenceMatrixGraph<V> implements Graph<V> {
             int fromIndex = vertices.indexOf(edge.from());
             int toIndex = vertices.indexOf(edge.to());
             for (int row = 0; row < matrix.height(); row++) {
-                if (fromIndex == toIndex && matrix.get(row, fromIndex) == 2) {
+                if (fromIndex == toIndex && matrix.get(row, fromIndex) == EDGE_SELF) {
                     return false;
                 }
-                if (matrix.get(row, fromIndex) == -1 && matrix.get(row, toIndex) == 1) {
+                if (matrix.get(row, fromIndex) == EDGE_OUT && matrix.get(row, toIndex) == EDGE_IN) {
                     return false;
                 }
             }
             matrix.addRow();
             if (fromIndex == toIndex) {
-                matrix.set(matrix.height() - 1, fromIndex, 2);
+                matrix.set(matrix.height() - 1, fromIndex, EDGE_SELF);
             } else {
-                matrix.set(matrix.height() - 1, fromIndex, -1);
-                matrix.set(matrix.height() - 1, toIndex, 1);
+                matrix.set(matrix.height() - 1, fromIndex, EDGE_OUT);
+                matrix.set(matrix.height() - 1, toIndex, EDGE_IN);
             }
             return true;
         }
@@ -225,11 +230,11 @@ public class IncidenceMatrixGraph<V> implements Graph<V> {
                 return false;
             }
             for (int row = 0; row < matrix.height(); row++) {
-                if (fromIndex == toIndex && matrix.get(row, fromIndex) == 2) {
+                if (fromIndex == toIndex && matrix.get(row, fromIndex) == EDGE_SELF) {
                     matrix.removeRow(row);
                     return true;
                 }
-                if (matrix.get(row, fromIndex) == -1 && matrix.get(row, toIndex) == 1) {
+                if (matrix.get(row, fromIndex) == EDGE_OUT && matrix.get(row, toIndex) == EDGE_IN) {
                     matrix.removeRow(row);
                     return true;
                 }
@@ -315,12 +320,12 @@ public class IncidenceMatrixGraph<V> implements Graph<V> {
         var result = new ArrayList<V>();
         for (int row = 0; row < matrix.height(); row++) {
             int fromValue = matrix.get(row, fromColumn);
-            if (fromValue != -1 && fromValue != 2) {
+            if (fromValue != EDGE_OUT && fromValue != EDGE_SELF) {
                 continue;
             }
             for (int toColumn = 0; toColumn < matrix.width(); toColumn++) {
                 int toValue = matrix.get(row, toColumn);
-                if (toValue == 1 || toValue == 2) {
+                if (toValue == EDGE_IN || toValue == EDGE_SELF) {
                     result.add(vertices.get(toColumn));
                     break;
                 }
@@ -340,7 +345,7 @@ public class IncidenceMatrixGraph<V> implements Graph<V> {
         }
         for (int row = 0; row < matrix.height(); row++) {
             int value = matrix.get(row, column);
-            if (value == -1 || value == 2) {
+            if (value == EDGE_OUT || value == EDGE_SELF) {
                 return true;
             }
         }
