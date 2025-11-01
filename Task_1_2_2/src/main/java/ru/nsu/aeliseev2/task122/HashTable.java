@@ -285,7 +285,8 @@ public class HashTable<K, V> implements Map<K, V> {
             capacity *= GROWTH_FACTOR;
         }
         var oldCells = cells;
-        cells = new Cell<?>[capacity];
+        //noinspection unchecked
+        cells = new HashTable.Cell[capacity];
         if (oldCells == null) {
             return;
         }
