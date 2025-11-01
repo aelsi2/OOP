@@ -90,8 +90,7 @@ public class HashTable<K, V> implements Map<K, V> {
             }
             do {
                 currentCell = HashTable.this.cells[cellIndex++];
-            }
-            while (currentCell == null);
+            } while (currentCell == null);
             remainingCount--;
             return currentCell;
         }
@@ -264,8 +263,7 @@ public class HashTable<K, V> implements Map<K, V> {
                 return index;
             }
             index = Integer.remainderUnsigned(index + 1, cells.length);
-        }
-        while (index != endIndex);
+        } while (index != endIndex);
         return -1;
     }
 
