@@ -278,7 +278,7 @@ public class HashTable<K, V> implements Map<K, V> {
     }
 
     /**
-     * Ensures additional capacity needed for insertion of <c>additionalCapacity</c> keys.
+     * Ensures additional capacity needed for insertion of {@code additionalCapacity} keys.
      *
      * @param additionalCapacity The number of keys to allocate space for.
      */
