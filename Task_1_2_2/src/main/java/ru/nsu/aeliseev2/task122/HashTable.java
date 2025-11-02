@@ -179,7 +179,7 @@ public class HashTable<K, V> implements Map<K, V> {
         @Override
         public boolean remove(Object o) {
             if (o instanceof Entry<?, ?>) {
-                var entry = (Entry<?, ?>)o;
+                var entry = (Entry<?, ?>) o;
                 var key = entry.getKey();
                 var value = entry.getKey();
                 if (!HashTable.this.containsKey(key)) {
