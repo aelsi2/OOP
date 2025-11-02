@@ -2,7 +2,6 @@ package ru.nsu.aeliseev2.task122.test;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
@@ -98,6 +97,24 @@ class HashTableTests {
             () -> Assertions.assertNull(map.get("bar_key")),
             () -> Assertions.assertEquals("bar_val", removed),
             () -> Assertions.assertNull(removedNonExistent),
+            () -> Assertions.assertEquals("baz_val", map.get("baz_key"))
+        );
+    }
+
+    @Test
+    void putAll() {
+        final var source = new HashMap<String, String>();
+        source.put("foo_key", "foo_val");
+        source.put("bar_key", "bar_val");
+        source.put("baz_key", "baz_val");
+
+        final var map = new HashTable<String, String>();
+        map.putAll(source);
+
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(3, map.size()),
+            () -> Assertions.assertEquals("foo_val", map.get("foo_key")),
+            () -> Assertions.assertEquals("bar_val", map.get("bar_key")),
             () -> Assertions.assertEquals("baz_val", map.get("baz_key"))
         );
     }
@@ -217,7 +234,7 @@ class HashTableTests {
     }
 
     @Test
-    void iterate() {
+    void entrySetIterate() {
         var map = new HashTable<String, String>();
         map.put("foo_key", "foo_val");
         map.put("bar_key", "bar_val");
@@ -242,7 +259,7 @@ class HashTableTests {
     }
 
     @Test
-    void iterateConcurrentModification() {
+    void entrySetIterateConcurrentModification() {
         var map = new HashTable<String, String>();
         map.put("foo_key", "foo_val");
         map.put("bar_key", "bar_val");
@@ -260,7 +277,7 @@ class HashTableTests {
     }
 
     @Test
-    void iterateRemove() {
+    void entrySetIterateRemove() {
         var map = new HashTable<String, String>();
         map.put("foo_key", "foo_val");
         map.put("bar_key", "bar_val");
