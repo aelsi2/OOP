@@ -162,7 +162,7 @@ public class HashTable<K, V> implements Map<K, V> {
                 var entry = (Entry<?, ?>) o;
                 var key = entry.getKey();
                 var value = entry.getValue();
-                if (!HashTable.this.containsKey(key)){
+                if (!HashTable.this.containsKey(key)) {
                     return false;
                 }
                 return Objects.equals(value, HashTable.this.get(key));

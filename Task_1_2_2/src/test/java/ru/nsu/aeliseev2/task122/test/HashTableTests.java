@@ -1,8 +1,10 @@
 package ru.nsu.aeliseev2.task122.test;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -256,5 +258,35 @@ class HashTableTests {
             () -> Assertions.assertEquals(entry3.getValue(), map.get(entry3.getKey())),
             () -> Assertions.assertNull(map.get(entry.getKey()))
         );
+    }
+
+    @Test
+    void entrySetEquality() {
+        var map = new HashTable<String, String>();
+        map.put("foo_key", "foo_val");
+        map.put("bar_key", "bar_val");
+        map.put("baz_key", "baz_val");
+
+        var set = new HashSet<Map.Entry<String, String>>();
+        set.add(new AbstractMap.SimpleEntry<>("foo_key", "foo_val"));
+        set.add(new AbstractMap.SimpleEntry<>("bar_key", "bar_val"));
+        set.add(new AbstractMap.SimpleEntry<>("baz_key", "baz_val"));
+
+        Assertions.assertEquals(map.entrySet(), set);
+    }
+
+    @Test
+    void keySetEquality() {
+        var map = new HashTable<String, String>();
+        map.put("foo_key", "foo_val");
+        map.put("bar_key", "bar_val");
+        map.put("baz_key", "baz_val");
+
+        var set = new HashSet<String>();
+        set.add("foo_key");
+        set.add("bar_key");
+        set.add("baz_key");
+
+        Assertions.assertEquals(map.keySet(), set);
     }
 }
