@@ -20,10 +20,12 @@ public class HashTable<K, V> implements Map<K, V> {
     private class Cell implements Entry<K, V> {
         public K key;
         public V value;
+        public boolean isDead;
 
         public Cell(K key, V value) {
             this.key = key;
             this.value = value;
+            isDead = false;
         }
 
         @Override
@@ -62,6 +64,10 @@ public class HashTable<K, V> implements Map<K, V> {
         public String toString() {
             return "{ " + key + ", " + value + " }";
         }
+
+        public static boolean isDead(HashTable<?, ?>.Cell cell) {
+            return cell == null || cell.isDead;
+        }
     }
 
     private class EntryIterator implements Iterator<Entry<K, V>> {
@@ -85,7 +91,7 @@ public class HashTable<K, V> implements Map<K, V> {
             }
             do {
                 currentCell = HashTable.this.cells[cellIndex++];
-            } while (currentCell == null);
+            } while (currentCell == null || currentCell.isDead);
             remainingCount--;
             return currentCell;
         }
@@ -186,7 +192,7 @@ public class HashTable<K, V> implements Map<K, V> {
                 }
                 var actualValue = HashTable.this.get(key);
                 if (Objects.equals(value, actualValue)) {
-                    HashTable.this.remove(o);
+                    HashTable.this.remove(key);
                     return true;
                 }
             }
@@ -249,7 +255,7 @@ public class HashTable<K, V> implements Map<K, V> {
     private EntrySet entrySet = null;
     private Values values = null;
 
-    private int getCellIndex(Object key) {
+    private int getCellIndex(Object key, boolean anyDead) {
         if (cells == null || cells.length == 0) {
             return -1;
         }
@@ -259,6 +265,9 @@ public class HashTable<K, V> implements Map<K, V> {
         do {
             var cell = cells[index];
             if (cell == null) {
+                return index;
+            }
+            if (cell.isDead && anyDead) {
                 return index;
             }
             if (Objects.equals(key, cell.key)) {
@@ -293,10 +302,10 @@ public class HashTable<K, V> implements Map<K, V> {
             return;
         }
         for (var cell : oldCells) {
-            if (cell == null) {
+            if (Cell.isDead(cell)) {
                 continue;
             }
-            int index = getCellIndex(cell.key);
+            int index = getCellIndex(cell.key, false);
             assert index != -1;
             cells[index] = cell;
         }
@@ -323,11 +332,11 @@ public class HashTable<K, V> implements Map<K, V> {
      */
     @Override
     public boolean containsKey(Object key) {
-        int cellIndex = getCellIndex(key);
+        int cellIndex = getCellIndex(key, false);
         if (cellIndex == -1) {
             return false;
         }
-        return cells[cellIndex] != null;
+        return !Cell.isDead(cells[cellIndex]);
     }
 
     /**
@@ -354,12 +363,12 @@ public class HashTable<K, V> implements Map<K, V> {
      */
     @Override
     public V get(Object key) {
-        int cellIndex = getCellIndex(key);
+        int cellIndex = getCellIndex(key, false);
         if (cellIndex == -1) {
             return null;
         }
         var cell = cells[cellIndex];
-        if (cell == null) {
+        if (Cell.isDead(cell)) {
             return null;
         }
         return cell.value;
@@ -372,10 +381,10 @@ public class HashTable<K, V> implements Map<K, V> {
     public V put(K key, V value) {
         modCount += 1;
         ensureCapacity(1);
-        int cellIndex = getCellIndex(key);
+        int cellIndex = getCellIndex(key, true);
         assert cellIndex != -1;
         var cell = cells[cellIndex];
-        if (cell == null) {
+        if (Cell.isDead(cell)) {
             cells[cellIndex] = new Cell(key, value);
             count += 1;
             return null;
@@ -392,15 +401,15 @@ public class HashTable<K, V> implements Map<K, V> {
     @Override
     public V remove(Object key) {
         modCount += 1;
-        int cellIndex = getCellIndex(key);
+        int cellIndex = getCellIndex(key, false);
         if (cellIndex == -1) {
             return null;
         }
         var cell = cells[cellIndex];
-        if (cell == null) {
+        if (Cell.isDead(cell)) {
             return null;
         }
-        cells[cellIndex] = null;
+        cells[cellIndex].isDead = true;
         count -= 1;
         return cell.value;
     }
