@@ -54,6 +54,11 @@ public class HashTable<K, V> implements Map<K, V> {
         }
 
         @Override
+        public int hashCode() {
+            return Objects.hashCode(key) ^ Objects.hashCode(value);
+        }
+
+        @Override
         public String toString() {
             return "{ " + key + ", " + value + " }";
         }
@@ -248,7 +253,7 @@ public class HashTable<K, V> implements Map<K, V> {
         if (cells == null || cells.length == 0) {
             return -1;
         }
-        int hashCode = key == null ? 0 : key.hashCode();
+        int hashCode = Objects.hashCode(key == null);
         int index = Integer.remainderUnsigned(hashCode, cells.length);
         int endIndex = index;
         do {
@@ -464,6 +469,18 @@ public class HashTable<K, V> implements Map<K, V> {
         }
         var map = (Map<?, ?>) other;
         return entrySet().equals(map.entrySet());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int result = 0;
+        for (var entry : this.entrySet()) {
+            result += entry.hashCode();
+        }
+        return result;
     }
 
     /**
