@@ -177,15 +177,25 @@ public class HashTable<K, V> implements Map<K, V> {
         }
 
         @Override
-        public boolean remove(Object entry) {
-            if (entry instanceof Entry<?, ?>) {
-                var key = ((Entry<?, ?>) entry).getKey();
-                boolean result = HashTable.this.containsKey(key);
-                HashTable.this.remove(entry);
-                return result;
-            } else {
-                return false;
+        public boolean remove(Object o) {
+            if (o instanceof Entry<?, ?>) {
+                var entry = (Entry<?, ?>)o;
+                var key = entry.getKey();
+                var value = entry.getKey();
+                if (!HashTable.this.containsKey(key)) {
+                    return false;
+                }
+                var actualValue = HashTable.this.get(key);
+                if (actualValue == null && value == null) {
+                    HashTable.this.remove(o);
+                    return true;
+                }
+                if (actualValue != null && actualValue.equals(value)) {
+                    HashTable.this.remove(o);
+                    return true;
+                }
             }
+            return false;
         }
 
         @Override
