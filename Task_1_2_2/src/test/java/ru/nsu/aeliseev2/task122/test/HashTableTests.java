@@ -219,6 +219,43 @@ class HashTableTests {
     }
 
     @Test
+    void deadCell() {
+        var map = new HashTable<CollidingInteger, String>();
+
+        map.put(new CollidingInteger(69), "69");
+        map.put(new CollidingInteger(420), "420");
+        map.put(new CollidingInteger(1337), "1337");
+        map.remove(new CollidingInteger(420));
+
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(2, map.size()),
+            () -> Assertions.assertEquals("69", map.get(new CollidingInteger(69))),
+            () -> Assertions.assertFalse(map.containsKey(new CollidingInteger(420))),
+            () -> Assertions.assertEquals("1337",
+                map.get(new CollidingInteger(1337)))
+        );
+    }
+
+    @Test
+    void deadCellReplace() {
+        var map = new HashTable<CollidingInteger, String>();
+
+        map.put(new CollidingInteger(69), "69");
+        map.put(new CollidingInteger(420), "420");
+        map.put(new CollidingInteger(1337), "1337");
+        map.remove(new CollidingInteger(420));
+        map.put(new CollidingInteger(420), "xd");
+
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(3, map.size()),
+            () -> Assertions.assertEquals("69", map.get(new CollidingInteger(69))),
+            () -> Assertions.assertEquals("xd", map.get(new CollidingInteger(420))),
+            () -> Assertions.assertEquals("1337",
+                map.get(new CollidingInteger(1337)))
+        );
+    }
+
+    @Test
     void equalsTest() {
         var map = new HashTable<String, String>();
         map.put("foo_key", "foo_val");
