@@ -7,6 +7,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -48,19 +49,8 @@ public class HashTable<K, V> implements Map<K, V> {
                 return false;
             }
             var entry = (Entry<?, ?>) other;
-            if (key == null && entry.getKey() != null) {
-                return false;
-            }
-            if (key != null && !key.equals(entry.getKey())) {
-                return false;
-            }
-            if (value == null && entry.getValue() != null) {
-                return false;
-            }
-            if (value != null && !value.equals(entry.getValue())) {
-                return false;
-            }
-            return true;
+            return Objects.equals(key, entry.getKey())
+                && Objects.equals(value, entry.getValue());
         }
 
         @Override
@@ -167,13 +157,17 @@ public class HashTable<K, V> implements Map<K, V> {
         }
 
         @Override
-        public boolean contains(Object entry) {
-            if (entry instanceof Entry<?, ?>) {
-                var key = ((Entry<?, ?>) entry).getKey();
-                return HashTable.this.containsKey(key);
-            } else {
-                return false;
+        public boolean contains(Object o) {
+            if (o instanceof Entry<?, ?>) {
+                var entry = (Entry<?, ?>) o;
+                var key = entry.getKey();
+                var value = entry.getValue();
+                if (!HashTable.this.containsKey(key)){
+                    return false;
+                }
+                return Objects.equals(value, HashTable.this.get(key));
             }
+            return false;
         }
 
         @Override
@@ -181,16 +175,12 @@ public class HashTable<K, V> implements Map<K, V> {
             if (o instanceof Entry<?, ?>) {
                 var entry = (Entry<?, ?>) o;
                 var key = entry.getKey();
-                var value = entry.getKey();
+                var value = entry.getValue();
                 if (!HashTable.this.containsKey(key)) {
                     return false;
                 }
                 var actualValue = HashTable.this.get(key);
-                if (actualValue == null && value == null) {
-                    HashTable.this.remove(o);
-                    return true;
-                }
-                if (actualValue != null && actualValue.equals(value)) {
+                if (Objects.equals(value, actualValue)) {
                     HashTable.this.remove(o);
                     return true;
                 }
@@ -266,10 +256,7 @@ public class HashTable<K, V> implements Map<K, V> {
             if (cell == null) {
                 return index;
             }
-            if (key == null && cell.key == null) {
-                return index;
-            }
-            if (key != null && key.equals(cell.key)) {
+            if (Objects.equals(key, cell.key)) {
                 return index;
             }
             index = Integer.remainderUnsigned(index + 1, cells.length);
@@ -350,10 +337,7 @@ public class HashTable<K, V> implements Map<K, V> {
             if (cell == null) {
                 continue;
             }
-            if (o == null && cell.value == null) {
-                return true;
-            }
-            if (o != null && o.equals(cell.value)) {
+            if (Objects.equals(o, cell.value)) {
                 return true;
             }
         }
