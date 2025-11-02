@@ -27,7 +27,7 @@ public class HashTable<K, V> implements Map<K, V> {
         }
 
         public V init(K key, V value) {
-            V oldValue = isDead ? null : value;
+            final V oldValue = isDead ? null : value;
             this.key = key;
             this.value = value;
             this.isDead = false;
