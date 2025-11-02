@@ -48,7 +48,7 @@ public class HashTable<K, V> implements Map<K, V> {
 
         @Override
         public V getValue() {
-            return value;
+            return isDead ? null : value;
         }
 
         @Override
