@@ -292,10 +292,7 @@ public class HashTable<K, V> implements Map<K, V> {
             }
             index = Integer.remainderUnsigned(index + 1, cells.length);
         } while (index != endIndex);
-        if (deadCellIndex != -1) {
-            return deadCellIndex;
-        }
-        return -1;
+        return deadCellIndex;
     }
 
     /**
