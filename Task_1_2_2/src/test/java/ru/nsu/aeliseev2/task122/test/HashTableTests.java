@@ -101,6 +101,23 @@ class HashTableTests {
     }
 
     @Test
+    void clear() {
+        var map = new HashTable<String, String>();
+
+        map.put("foo_key", "foo_val");
+        map.put("bar_key", "bar_val");
+        map.put("baz_key", "baz_val");
+        map.clear();
+
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(0, map.size()),
+            () -> Assertions.assertFalse(map.containsKey("foo_key")),
+            () -> Assertions.assertFalse(map.containsKey("bar_key")),
+            () -> Assertions.assertFalse(map.containsKey("baz_key"))
+        );
+    }
+
+    @Test
     void nullKey() {
         var map = new HashTable<String, String>();
 
@@ -231,7 +248,8 @@ class HashTableTests {
 
         var iterator = map.entrySet().iterator();
         var entry = iterator.next();
-        map.remove("foo_key");
+        var entry2 = iterator.next();
+        map.remove(entry2.getKey());
 
         Assertions.assertAll(
             () -> Assertions.assertEquals(entry.getValue(), map.get(entry.getKey())),
@@ -276,6 +294,43 @@ class HashTableTests {
     }
 
     @Test
+    void entrySetRemove() {
+        var map = new HashTable<String, String>();
+        map.put("foo_key", "foo_val");
+        map.put("bar_key", "bar_val");
+        map.put("baz_key", "baz_val");
+        map.entrySet().remove(new AbstractMap.SimpleEntry<>("foo_key", "foo_val"));
+        map.entrySet().remove(new AbstractMap.SimpleEntry<>("bar_key", ""));
+
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(2, map.size()),
+            () -> Assertions.assertFalse(map.containsKey("foo_key")),
+            () -> Assertions.assertTrue(map.containsKey("bar_key")),
+            () -> Assertions.assertTrue(map.containsKey("baz_key"))
+        );
+    }
+
+    @Test
+    void entrySetContains() {
+        var map = new HashTable<String, String>();
+        map.put("foo_key", "foo_val");
+        map.put("bar_key", "bar_val");
+        map.put("baz_key", "baz_val");
+
+        Assertions.assertAll(
+            () -> Assertions.assertTrue(map.entrySet().contains(
+                new AbstractMap.SimpleEntry<>("foo_key", "foo_val")
+            )),
+            () -> Assertions.assertTrue(map.entrySet().contains(
+                new AbstractMap.SimpleEntry<>("bar_key", "bar_val")
+            )),
+            () -> Assertions.assertFalse(map.entrySet().contains(
+                new AbstractMap.SimpleEntry<>("baz_key", "other_val")
+            ))
+        );
+    }
+
+    @Test
     void keySetEquality() {
         var map = new HashTable<String, String>();
         map.put("foo_key", "foo_val");
@@ -288,5 +343,36 @@ class HashTableTests {
         set.add("baz_key");
 
         Assertions.assertEquals(map.keySet(), set);
+    }
+
+    @Test
+    void keySetContains() {
+        var map = new HashTable<String, String>();
+        map.put("foo_key", "foo_val");
+        map.put("bar_key", "bar_val");
+        map.put("baz_key", "baz_val");
+
+        Assertions.assertAll(
+            () -> Assertions.assertTrue(map.keySet().contains("foo_key")),
+            () -> Assertions.assertTrue(map.keySet().contains("bar_key")),
+            () -> Assertions.assertFalse(map.keySet().contains(null))
+        );
+    }
+
+
+    @Test
+    void keySetRemove() {
+        var map = new HashTable<String, String>();
+        map.put("foo_key", "foo_val");
+        map.put("bar_key", "bar_val");
+        map.put("baz_key", "baz_val");
+        map.keySet().remove("foo_key");
+
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(2, map.size()),
+            () -> Assertions.assertFalse(map.containsKey("foo_key")),
+            () -> Assertions.assertTrue(map.containsKey("bar_key")),
+            () -> Assertions.assertTrue(map.containsKey("baz_key"))
+        );
     }
 }
