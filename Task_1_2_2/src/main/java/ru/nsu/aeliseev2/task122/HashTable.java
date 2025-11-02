@@ -281,7 +281,7 @@ public class HashTable<K, V> implements Map<K, V> {
         if (capacity == 0) {
             capacity = INITIAL_CAPACITY;
         }
-        while (count + additionalCapacity <= capacity * LOAD_FACTOR) {
+        while (count + additionalCapacity > capacity * LOAD_FACTOR) {
             capacity *= GROWTH_FACTOR;
         }
         var oldCells = cells;
