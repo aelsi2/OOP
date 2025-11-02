@@ -2,6 +2,8 @@ package ru.nsu.aeliseev2.task122.test;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -373,6 +375,27 @@ class HashTableTests {
             () -> Assertions.assertFalse(map.containsKey("foo_key")),
             () -> Assertions.assertTrue(map.containsKey("bar_key")),
             () -> Assertions.assertTrue(map.containsKey("baz_key"))
+        );
+    }
+
+    @Test
+    void values() {
+        var map = new HashTable<String, String>();
+        map.put("foo_key", "foo_val");
+        map.put("bar_key", "bar_val");
+        map.put("baz_key", "baz_val");
+        map.put("fizz_key", "foo_val");
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(4, map.values().size()),
+            () -> Assertions.assertTrue(map.values().contains("foo_val")),
+            () -> Assertions.assertTrue(map.values().contains("baz_val")),
+            () -> Assertions.assertTrue(map.values().contains("bar_val")),
+            () -> Assertions.assertEquals(2,
+                Collections.frequency(map.values(), "foo_val")),
+            () -> Assertions.assertEquals(1,
+                Collections.frequency(map.values(), "bar_val")),
+            () -> Assertions.assertEquals(1,
+                Collections.frequency(map.values(), "baz_val"))
         );
     }
 }
