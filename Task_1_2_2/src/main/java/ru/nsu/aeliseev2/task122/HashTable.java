@@ -404,7 +404,7 @@ public class HashTable<K, V> implements Map<K, V> {
         int cellIndex = getCellIndex(key);
         assert cellIndex != -1;
         var cell = cells[cellIndex];
-        if (!Cell.isDead(cell)) {
+        if (Cell.isDead(cell)) {
             count += 1;
         }
         if (cell == null) {
