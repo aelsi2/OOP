@@ -89,15 +89,31 @@ class HashTableTests {
         map.put("bar_key", "bar_val");
         map.put("baz_key", "baz_val");
         var removed = map.remove("bar_key");
-        var removedNonExistent = map.remove("fizz_key");
 
         Assertions.assertAll(
             () -> Assertions.assertEquals(2, map.size()),
             () -> Assertions.assertEquals("foo_val", map.get("foo_key")),
+            () -> Assertions.assertEquals("baz_val", map.get("baz_key")),
             () -> Assertions.assertNull(map.get("bar_key")),
-            () -> Assertions.assertEquals("bar_val", removed),
-            () -> Assertions.assertNull(removedNonExistent),
-            () -> Assertions.assertEquals("baz_val", map.get("baz_key"))
+            () -> Assertions.assertEquals("bar_val", removed)
+        );
+    }
+
+    @Test
+    void removeNonExistent() {
+        var map = new HashTable<String, String>();
+
+        map.put("foo_key", "foo_val");
+        map.put("bar_key", "bar_val");
+        map.put("baz_key", "baz_val");
+        var removedNonExistent = map.remove("fizz_key");
+
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(3, map.size()),
+            () -> Assertions.assertEquals("foo_val", map.get("foo_key")),
+            () -> Assertions.assertEquals("bar_val", map.get("bar_key")),
+            () -> Assertions.assertEquals("baz_val", map.get("baz_key")),
+            () -> Assertions.assertNull(removedNonExistent)
         );
     }
 
@@ -211,8 +227,10 @@ class HashTableTests {
 
         Assertions.assertAll(
             () -> Assertions.assertEquals(3, map.size()),
-            () -> Assertions.assertEquals("69", map.get(new CollidingInteger(69))),
-            () -> Assertions.assertEquals("420", map.get(new CollidingInteger(420))),
+            () -> Assertions.assertEquals("69",
+                map.get(new CollidingInteger(69))),
+            () -> Assertions.assertEquals("420",
+                map.get(new CollidingInteger(420))),
             () -> Assertions.assertEquals("1337",
                 map.get(new CollidingInteger(1337)))
         );
@@ -229,8 +247,10 @@ class HashTableTests {
 
         Assertions.assertAll(
             () -> Assertions.assertEquals(2, map.size()),
-            () -> Assertions.assertEquals("69", map.get(new CollidingInteger(69))),
-            () -> Assertions.assertFalse(map.containsKey(new CollidingInteger(420))),
+            () -> Assertions.assertEquals("69",
+                map.get(new CollidingInteger(69))),
+            () -> Assertions.assertFalse(
+                map.containsKey(new CollidingInteger(420))),
             () -> Assertions.assertEquals("1337",
                 map.get(new CollidingInteger(1337)))
         );
@@ -248,8 +268,10 @@ class HashTableTests {
 
         Assertions.assertAll(
             () -> Assertions.assertEquals(3, map.size()),
-            () -> Assertions.assertEquals("69", map.get(new CollidingInteger(69))),
-            () -> Assertions.assertEquals("xd", map.get(new CollidingInteger(420))),
+            () -> Assertions.assertEquals("69",
+                map.get(new CollidingInteger(69))),
+            () -> Assertions.assertEquals("xd",
+                map.get(new CollidingInteger(420))),
             () -> Assertions.assertEquals("1337",
                 map.get(new CollidingInteger(1337)))
         );
@@ -277,10 +299,7 @@ class HashTableTests {
         map.put("bar_key", "bar_val");
         map.put("baz_key", "baz_val");
 
-        var entries = new ArrayList<Map.Entry<String, String>>();
-        for (var entry : map.entrySet()) {
-            entries.add(entry);
-        }
+        var entries = new ArrayList<>(map.entrySet());
 
         Assertions.assertAll(
             () -> Assertions.assertEquals(3, entries.size()),
@@ -433,7 +452,21 @@ class HashTableTests {
     }
 
     @Test
-    void values() {
+    void valuesContains() {
+        var map = new HashTable<String, String>();
+        map.put("foo_key", "foo_val");
+        map.put("bar_key", "bar_val");
+        map.put("baz_key", "baz_val");
+        map.put("fizz_key", "foo_val");
+        Assertions.assertAll(
+            () -> Assertions.assertTrue(map.values().contains("foo_val")),
+            () -> Assertions.assertTrue(map.values().contains("baz_val")),
+            () -> Assertions.assertTrue(map.values().contains("bar_val"))
+        );
+    }
+
+    @Test
+    void valuesIterate() {
         var map = new HashTable<String, String>();
         map.put("foo_key", "foo_val");
         map.put("bar_key", "bar_val");
@@ -441,9 +474,6 @@ class HashTableTests {
         map.put("fizz_key", "foo_val");
         Assertions.assertAll(
             () -> Assertions.assertEquals(4, map.values().size()),
-            () -> Assertions.assertTrue(map.values().contains("foo_val")),
-            () -> Assertions.assertTrue(map.values().contains("baz_val")),
-            () -> Assertions.assertTrue(map.values().contains("bar_val")),
             () -> Assertions.assertEquals(2,
                 Collections.frequency(map.values(), "foo_val")),
             () -> Assertions.assertEquals(1,
