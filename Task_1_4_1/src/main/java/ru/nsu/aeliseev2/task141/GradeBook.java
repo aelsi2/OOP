@@ -1,6 +1,7 @@
 package ru.nsu.aeliseev2.task141;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -20,6 +21,7 @@ public class GradeBook {
      *
      * @param gradeBookId    The ID of this grade book.
      * @param semesterGrades The list of subject-type mappings for each semester.
+     * @throws IllegalArgumentException One of the subjects has an invalid final semester value.
      */
     public GradeBook(long gradeBookId, List<Map<Subject, GradeType>> semesterGrades) {
         this.gradeBookId = gradeBookId;
@@ -30,7 +32,7 @@ public class GradeBook {
                 var subject = entry.getKey();
                 var type = entry.getValue();
                 int finalSemester = subject.finalSemester();
-                if (finalSemester < 0 || finalSemester > semesterGrades.size()) {
+                if (finalSemester < 0 || finalSemester >= semesterGrades.size()) {
                     throw new IllegalArgumentException(
                         String.format("Subject has invalid final semester: %s", subject)
                     );
@@ -73,7 +75,7 @@ public class GradeBook {
      * @return The list of grades.
      * @throws NoSuchElementException The grade book doesn't have information about this semester.
      */
-    public List<Grade> getSemesterGrades(int index) {
+    public Collection<Grade> getSemesterGrades(int index) {
         if (index < 0 || index >= semesterGrades.size()) {
             throw new NoSuchElementException("No such semester");
         }
@@ -120,12 +122,9 @@ public class GradeBook {
      *     quota).
      */
     public boolean canTransferToBudget() {
-        if (semesterGrades.isEmpty()) {
-            return false;
-        }
         int lastSemester = semesterGrades.stream()
             .flatMap(hm -> hm.values().stream())
-            .filter(Grade::hasGrade)
+            .filter(Grade::hasValue)
             .mapToInt(Grade::getSemesterIndex)
             .max().orElse(0);
         if (lastSemester == 0) {
@@ -150,7 +149,7 @@ public class GradeBook {
         }
         int lastSemester = semesterGrades.stream()
             .flatMap(hm -> hm.values().stream())
-            .filter(Grade::hasGrade)
+            .filter(Grade::hasValue)
             .mapToInt(Grade::getSemesterIndex)
             .max().orElse(0);
         return semesterGrades.get(lastSemester).values().stream()

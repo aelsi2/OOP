@@ -8,6 +8,7 @@ class GradeTypeTests {
     void budgetSatExam() {
         Assertions.assertFalse(GradeType.EXAM.isBudgetSatAllowed());
     }
+
     @Test
     void budgetSatDifCredit() {
         Assertions.assertTrue(GradeType.DIFFERENTIATED_CREDIT.isBudgetSatAllowed());

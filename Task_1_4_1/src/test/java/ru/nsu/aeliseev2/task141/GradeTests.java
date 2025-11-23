@@ -5,6 +5,30 @@ import org.junit.jupiter.api.Test;
 
 class GradeTests {
     @Test
+    void setGetValueNonDifFail() {
+        var subject = new Subject("Subject", 0);
+        var grade = new Grade(subject, 0, GradeType.BINARY_CREDIT);
+        grade.setGradeValue(GradeValue.FAIL);
+        Assertions.assertEquals(GradeValue.FAIL, grade.getGradeValue());
+    }
+
+    @Test
+    void setGetValueNonDifGood() {
+        var subject = new Subject("Subject", 0);
+        var grade = new Grade(subject, 0, GradeType.BINARY_CREDIT);
+        grade.setGradeValue(GradeValue.SATISFACTORY);
+        Assertions.assertEquals(GradeValue.EXCELLENT, grade.getGradeValue());
+    }
+
+    @Test
+    void setGetValueDifGood() {
+        var subject = new Subject("Subject", 0);
+        var grade = new Grade(subject, 0, GradeType.EXAM);
+        grade.setGradeValue(GradeValue.GOOD);
+        Assertions.assertEquals(GradeValue.GOOD, grade.getGradeValue());
+    }
+
+    @Test
     void countsTowardsAverageNoMark() {
         var subject = new Subject("Subject", 0);
         var grade = new Grade(subject, 0, GradeType.EXAM);
