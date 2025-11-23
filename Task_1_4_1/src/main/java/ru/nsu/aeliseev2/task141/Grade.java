@@ -53,7 +53,8 @@ public class Grade {
     /**
      * Gets the value of this grade.
      *
-     * @return The grade value (can be null).
+     * @return The grade value (can be null). If the grade type is nondifferentiated, then
+     *     {@code GradeType.EXCELLENT} means positive, {@code GradeType.FAIL} means negative.
      */
     public GradeValue getGradeValue() {
         return gradeValue;
@@ -65,7 +66,12 @@ public class Grade {
      * @param gradeValue The grade value (can be null).
      */
     public void setGradeValue(GradeValue gradeValue) {
-        this.gradeValue = gradeValue;
+        if (this.getGradeType().isDifferentiated()) {
+            this.gradeValue = gradeValue;
+        } else {
+            boolean isGood = gradeValue.compareTo(GradeValue.FAIL) > 0;
+            this.gradeValue = isGood ? GradeValue.EXCELLENT : GradeValue.FAIL;
+        }
     }
 
     /**
@@ -73,7 +79,7 @@ public class Grade {
      *
      * @return {@code true} if this grade has a non-{@code null} value, {@code false} otherwise.
      */
-    public boolean hasGrade() {
+    public boolean hasValue() {
         return this.gradeValue != null;
     }
 
@@ -85,7 +91,7 @@ public class Grade {
      * @see GradeType#isDifferentiated()
      */
     public boolean countsTowardsAverage() {
-        return this.gradeType.isDifferentiated() && hasGrade();
+        return this.gradeType.isDifferentiated() && hasValue();
     }
 
     /**
@@ -96,7 +102,7 @@ public class Grade {
      * @see GradeValue#toInt()
      */
     public int getNumericValue() {
-        if (hasGrade()) {
+        if (hasValue()) {
             return getGradeValue().toInt();
         } else {
             return 0;
@@ -111,7 +117,7 @@ public class Grade {
      * @see GradeType#isBudgetSatAllowed()
      */
     public boolean isGoodForBudget() {
-        if (!hasGrade()) {
+        if (!hasValue()) {
             return true;
         }
         if (getGradeType().isBudgetSatAllowed()) {
@@ -128,7 +134,7 @@ public class Grade {
      *     {@code GradeValue.GOOD} or above, {@code false} otherwise.
      */
     public boolean isGoodForDiplomaWithHonors() {
-        return !hasGrade() || getGradeValue().compareTo(GradeValue.GOOD) >= 0;
+        return !hasValue() || getGradeValue().compareTo(GradeValue.GOOD) >= 0;
     }
 
     /**
@@ -138,6 +144,6 @@ public class Grade {
      *     {@code GradeValue.EXCELLENT}, {@code false} otherwise.
      */
     public boolean canBeExcellent() {
-        return !hasGrade() || getGradeValue().equals(GradeValue.EXCELLENT);
+        return !hasValue() || getGradeValue().equals(GradeValue.EXCELLENT);
     }
 }
