@@ -128,7 +128,7 @@ public class Grade {
      *     {@code GradeValue.GOOD} or above, {@code false} otherwise.
      */
     public boolean isGoodForDiplomaWithHonors() {
-        return !hasGrade() || getGradeValue().compareTo(GradeValue.SATISFACTORY) >= 0;
+        return !hasGrade() || getGradeValue().compareTo(GradeValue.GOOD) >= 0;
     }
 
     /**
