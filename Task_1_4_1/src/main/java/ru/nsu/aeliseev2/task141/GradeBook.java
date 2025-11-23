@@ -128,8 +128,14 @@ public class GradeBook {
             .filter(Grade::hasGrade)
             .mapToInt(Grade::getSemesterIndex)
             .max().orElse(0);
-        return semesterGrades.get(lastSemester).values().stream()
+        if (lastSemester == 0) {
+            return false;
+        }
+        boolean lastGood = semesterGrades.get(lastSemester).values().stream()
             .allMatch(Grade::isGoodForBudget);
+        boolean prevGood = semesterGrades.get(lastSemester - 1).values().stream()
+            .allMatch(Grade::isGoodForBudget);
+        return lastGood && prevGood;
     }
 
     /**
