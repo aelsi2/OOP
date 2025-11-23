@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"ru.nsu.aeliseev2.task141","l":"Grade"},{"p":"ru.nsu.aeliseev2.task141","l":"GradeBook"},{"p":"ru.nsu.aeliseev2.task141","l":"GradeType"},{"p":"ru.nsu.aeliseev2.task141","l":"GradeValue"},{"p":"ru.nsu.aeliseev2.task141","l":"Subject"}];updateSearchResults();
