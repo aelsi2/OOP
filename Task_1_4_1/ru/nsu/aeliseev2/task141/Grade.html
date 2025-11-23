@@ -144,7 +144,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Gets the subject this grade is for.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasGrade()" class="member-name-link">hasGrade</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasValue()" class="member-name-link">hasValue</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Checks if this grade has a value.</div>
 </div>
@@ -243,7 +243,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Gets the value of this grade.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>The grade value (can be null).</dd>
+<dd>The grade value (can be null). If the grade type is nondifferentiated, then
+     <code>GradeType.EXCELLENT</code> means positive, <code>GradeType.FAIL</code> means negative.</dd>
 </dl>
 </section>
 </li>
@@ -259,9 +260,9 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="hasGrade()">
-<h3>hasGrade</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasGrade</span>()</div>
+<section class="detail" id="hasValue()">
+<h3>hasValue</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasValue</span>()</div>
 <div class="block">Checks if this grade has a value.</div>
 <dl class="notes">
 <dt>Returns:</dt>

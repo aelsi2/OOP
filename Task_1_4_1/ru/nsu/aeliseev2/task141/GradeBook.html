@@ -140,7 +140,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets the ID of this grade book.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Grade.html" title="class in ru.nsu.aeliseev2.task141">Grade</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Grade.html" title="class in ru.nsu.aeliseev2.task141">Grade</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSemesterGrades(int)" class="member-name-link">getSemesterGrades</a><wbr>(int&nbsp;index)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets a list of grades for the specified semester.</div>
@@ -177,6 +177,8 @@ loadScripts(document, 'script');</script>
 <dt>Parameters:</dt>
 <dd><code>gradeBookId</code> - The ID of this grade book.</dd>
 <dd><code>semesterGrades</code> - The list of subject-type mappings for each semester.</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - One of the subjects has an invalid final semester value.</dd>
 </dl>
 </section>
 </li>
@@ -213,7 +215,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="getSemesterGrades(int)">
 <h3>getSemesterGrades</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Grade.html" title="class in ru.nsu.aeliseev2.task141">Grade</a>&gt;</span>&nbsp;<span class="element-name">getSemesterGrades</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Grade.html" title="class in ru.nsu.aeliseev2.task141">Grade</a>&gt;</span>&nbsp;<span class="element-name">getSemesterGrades</span><wbr><span class="parameters">(int&nbsp;index)</span></div>
 <div class="block">Gets a list of grades for the specified semester.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
