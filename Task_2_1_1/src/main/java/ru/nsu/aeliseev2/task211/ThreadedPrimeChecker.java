@@ -79,7 +79,7 @@ public class ThreadedPrimeChecker extends PrimeChecker {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public boolean hasComposites(long[] numbers) {
@@ -110,7 +110,7 @@ public class ThreadedPrimeChecker extends PrimeChecker {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public String toString() {
