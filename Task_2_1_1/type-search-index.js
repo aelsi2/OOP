@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"ru.nsu.aeliseev2.task211","l":"ParallelStreamPrimeChecker"},{"p":"ru.nsu.aeliseev2.task211","l":"PrimeChecker"},{"p":"ru.nsu.aeliseev2.task211","l":"SequentialPrimeChecker"},{"p":"ru.nsu.aeliseev2.task211","l":"ThreadedPrimeChecker"}];updateSearchResults();
