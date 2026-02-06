@@ -33,7 +33,7 @@ class PerformanceTests {
     };
 
     @Test
-    void benchmark() {
+    void benchmark() throws InterruptedException {
         var checkers = List.of(
             new SequentialPrimeChecker(),
             new ThreadedPrimeChecker(2),
