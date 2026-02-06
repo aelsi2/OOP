@@ -7,7 +7,7 @@ abstract class HasCompositesTests {
     protected abstract PrimeChecker getChecker();
 
     @Test
-    void testAllPrimes() {
+    void testAllPrimes() throws InterruptedException {
         long[] primes = new long[]{
             63853, 20441, 87911, 40993, 74831, 13999, 14821, 76403, 74453, 96797, 58057, 26729,
             92353, 36713, 73471, 38561, 36997, 64279, 27779, 10337, 79817, 96149, 28307, 22573,
@@ -24,7 +24,7 @@ abstract class HasCompositesTests {
     }
 
     @Test
-    void testCompositeNearStart() {
+    void testCompositeNearStart() throws InterruptedException {
         long[] primes = new long[]{
             63853, 20441, 87913, 40993, 74831, 13999, 14821, 76403, 74453, 96797, 58057, 26729,
             92353, 36713, 73471, 38561, 36997, 64279, 27779, 10337, 79817, 96149, 28307, 22573,
@@ -41,7 +41,7 @@ abstract class HasCompositesTests {
     }
 
     @Test
-    void testCompositeInMiddle() {
+    void testCompositeInMiddle() throws InterruptedException {
         long[] primes = new long[]{
             63853, 20441, 87911, 40993, 74831, 13999, 14821, 76403, 74453, 96797, 58057, 26729,
             92353, 36713, 73471, 38561, 36997, 64279, 27779, 10337, 79817, 96149, 28307, 22573,
@@ -58,7 +58,7 @@ abstract class HasCompositesTests {
     }
 
     @Test
-    void testCompositeAtEnd() {
+    void testCompositeAtEnd() throws InterruptedException {
         long[] primes = new long[]{
             63853, 20441, 87911, 40993, 74831, 13999, 14821, 76403, 74453, 96797, 58057, 26729,
             92353, 36713, 73471, 38561, 36997, 64279, 27779, 10337, 79817, 96149, 28307, 22573,
@@ -75,7 +75,7 @@ abstract class HasCompositesTests {
     }
 
     @Test
-    void testLargePrimes() {
+    void testLargePrimes() throws InterruptedException {
         long[] primes = new long[]{
             80795017, 86598761, 61366901, 69486113, 39980741, 57107527, 53077741, 23150021,
             61968931, 49120919, 79642249, 31985861, 90808793, 80450501, 81163259, 13775477,
@@ -89,7 +89,7 @@ abstract class HasCompositesTests {
     }
 
     @Test
-    void testLargePrimesCompositeAtEnd() {
+    void testLargePrimesCompositeAtEnd() throws InterruptedException {
         long[] primes = new long[]{
             80795017, 86598761, 61366901, 69486113, 39980741, 57107527, 53077741, 23150021,
             61968931, 49120919, 79642249, 31985861, 90808793, 80450501, 81163259, 13775477,

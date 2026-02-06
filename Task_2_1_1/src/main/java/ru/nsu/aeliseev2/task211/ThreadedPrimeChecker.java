@@ -1,8 +1,8 @@
 package ru.nsu.aeliseev2.task211;
 
 /**
- * An implementation of {@code PrimeChecker} that splits the array into several slices and runs
- * the check for each slice on a separate thread.
+ * An implementation of {@code PrimeChecker} that splits the array into several slices and runs the
+ * check for each slice on a separate thread.
  */
 public class ThreadedPrimeChecker extends PrimeChecker {
     private final int numThreads;
@@ -82,7 +82,7 @@ public class ThreadedPrimeChecker extends PrimeChecker {
      * {@inheritDoc}
      */
     @Override
-    public boolean hasComposites(long[] numbers) {
+    public boolean hasComposites(long[] numbers) throws InterruptedException {
         final int numPerThread = numbers.length / numThreads;
         final int numExtra = numbers.length % numThreads;
 
@@ -100,11 +100,10 @@ public class ThreadedPrimeChecker extends PrimeChecker {
 
         try {
             result.waitCompletion();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-        for (int threadIndex = 0; threadIndex < numThreads; threadIndex++) {
-            threads[threadIndex].interrupt();
+        } finally {
+            for (int threadIndex = 0; threadIndex < numThreads; threadIndex++) {
+                threads[threadIndex].interrupt();
+            }
         }
         return result.getValue();
     }
