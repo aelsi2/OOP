@@ -7,7 +7,7 @@ import java.util.Arrays;
  */
 public class ParallelStreamPrimeChecker extends PrimeChecker {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public boolean hasComposites(long[] numbers) {
@@ -15,7 +15,7 @@ public class ParallelStreamPrimeChecker extends PrimeChecker {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public String toString() {

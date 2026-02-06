@@ -5,7 +5,7 @@ package ru.nsu.aeliseev2.task211;
  */
 public class SequentialPrimeChecker extends PrimeChecker {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public boolean hasComposites(long[] numbers) {
@@ -18,7 +18,7 @@ public class SequentialPrimeChecker extends PrimeChecker {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public String toString() {
