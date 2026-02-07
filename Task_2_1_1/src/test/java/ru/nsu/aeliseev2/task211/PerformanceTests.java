@@ -48,7 +48,9 @@ class PerformanceTests {
 
         for (var checker : checkers) {
             long startTime = System.nanoTime();
-            checker.hasComposites(DATA);
+            for (int i = 0; i < 10; i++) {
+                checker.hasComposites(DATA);
+            }
             long endTime = System.nanoTime();
             double delta = (endTime - startTime) / Math.pow(10.0, 9);
             System.out.printf("%s\t: %.5f s\n", checker, delta);

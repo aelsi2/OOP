@@ -7,6 +7,24 @@ abstract class HasCompositesTests {
     protected abstract PrimeChecker getChecker();
 
     @Test
+    void testEmpty() throws InterruptedException {
+        long[] primes = new long[]{};
+        Assertions.assertFalse(getChecker().hasComposites(primes));
+    }
+
+    @Test
+    void testSmallAllPrimes() throws InterruptedException {
+        long[] primes = new long[]{3, 7, 13};
+        Assertions.assertFalse(getChecker().hasComposites(primes));
+    }
+
+    @Test
+    void testSmallComposite() throws InterruptedException {
+        long[] primes = new long[]{3, 7, 8};
+        Assertions.assertTrue(getChecker().hasComposites(primes));
+    }
+
+    @Test
     void testAllPrimes() throws InterruptedException {
         long[] primes = new long[]{
             63853, 20441, 87911, 40993, 74831, 13999, 14821, 76403, 74453, 96797, 58057, 26729,
