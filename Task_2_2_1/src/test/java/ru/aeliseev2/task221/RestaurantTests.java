@@ -17,6 +17,6 @@ class RestaurantTests {
             }
         }).toList();
         var restaurant = new Restaurant(employees);
-        Assertions.assertTimeout(Duration.ofMillis(1010), restaurant::run);
+        Assertions.assertTimeoutPreemptively(Duration.ofMillis(1010), restaurant::run);
     }
 }

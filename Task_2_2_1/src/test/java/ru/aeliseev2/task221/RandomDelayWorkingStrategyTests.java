@@ -28,6 +28,6 @@ class RandomDelayWorkingStrategyTests {
     void wait1000ms() {
         var strategy = new RandomDelayWorkingStrategy(
             new Random(0), 1000, 1000);
-        Assertions.assertTimeout(Duration.ofSeconds(1010), strategy::doWork);
+        Assertions.assertTimeoutPreemptively(Duration.ofSeconds(1010), strategy::doWork);
     }
 }
