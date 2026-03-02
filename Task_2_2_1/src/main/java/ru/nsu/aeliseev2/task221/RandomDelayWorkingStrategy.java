@@ -29,6 +29,6 @@ public class RandomDelayWorkingStrategy implements WorkingStrategy {
      */
     @Override
     public void doWork() throws InterruptedException {
-        Thread.sleep(random.nextInt(minDelayMillis, maxDelayMillis - 1));
+        Thread.sleep(random.nextInt(minDelayMillis, maxDelayMillis + 1));
     }
 }
