@@ -15,12 +15,12 @@ public class RestaurantConfig {
         /**
          * The minimum amount of time in milliseconds spent working on each iteration.
          */
-        public int minDelayMillis;
+        public int minDelayMillis = 100;
 
         /**
          * The maximum amount of time in milliseconds spent working on each iteration.
          */
-        public int maxDelayMillis;
+        public int maxDelayMillis = 2000;
     }
 
     /**
@@ -30,38 +30,38 @@ public class RestaurantConfig {
         /**
          * The maximum number of orders the delivery man is able to carry at the same time.
          */
-        public int capacity;
+        public int capacity = 5;
     }
 
     /**
      * The order takers working in this restaurant.
      */
-    public EmployeeConfig[] orderTakers;
+    public EmployeeConfig[] orderTakers = null;
 
     /**
      * The bakers working in this restaurant.
      */
-    public EmployeeConfig[] bakers;
+    public EmployeeConfig[] bakers = null;
 
     /**
      * The delivery men working in this restaurant.
      */
-    public DeliveryManConfig[] deliveryMen;
+    public DeliveryManConfig[] deliveryMen = null;
 
     /**
      * The capacity of the taker-baker order queue.
      */
-    public int toBakeCapacity;
+    public int toBakeCapacity = 10;
 
     /**
      * The capacity of the baker-deliverer order queue.
      */
-    public int toDeliverCapacity;
+    public int toDeliverCapacity = 10;
 
     /**
      * The number of orders the restaurant will take.
      */
-    public int orderCount;
+    public int orderCount = 100;
 
     /**
      * Parses a {@code RestaurantConfig} from a JSON string.
@@ -80,6 +80,16 @@ public class RestaurantConfig {
      * @return The created restaurant.
      */
     public Restaurant createRestaurant() {
+        if (orderTakers == null || orderTakers.length == 0) {
+            throw new IllegalStateException("At least one order taker is required");
+        }
+        if (bakers == null || bakers.length == 0) {
+            throw new IllegalStateException("At least one baker is required");
+        }
+        if (deliveryMen == null || deliveryMen.length == 0) {
+            throw new IllegalStateException("At least one delivery man is required");
+        }
+
         final OrderFactory orderFactory = new SequentialOrderFactory(orderCount);
         final OrderQueue toBake = new OrderQueue(toBakeCapacity);
         final OrderQueue toDeliver = new OrderQueue(toDeliverCapacity);
