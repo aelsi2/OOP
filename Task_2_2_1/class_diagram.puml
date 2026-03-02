@@ -1,0 +1,140 @@
+@startuml
+
+interface Runnable {
+  +run()
+}
+
+class Baker {
+  -inQueue : OrderQueue
+  -outQueue : OrderQueue
+  -logger : OrderLogger
+  -workingStrategy : WorkingStrategy
+}
+
+class DeliveryMan {
+  -inQueue : OrderQueue
+  -capacity : int
+  -logger : OrderLogger
+  -workingStrategy : WorkingStrategy
+}
+
+class OrderTaker {
+  -orderFactory : OrderFactory
+  -orderQueue : OrderQueue
+  -logger : OrderLogger
+  -workingStrategy : WorkingStrategy
+}
+
+class Restaurant {
+  -employees : List<Runnable>
+}
+
+class OrderQueue {
+  -list : List<Order>
+  -capacity : int
+  -activeProducers : int
+
+  +putBegin()
+  +putEnd()
+  +put(in order : Order)
+  +take() : Order
+}
+
+class Order {
+  +id : int
+}
+
+interface OrderLogger {
+  +logCreated(in order : Order)
+  +logCooking(in order : Order)
+  +logCooked(in order : Order)
+  +logDelivering(in order : Order)
+  +logDelivered(in order : Order)
+}
+interface OrderFactory {
+  +makeOrder() : Order
+}
+interface WorkingStrategy {
+  +doWork()
+}
+
+class PrintStreamOrderLogger {
+  -printStream : PrintStream
+}
+
+class RandomDelayWorkingStrategy {
+  -random : Random
+  -minDelayMillis : int
+  -maxDelayMillis : int
+}
+
+class SequentialOrderFactory {
+  -count : int
+  -id : int
+}
+
+class RestaurantConfig {
+  +orderTakers : EmployeeConfig[]
+  +bakers : EmployeeConfig[]
+  +deliveryMen : EmployeeConfig[]
+  +toBakeCapacity : int
+  +toDeliverCapacity : int
+  +orderCount : int
+  +createRestaurant() : Restaurant
+}
+
+class EmployeeConfig {
+  +minDelayMillis : int
+  +maxDelayMillis : int
+}
+
+class DeliveryManConfig {
+  +capacity : int
+}
+
+Order "*" o-r- "1" OrderQueue
+
+OrderQueue o-d-  OrderTaker
+OrderQueue "2" o-d- "1"  Baker
+OrderQueue o-d- DeliveryMan
+
+OrderLogger o-- OrderTaker
+OrderLogger o-- Baker
+OrderLogger o-- DeliveryMan
+
+WorkingStrategy o-d- OrderTaker
+WorkingStrategy o-d- Baker
+WorkingStrategy o-d- DeliveryMan
+
+OrderFactory o-- OrderTaker
+
+Order <-u- OrderLogger
+Order <-u- OrderFactory
+
+Runnable "1.." *-- "1" Restaurant
+
+WorkingStrategy <|.u. RandomDelayWorkingStrategy
+OrderLogger <|.u. PrintStreamOrderLogger
+Runnable <|.d. Restaurant
+Runnable <|.u. Baker
+Runnable <|.u. DeliveryMan
+Runnable <|.u. OrderTaker
+
+WorkingStrategy -r[#hidden]-> OrderLogger
+OrderFactory -l[#hidden]-> OrderLogger
+
+OrderFactory <|.u. SequentialOrderFactory
+
+Restaurant <-r- RestaurantConfig
+OrderTaker <-r- RestaurantConfig
+Baker <-r- RestaurantConfig
+DeliveryMan <-r- RestaurantConfig
+RandomDelayWorkingStrategy <-- RestaurantConfig
+SequentialOrderFactory <-- RestaurantConfig
+PrintStreamOrderLogger <-- RestaurantConfig
+
+EmployeeConfig <|-l- DeliveryManConfig
+DeliveryManConfig "1.." *-u- "1" RestaurantConfig
+EmployeeConfig "1.." *-- "1" RestaurantConfig
+
+@enduml
