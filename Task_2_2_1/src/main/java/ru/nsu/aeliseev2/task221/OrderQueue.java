@@ -64,16 +64,20 @@ public class OrderQueue {
     }
 
     /**
-     * Registers an active producer in this queue. Each call to {@code putBegin} must be succeeded
-     * by a call to {@code putEnd}.
+     * Must be called before calling {@code put} in the current producer thread.
+     * <p>
+     * Note: Each call to {@code putBegin} must be succeeded by a call to {@code putEnd}.
+     * </p>
      */
     public synchronized void putBegin() {
         this.activeProducers++;
     }
 
     /**
-     * Un-registers an active producer from this queue. Each call to {@code putEnd} must be preceded
-     * by a call to {@code putBegin}.
+     * Must be called after calling {@code put} for the last time in the current producer thread.
+     * <p>
+     * Note: Each call to {@code putEnd} must be preceded by a call to {@code putBegin}.
+     * </p>
      *
      * @throws IllegalStateException This call did not have a corresponding call to
      *                               {@code putBegin}.
