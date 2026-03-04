@@ -40,7 +40,7 @@ public class OrderQueue {
             wait();
         }
         list.add(order);
-        notify();
+        notifyAll();
     }
 
     /**
@@ -59,7 +59,7 @@ public class OrderQueue {
         }
         //noinspection SequencedCollectionMethodCanBeUsed
         final Order order = list.remove(0);
-        notify();
+        notifyAll();
         return order;
     }
 
