@@ -114,12 +114,12 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#putBegin()" class="member-name-link">putBegin</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Registers an active producer in this queue.</div>
+<div class="block">Must be called before calling <code>put</code> in the current producer thread.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#putEnd()" class="member-name-link">putEnd</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Un-registers an active producer from this queue.</div>
+<div class="block">Must be called after calling <code>put</code> for the last time in the current producer thread.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Order.html" title="class in ru.nsu.aeliseev2.task221">Order</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#take()" class="member-name-link">take</a>()</code></div>
@@ -198,16 +198,20 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="putBegin()">
 <h3>putBegin</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">putBegin</span>()</div>
-<div class="block">Registers an active producer in this queue. Each call to <code>putBegin</code> must be succeeded
- by a call to <code>putEnd</code>.</div>
+<div class="block">Must be called before calling <code>put</code> in the current producer thread.
+ <p>
+ Note: Each call to <code>putBegin</code> must be succeeded by a call to <code>putEnd</code>.
+ </p></div>
 </section>
 </li>
 <li>
 <section class="detail" id="putEnd()">
 <h3>putEnd</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">putEnd</span>()</div>
-<div class="block">Un-registers an active producer from this queue. Each call to <code>putEnd</code> must be preceded
- by a call to <code>putBegin</code>.</div>
+<div class="block">Must be called after calling <code>put</code> for the last time in the current producer thread.
+ <p>
+ Note: Each call to <code>putEnd</code> must be preceded by a call to <code>putBegin</code>.
+ </p></div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IllegalStateException.html" title="class or interface in java.lang" class="external-link">IllegalStateException</a></code> - This call did not have a corresponding call to

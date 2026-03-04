@@ -251,11 +251,11 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="ru/nsu/aeliseev2/task221/OrderQueue.html#putBegin()" class="member-name-link">putBegin()</a> - Method in class ru.nsu.aeliseev2.task221.<a href="ru/nsu/aeliseev2/task221/OrderQueue.html" title="class in ru.nsu.aeliseev2.task221">OrderQueue</a></dt>
 <dd>
-<div class="block">Registers an active producer in this queue.</div>
+<div class="block">Must be called before calling <code>put</code> in the current producer thread.</div>
 </dd>
 <dt><a href="ru/nsu/aeliseev2/task221/OrderQueue.html#putEnd()" class="member-name-link">putEnd()</a> - Method in class ru.nsu.aeliseev2.task221.<a href="ru/nsu/aeliseev2/task221/OrderQueue.html" title="class in ru.nsu.aeliseev2.task221">OrderQueue</a></dt>
 <dd>
-<div class="block">Un-registers an active producer from this queue.</div>
+<div class="block">Must be called after calling <code>put</code> for the last time in the current producer thread.</div>
 </dd>
 </dl>
 <h2 class="title" id="I:R">R</h2>
