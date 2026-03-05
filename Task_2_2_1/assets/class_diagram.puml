@@ -92,26 +92,26 @@ class DeliveryManConfig {
   +capacity : int
 }
 
-Order "*" o-r- "1" OrderQueue
+Order "*" -r-o "1" OrderQueue
 
-OrderQueue o-d-  OrderTaker
-OrderQueue "2" o-d- "1"  Baker
-OrderQueue o-d- DeliveryMan
+OrderQueue -d-o  OrderTaker
+OrderQueue "2" -d-o "1"  Baker
+OrderQueue -d-o DeliveryMan
 
-OrderLogger o-- OrderTaker
-OrderLogger o-- Baker
-OrderLogger o-- DeliveryMan
+OrderLogger --o OrderTaker
+OrderLogger --o Baker
+OrderLogger --o DeliveryMan
 
-WorkingStrategy o-d- OrderTaker
-WorkingStrategy o-d- Baker
-WorkingStrategy o-d- DeliveryMan
+WorkingStrategy -d-o OrderTaker
+WorkingStrategy -d-o Baker
+WorkingStrategy -d-o DeliveryMan
 
-OrderFactory o-- OrderTaker
+OrderFactory --o OrderTaker
 
-Order <-u- OrderLogger
-Order <-u- OrderFactory
+Order <.u. OrderLogger : <<use>>
+Order <.u. OrderFactory : <<create>>
 
-Runnable "1.." *-- "1" Restaurant
+Runnable "1.." --* "1" Restaurant
 
 WorkingStrategy <|.u. RandomDelayWorkingStrategy
 OrderLogger <|.u. PrintStreamOrderLogger
@@ -125,16 +125,16 @@ OrderFactory -l[#hidden]-> OrderLogger
 
 OrderFactory <|.u. SequentialOrderFactory
 
-Restaurant <-r- RestaurantConfig
-OrderTaker <-r- RestaurantConfig
-Baker <-r- RestaurantConfig
-DeliveryMan <-r- RestaurantConfig
-RandomDelayWorkingStrategy <-- RestaurantConfig
-SequentialOrderFactory <-- RestaurantConfig
-PrintStreamOrderLogger <-- RestaurantConfig
+Restaurant <.r. RestaurantConfig : <<create>>
+OrderTaker <.r. RestaurantConfig : <<create>>
+Baker <.r. RestaurantConfig : <<create>>
+DeliveryMan <.r. RestaurantConfig : <<create>>
+RandomDelayWorkingStrategy <.. RestaurantConfig  : <<create>>
+SequentialOrderFactory <.. RestaurantConfig  : <<create>>
+PrintStreamOrderLogger <.. RestaurantConfig : <<create>>
 
 EmployeeConfig <|-l- DeliveryManConfig
-DeliveryManConfig "1.." *-u- "1" RestaurantConfig
-EmployeeConfig "1.." *-- "1" RestaurantConfig
+DeliveryManConfig "1.." -u-* "1" RestaurantConfig
+EmployeeConfig "1.." --* "1" RestaurantConfig
 
 @enduml
