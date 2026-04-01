@@ -6,8 +6,8 @@ import javafx.scene.paint.Paint;
 /**
  * A tile that draws a part of the snake's body.
  *
- * @param primary   The primary color.
- * @param secondary The secondary color.
+ * @param primary   The primary paint.
+ * @param secondary The secondary paint.
  * @param rotation  The rotation of this tile in degrees (counter-clockwise, starting from pointing
  *                  to the right).
  */

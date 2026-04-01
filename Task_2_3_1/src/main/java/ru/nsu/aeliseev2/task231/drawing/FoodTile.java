@@ -3,6 +3,11 @@ package ru.nsu.aeliseev2.task231.drawing;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Paint;
 
+/**
+ * A tile that draws a bit of food.
+ *
+ * @param paint The paint to draw the food with.
+ */
 public record FoodTile(Paint paint) implements Tile {
     /**
      * {@inheritDoc}
