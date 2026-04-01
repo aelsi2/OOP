@@ -31,7 +31,7 @@ public class Game {
         this.foodPlacer = foodPlacer;
         this.score = 0;
 
-        this.headX = this.tailX = Math.max(0, (mapWidth - 1) / 2);
+        this.headX = this.tailX = 0;
         this.headY = this.tailY = Math.max(0, (mapHeight - 1) / 2);
         this.data[getIndex(headX, headY)] = GameTile.HEAD_R.toInt();
 
