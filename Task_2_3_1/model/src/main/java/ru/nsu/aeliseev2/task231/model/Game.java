@@ -94,7 +94,7 @@ public class Game {
         GameTile nextTile = GameTile.fromInt(data[getIndex(newHeadX, newHeadY)]);
         growCount += nextTile.growLength;
         score += nextTile.scoreIncrease;
-        if (nextTile.isLose) {
+        if (nextTile.hasCollision) {
             return GameState.LOSE;
         }
 
