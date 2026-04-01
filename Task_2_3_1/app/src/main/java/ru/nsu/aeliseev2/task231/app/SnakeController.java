@@ -12,6 +12,9 @@ import ru.nsu.aeliseev2.task231.model.Game;
 import ru.nsu.aeliseev2.task231.model.RandomFoodPlacer;
 import ru.nsu.aeliseev2.task231.model.ScoreWinCondition;
 
+/**
+ * The controller for the main game window.
+ */
 public class SnakeController {
     @FXML
     private TileMap background;
@@ -41,6 +44,12 @@ public class SnakeController {
         timeline.play();
     }
 
+    /**
+     * Handler method key presses. Changes the snake's movement direction when an arrow key is
+     * pressed.
+     *
+     * @param code The key code.
+     */
     public void handleKeyPress(KeyCode code) {
         switch (code) {
             case LEFT:
