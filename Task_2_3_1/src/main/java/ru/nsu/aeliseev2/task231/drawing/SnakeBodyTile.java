@@ -3,7 +3,18 @@ package ru.nsu.aeliseev2.task231.drawing;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Paint;
 
+/**
+ * A tile that draws a part of the snake's body.
+ *
+ * @param primary   The primary color.
+ * @param secondary The secondary color.
+ * @param rotation  The rotation of this tile in degrees (counter-clockwise, starting from pointing
+ *                  to the right).
+ */
 public record SnakeBodyTile(Paint primary, Paint secondary, double rotation) implements Tile {
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void draw(GraphicsContext context, double size) {
         context.save();

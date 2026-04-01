@@ -1,73 +1,136 @@
 package ru.nsu.aeliseev2.task231.drawing;
 
-import java.util.List;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 
-public class TileLayer extends Pane {
+/**
+ * A GUI element drawing a tile map.
+ */
+public class TileMap extends Pane {
     private final Canvas canvas;
 
-    private final IntegerProperty fieldWidthProperty = new SimpleIntegerProperty();
-    private final IntegerProperty fieldHeightProperty = new SimpleIntegerProperty();
+    private final IntegerProperty mapWidthProperty = new SimpleIntegerProperty();
+    private final IntegerProperty mapHeightProperty = new SimpleIntegerProperty();
     private final ObjectProperty<Tile[]> paletteProperty = new SimpleObjectProperty<>();
     private final ObjectProperty<int[]> dataProperty = new SimpleObjectProperty<>();
 
-    public int getFieldWidth() {
-        return fieldWidthProperty.get();
+    /**
+     * Gets the map width.
+     *
+     * @return The width of the tile map in tiles.
+     */
+    public int getMapWidth() {
+        return mapWidthProperty.get();
     }
 
-    public void setFieldWidth(int value) {
-        fieldWidthProperty.set(value);
+    /**
+     * Sets the map width.
+     *
+     * @param value The width of the tile map in tiles.
+     */
+    public void setMapWidth(int value) {
+        mapWidthProperty.set(value);
     }
 
-    public IntegerProperty fieldWidthProperty() {
-        return fieldWidthProperty;
+    /**
+     * Gets the map width property.
+     *
+     * @return The map width property.
+     */
+    public IntegerProperty mapWidthProperty() {
+        return mapWidthProperty;
     }
 
-    public int getFieldHeight() {
-        return fieldHeightProperty.get();
+    /**
+     * Gets the map height.
+     *
+     * @return The height of the tile map in tiles.
+     */
+    public int getMapHeight() {
+        return mapHeightProperty.get();
     }
 
-    public void setFieldHeight(int value) {
-        fieldHeightProperty.set(value);
+    /**
+     * Sets the map height.
+     *
+     * @param value The height of the tile map in tiles.
+     */
+    public void setMapHeight(int value) {
+        mapHeightProperty.set(value);
     }
 
-    public IntegerProperty fieldHeightProperty() {
-        return fieldHeightProperty;
+    /**
+     * Gets the map height property.
+     *
+     * @return The map height property.
+     */
+    public IntegerProperty mapHeightProperty() {
+        return mapHeightProperty;
     }
 
+    /**
+     * Gets the currently used tile palette.
+     *
+     * @return The tile palette.
+     */
     public Tile[] getPalette() {
         return paletteProperty.get();
     }
 
+    /**
+     * Sets the currently used tile palette.
+     *
+     * @param value The tile palette.
+     */
     public void setPalette(Tile[] value) {
         paletteProperty.set(value);
     }
 
+    /**
+     * Gets the tile palette property.
+     *
+     * @return The tile palette property.
+     */
     public ObjectProperty<Tile[]> paletteProperty() {
         return paletteProperty;
     }
 
+    /**
+     * Gets the currently displayed map data. Each element is an index in {@code palette}.
+     *
+     * @return The map data.
+     */
     public int[] getData() {
         return dataProperty.get();
     }
 
+    /**
+     * Sets the currently displayed map data. Each element is an index in {@code palette}.
+     *
+     * @param value  The map data.
+     */
     public void setData(int[] value) {
         dataProperty.set(value);
     }
 
+    /**
+     * Gets the map data property.
+     *
+     * @return The map data property.
+     */
     public ObjectProperty<int[]> dataProperty() {
         return dataProperty;
     }
 
-    public TileLayer() {
+    /**
+     * Initializes a new instance of {@code TileMap}.
+     */
+    public TileMap() {
         canvas = new Canvas();
         getChildren().add(canvas);
 
@@ -77,16 +140,19 @@ public class TileLayer extends Pane {
         canvas.heightProperty().addListener(observable -> redraw());
         paletteProperty().addListener(observable -> redraw());
         dataProperty().addListener(observable -> redraw());
-        fieldWidthProperty().addListener(observable -> redraw());
-        fieldHeightProperty().addListener(observable -> redraw());
+        mapWidthProperty().addListener(observable -> redraw());
+        mapHeightProperty().addListener(observable -> redraw());
     }
 
+    /**
+     * Redraws the tile map with the current data.
+     */
     public void redraw() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         double width = canvas.getWidth();
         double height = canvas.getHeight();
-        int columns = getFieldWidth();
-        int rows = getFieldHeight();
+        int columns = getMapWidth();
+        int rows = getMapHeight();
         Tile[] palette = getPalette();
         int[] fieldData = getData();
 
