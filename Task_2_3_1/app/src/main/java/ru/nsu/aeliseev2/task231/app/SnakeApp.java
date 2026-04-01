@@ -8,6 +8,12 @@ import javafx.stage.Stage;
 
 public class SnakeApp extends Application {
 
+    /**
+     * The entry point for the JavaFX application.
+     *
+     * @param stage The main stage.
+     * @throws IOException Error while loading the FXML layout.
+     */
     @Override
     public void start(Stage stage) throws IOException {
         stage.setTitle("Snake game");
@@ -19,6 +25,11 @@ public class SnakeApp extends Application {
         stage.show();
     }
 
+    /**
+     * The entry point for the program.
+     *
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         launch();
     }

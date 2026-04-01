@@ -8,11 +8,21 @@ import ru.nsu.aeliseev2.task231.app.drawing.SnakeBodyTile;
 import ru.nsu.aeliseev2.task231.app.drawing.SnakeHeadTile;
 import ru.nsu.aeliseev2.task231.app.drawing.Tile;
 
+/**
+ * Default {@code TileMap} palettes for the game.
+ */
 public class Palettes {
+    /**
+     * Green checkered grass background palette.
+     */
     public static final Tile[] BACKGROUND_GRASS = new Tile[]{
         new FillRectTile(Paint.valueOf("#5fa34f")),
         new FillRectTile(Paint.valueOf("#70b262")),
     };
+
+    /**
+     * Blue striped snake and red circular food foreground palette.
+     */
     public static final Tile[] FOREGROUND_BLUE_RED = makeForegroundPalette(
         Paint.valueOf("#65b5f2"),
         Paint.valueOf("#3887c2"),
