@@ -14,9 +14,9 @@ public class Palettes {
         new FillRectTile(Paint.valueOf("#70b262")),
     };
     public static final Tile[] FOREGROUND_BLUE_RED = makeForegroundPalette(
-        Paint.valueOf("#53a4e2"),
+        Paint.valueOf("#65b5f2"),
         Paint.valueOf("#3887c2"),
-        Paint.valueOf("#eb5146"));
+        Paint.valueOf("#f2665c"));
 
     private Palettes() {
     }
