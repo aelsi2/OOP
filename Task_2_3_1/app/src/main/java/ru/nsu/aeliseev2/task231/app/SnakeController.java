@@ -1,7 +1,17 @@
 package ru.nsu.aeliseev2.task231.app;
 
+import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.scene.input.KeyCode;
+import javafx.util.Duration;
 import ru.nsu.aeliseev2.task231.app.drawing.TileMap;
+import ru.nsu.aeliseev2.task231.model.Direction;
+import ru.nsu.aeliseev2.task231.model.Game;
+import ru.nsu.aeliseev2.task231.model.RandomFoodPlacer;
+import ru.nsu.aeliseev2.task231.model.ScoreWinCondition;
 
 public class SnakeController {
     @FXML
@@ -10,24 +20,59 @@ public class SnakeController {
     @FXML
     private TileMap foreground;
 
+    private Game game;
+    private Direction direction;
+
     @FXML
-    private void initialize() {
-        background.setData(makeBackground(10, 10));
-        background.setMapWidth(10);
-        background.setMapHeight(10);
-        background.setPalette(Palettes.BACKGROUND_GRASS);
-        foreground.setMapWidth(10);
-        foreground.setMapHeight(10);
+    public void initialize() {
         foreground.setPalette(Palettes.FOREGROUND_BLUE_RED);
+        background.setPalette(Palettes.BACKGROUND_GRASS);
+        game = new Game(15, 15,
+            new ScoreWinCondition(100),
+            new RandomFoodPlacer(3));
+        direction = Direction.RIGHT;
+        initializeLayers(game.getData(), game.getMapWidth(), game.getMapHeight());
+        foreground.redraw();
+
+        Timeline timeline = new Timeline(
+            new KeyFrame(Duration.seconds(0.2), event -> {
+                game.tick(direction);
+                foreground.redraw();
+            })
+        );
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
     }
 
-    private static int[] makeBackground(int width, int height) {
-        int[] data = new int[width * height];
+    public void handleKeyPress(KeyCode code) {
+        switch (code) {
+            case LEFT:
+                direction = Direction.LEFT;
+                break;
+            case UP:
+                direction = Direction.UP;
+                break;
+            case RIGHT:
+                direction = Direction.RIGHT;
+                break;
+            case DOWN:
+                direction = Direction.DOWN;
+                break;
+        }
+    }
+
+    private void initializeLayers(int fgData[], int width, int height) {
+        background.setMapWidth(width);
+        background.setMapHeight(height);
+        foreground.setMapWidth(width);
+        foreground.setMapHeight(height);
+        int[] bgData = new int[width * height];
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
-                data[row * width + col] = (row + col) % 2;
+                bgData[row * width + col] = (row + col) % 2;
             }
         }
-        return data;
+        foreground.setData(fgData);
+        background.setData(bgData);
     }
 }
