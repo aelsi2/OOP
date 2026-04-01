@@ -28,11 +28,11 @@ public class RandomFoodPlacer implements FoodPlacer {
     public void placeFood(int[] data, int width, int height, int score) {
         int actualFoodCount = 0;
         int emptySpaceCount = 0;
-        for (int i = 0; i < data.length; i++) {
-            if (data[i] == GameTile.FOOD.toInt()) {
+        for (int tile : data) {
+            if (tile == GameTile.FOOD.toInt()) {
                 actualFoodCount += 1;
             }
-            if (data[i] == GameTile.EMPTY.toInt()) {
+            if (tile == GameTile.EMPTY.toInt()) {
                 emptySpaceCount += 1;
             }
         }

@@ -1,7 +1,6 @@
 package ru.nsu.aeliseev2.task231.app;
 
 import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -61,7 +60,7 @@ public class SnakeController {
         }
     }
 
-    private void initializeLayers(int fgData[], int width, int height) {
+    private void initializeLayers(int[] fgData, int width, int height) {
         background.setMapWidth(width);
         background.setMapHeight(height);
         foreground.setMapWidth(width);

@@ -161,25 +161,25 @@ public class TileMap extends Pane {
             return;
         }
 
-        double xOffset, yOffset, tileSize;
+        double offsetX, offsetY, tileSize;
         if (width / height > (double) columns / (double) rows) {
             tileSize = height / rows;
-            yOffset = 0;
-            xOffset = (width - (columns * tileSize)) / 2;
+            offsetY = 0;
+            offsetX = (width - (columns * tileSize)) / 2;
         } else {
             tileSize = width / columns;
-            xOffset = 0;
-            yOffset = (height - (rows * tileSize)) / 2;
+            offsetX = 0;
+            offsetY = (height - (rows * tileSize)) / 2;
         }
         gc.clearRect(0, 0, width, height);
-        drawLayer(gc, palette, fieldData, columns, rows, xOffset, yOffset, tileSize);
+        drawLayer(gc, palette, fieldData, columns, rows, offsetX, offsetY, tileSize);
     }
 
     private static void drawLayer(GraphicsContext gc, Tile[] palette, int[] data,
-                                  int columns, int rows, double xOffset, double yOffset,
+                                  int columns, int rows, double offsetX, double offsetY,
                                   double tileSize) {
         gc.save();
-        gc.translate(xOffset, yOffset);
+        gc.translate(offsetX, offsetY);
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < columns; col++) {
                 int index = data[row * columns + col];
