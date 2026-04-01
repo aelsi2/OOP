@@ -31,7 +31,29 @@ public class Game {
         this.foodPlacer = foodPlacer;
         this.score = 0;
 
+        this.headX = this.tailX = Math.max(0, (mapWidth - 1) / 2);
+        this.headY = this.tailY = Math.max(0, (mapHeight - 1) / 2);
+        this.data[getIndex(headX, headY)] = GameTile.HEAD_R.toInt();
+
         foodPlacer.placeFood(data, mapWidth, mapHeight, score);
+    }
+
+    /**
+     * Gets the width of the map in tiles.
+     *
+     * @return Map width.
+     */
+    public int getMapWidth() {
+        return mapWidth;
+    }
+
+    /**
+     * Gets the height of the map in tiles.
+     *
+     * @return Map height.
+     */
+    public int getMapHeight() {
+        return mapHeight;
     }
 
     /**
@@ -76,7 +98,7 @@ public class Game {
             return GameState.LOSE;
         }
 
-        data[getIndex(headX, headY)] += GameTile.BODY_L.toInt() - GameTile.HEAD_L.toInt();
+        data[getIndex(headX, headY)] = GameTile.BODY_L.rotate(direction).toInt();
         data[getIndex(newHeadX, newHeadY)] = GameTile.HEAD_L.rotate(direction).toInt();
         headX = newHeadX;
         headY = newHeadY;
