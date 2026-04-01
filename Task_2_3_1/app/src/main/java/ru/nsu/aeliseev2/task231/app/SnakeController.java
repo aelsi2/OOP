@@ -24,8 +24,6 @@ public class SnakeController {
 
     @FXML
     public void initialize() {
-        foreground.setPalette(Palettes.FOREGROUND_BLUE_RED);
-        background.setPalette(Palettes.BACKGROUND_GRASS);
         game = new Game(15, 15,
             new ScoreWinCondition(100),
             new RandomFoodPlacer(3));
