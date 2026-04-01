@@ -23,6 +23,14 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
+sourceSets {
+    main {
+        resources {
+            srcDirs = ['src/main/resources']
+        }
+    }
+}
+
 application {
     mainClass = "ru.nsu.aeliseev2.task231.SnakeApp"
 }
