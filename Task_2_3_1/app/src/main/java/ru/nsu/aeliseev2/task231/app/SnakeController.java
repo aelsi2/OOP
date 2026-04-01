@@ -1,14 +1,15 @@
-package ru.nsu.aeliseev2.task231;
+package ru.nsu.aeliseev2.task231.app;
 
 import javafx.fxml.FXML;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import ru.nsu.aeliseev2.task231.drawing.FillRectTile;
-import ru.nsu.aeliseev2.task231.drawing.FoodTile;
-import ru.nsu.aeliseev2.task231.drawing.SnakeBodyTile;
-import ru.nsu.aeliseev2.task231.drawing.SnakeHeadTile;
-import ru.nsu.aeliseev2.task231.drawing.Tile;
-import ru.nsu.aeliseev2.task231.drawing.TileMap;
+import ru.nsu.aeliseev2.task231.app.drawing.FillRectTile;
+import ru.nsu.aeliseev2.task231.app.drawing.FoodTile;
+import ru.nsu.aeliseev2.task231.app.drawing.SnakeBodyTile;
+import ru.nsu.aeliseev2.task231.app.drawing.SnakeHeadTile;
+import ru.nsu.aeliseev2.task231.app.drawing.Tile;
+import ru.nsu.aeliseev2.task231.app.drawing.TileMap;
+import ru.nsu.aeliseev2.task231.model.SnakeModel;
 
 public class SnakeController {
     private static final Tile[] BG_PALETTE = new Tile[]{

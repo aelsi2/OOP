@@ -2,10 +2,10 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.StackPane?>
-<?import ru.nsu.aeliseev2.task231.drawing.TileMap?>
+<?import ru.nsu.aeliseev2.task231.app.drawing.TileMap?>
 <StackPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
-           fx:controller="ru.nsu.aeliseev2.task231.SnakeController"
+           fx:controller="ru.nsu.aeliseev2.task231.app.SnakeController"
            prefHeight="400.0" prefWidth="600.0"
            style="-fx-background-color: #396b2e;">
     <StackPane>

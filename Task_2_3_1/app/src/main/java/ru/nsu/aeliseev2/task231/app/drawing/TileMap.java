@@ -1,4 +1,4 @@
-package ru.nsu.aeliseev2.task231.drawing;
+package ru.nsu.aeliseev2.task231.app.drawing;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;

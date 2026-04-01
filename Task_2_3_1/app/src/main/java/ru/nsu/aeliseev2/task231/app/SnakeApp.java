@@ -1,4 +1,4 @@
-package ru.nsu.aeliseev2.task231;
+package ru.nsu.aeliseev2.task231.app;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
