@@ -55,9 +55,9 @@ public enum GameTile {
     FOOD(false, 1, 1, Direction.RIGHT);
 
     /**
-     * Whether the player is going to lose after crossing this tile.
+     * Whether the head can collide with the tile.
      */
-    public final boolean isLose;
+    public final boolean hasCollision;
 
     /**
      * How many segments the snake grows by after crossing this tile.
@@ -74,8 +74,8 @@ public enum GameTile {
      */
     public final Direction direction;
 
-    GameTile(boolean isLose, int growLength, int scoreIncrease, Direction direction) {
-        this.isLose = isLose;
+    GameTile(boolean hasCollision, int growLength, int scoreIncrease, Direction direction) {
+        this.hasCollision = hasCollision;
         this.growLength = growLength;
         this.scoreIncrease = scoreIncrease;
         this.direction = direction;
