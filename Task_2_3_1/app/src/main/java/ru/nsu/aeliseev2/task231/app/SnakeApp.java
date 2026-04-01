@@ -14,9 +14,7 @@ public class SnakeApp extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Snake.fxml"));
         Scene scene = new Scene(loader.load(), 640, 480);
         SnakeController controller = loader.getController();
-        scene.setOnKeyPressed(keyEvent -> {
-            controller.handleKeyPress(keyEvent.getCode());
-        });
+        scene.setOnKeyPressed(keyEvent -> controller.handleKeyPress(keyEvent.getCode()));
         stage.setScene(scene);
         stage.show();
     }
