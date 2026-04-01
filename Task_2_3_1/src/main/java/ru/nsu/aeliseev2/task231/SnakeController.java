@@ -44,8 +44,10 @@ public class SnakeController {
         Tile[] palette = new Tile[10];
         palette[0] = new FillRectTile(Color.TRANSPARENT);
         for (int i = 0; i < 4; i++) {
-            palette[1 + i] = new SnakeBodyTile(snakePrimary, snakeSecondary, 180 - i * 90);
-            palette[1 + i + 4] = new SnakeHeadTile(snakePrimary, snakeSecondary, 180 - i * 90);
+            palette[1 + i] = new SnakeBodyTile(
+                snakePrimary, snakeSecondary, 180 - i * 90);
+            palette[1 + i + 4] = new SnakeHeadTile(
+                snakePrimary, snakeSecondary, 180 - i * 90);
         }
         palette[9] = new FoodTile(food);
         return palette;
