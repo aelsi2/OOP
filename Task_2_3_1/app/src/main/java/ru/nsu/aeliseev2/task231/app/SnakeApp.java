@@ -6,6 +6,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * The JavaFX application.
+ */
 public class SnakeApp extends Application {
 
     /**

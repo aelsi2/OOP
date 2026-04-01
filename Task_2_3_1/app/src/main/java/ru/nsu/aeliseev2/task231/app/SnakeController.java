@@ -25,25 +25,6 @@ public class SnakeController {
     private Game game;
     private Direction direction;
 
-    @FXML
-    public void initialize() {
-        game = new Game(15, 15,
-            new ScoreWinCondition(100),
-            new RandomFoodPlacer(3));
-        direction = Direction.RIGHT;
-        initializeLayers(game.getData(), game.getMapWidth(), game.getMapHeight());
-        foreground.redraw();
-
-        Timeline timeline = new Timeline(
-            new KeyFrame(Duration.seconds(0.2), event -> {
-                game.tick(direction);
-                foreground.redraw();
-            })
-        );
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
-    }
-
     /**
      * Handler method key presses. Changes the snake's movement direction when an arrow key is
      * pressed.
@@ -67,6 +48,25 @@ public class SnakeController {
             default:
                 break;
         }
+    }
+
+    @FXML
+    private void initialize() {
+        game = new Game(15, 15,
+            new ScoreWinCondition(100),
+            new RandomFoodPlacer(3));
+        direction = Direction.RIGHT;
+        initializeLayers(game.getData(), game.getMapWidth(), game.getMapHeight());
+        foreground.redraw();
+
+        Timeline timeline = new Timeline(
+            new KeyFrame(Duration.seconds(0.2), event -> {
+                game.tick(direction);
+                foreground.redraw();
+            })
+        );
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
     }
 
     private void initializeLayers(int[] fgData, int width, int height) {
