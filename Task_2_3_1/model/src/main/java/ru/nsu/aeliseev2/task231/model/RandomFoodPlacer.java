@@ -6,7 +6,6 @@ import java.util.Random;
  * An implementation of {@code FoodPlacer} that keeps the specified amount of food bits on the game
  * field placing them randomly.
  */
-@NoCoverageGenerated
 public class RandomFoodPlacer implements FoodPlacer {
     private final int foodCount;
     private final Random random;
