@@ -55,6 +55,8 @@ public class SnakeController {
             case DOWN:
                 direction = Direction.DOWN;
                 break;
+            default:
+                break;
         }
     }
 

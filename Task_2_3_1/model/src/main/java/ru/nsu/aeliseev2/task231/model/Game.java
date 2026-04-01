@@ -10,8 +10,10 @@ public class Game {
     private final WinCondition winCondition;
     private final FoodPlacer foodPlacer;
 
-    private int headX, headY;
-    private int tailX, tailY;
+    private int headX;
+    private int headY;
+    private int tailX;
+    private int tailY;
     private int score;
     private int growCount;
 
