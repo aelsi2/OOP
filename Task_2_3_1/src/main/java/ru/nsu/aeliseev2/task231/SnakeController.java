@@ -8,7 +8,7 @@ import ru.nsu.aeliseev2.task231.drawing.FoodTile;
 import ru.nsu.aeliseev2.task231.drawing.SnakeBodyTile;
 import ru.nsu.aeliseev2.task231.drawing.SnakeHeadTile;
 import ru.nsu.aeliseev2.task231.drawing.Tile;
-import ru.nsu.aeliseev2.task231.drawing.TileLayer;
+import ru.nsu.aeliseev2.task231.drawing.TileMap;
 
 public class SnakeController {
     private static final Tile[] BG_PALETTE = new Tile[]{
@@ -21,19 +21,19 @@ public class SnakeController {
         Paint.valueOf("#eb5146"));
 
     @FXML
-    private TileLayer background;
+    private TileMap background;
 
     @FXML
-    private TileLayer foreground;
+    private TileMap foreground;
 
     @FXML
     private void initialize() {
         background.setData(makeBackground(10, 10));
-        background.setFieldWidth(10);
-        background.setFieldHeight(10);
+        background.setMapWidth(10);
+        background.setMapHeight(10);
         background.setPalette(BG_PALETTE);
-        foreground.setFieldWidth(10);
-        foreground.setFieldHeight(10);
+        foreground.setMapWidth(10);
+        foreground.setMapHeight(10);
         foreground.setPalette(FG_PALETTE);
     }
 
