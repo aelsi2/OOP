@@ -20,6 +20,10 @@ test {
     useJUnitPlatform()
 }
 
+javadoc {
+    destinationDir = file("${rootDir}/build/docs/javadoc")
+}
+
 jacocoTestReport {
     reports {
         xml.required = true
