@@ -161,7 +161,9 @@ public class TileMap extends Pane {
             return;
         }
 
-        double offsetX, offsetY, tileSize;
+        double offsetX;
+        double offsetY;
+        double tileSize;
         if (width / height > (double) columns / (double) rows) {
             tileSize = height / rows;
             offsetY = 0;
