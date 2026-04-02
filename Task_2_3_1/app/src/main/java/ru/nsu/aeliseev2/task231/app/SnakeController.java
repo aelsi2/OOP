@@ -3,13 +3,17 @@ package ru.nsu.aeliseev2.task231.app;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 import ru.nsu.aeliseev2.task231.app.drawing.TileMap;
 import ru.nsu.aeliseev2.task231.model.Direction;
 import ru.nsu.aeliseev2.task231.model.Game;
+import ru.nsu.aeliseev2.task231.model.GameState;
 import ru.nsu.aeliseev2.task231.model.RandomFoodPlacer;
 import ru.nsu.aeliseev2.task231.model.ScoreWinCondition;
 
@@ -19,15 +23,24 @@ import ru.nsu.aeliseev2.task231.model.ScoreWinCondition;
 public class SnakeController {
     @FXML
     private TileMap background;
-
     @FXML
     private TileMap foreground;
-
     @FXML
     private Label score;
+    @FXML
+    private Parent menu;
+    @FXML
+    private Spinner<Integer> widthSpinner;
+    @FXML
+    private Spinner<Integer> heightSpinner;
+    @FXML
+    private Spinner<Integer> foodSpinner;
+    @FXML
+    private Spinner<Integer> speedSpinner;
 
     private Game game;
     private Direction direction;
+    private Timeline timeline;
 
     /**
      * Handler method key presses. Changes the snake's movement direction when an arrow key is
@@ -55,22 +68,44 @@ public class SnakeController {
     }
 
     @FXML
-    private void initialize() {
-        game = new Game(15, 15,
-            new ScoreWinCondition(100),
-            new RandomFoodPlacer(3));
-        direction = Direction.RIGHT;
-        initializeLayers(game.getData(), game.getMapWidth(), game.getMapHeight());
-        updateScreen();
+    private void onStartClick(ActionEvent ignored) {
+        menu.setVisible(false);
+        int width = widthSpinner.getValue();
+        int height = heightSpinner.getValue();
+        int food = foodSpinner.getValue();
+        int speed = speedSpinner.getValue();
+        startNewGame(width, height, width * height - 1, food, 1.0 / (speed + 2));
+    }
 
-        Timeline timeline = new Timeline(
-            new KeyFrame(Duration.seconds(0.2), event -> {
-                game.tick(direction);
-                updateScreen();
+    @FXML
+    private void initialize() {
+        initializeLayers(null, 10, 10);
+    }
+
+    private void startNewGame(int width, int height, int winScore, int foodCount, double delay) {
+        game = new Game(width, height,
+            new ScoreWinCondition(winScore),
+            new RandomFoodPlacer(foodCount));
+        initializeLayers(game.getData(), game.getMapWidth(), game.getMapHeight());
+        direction = Direction.RIGHT;
+        updateScreen(GameState.RUNNING);
+
+        timeline = new Timeline(
+            new KeyFrame(Duration.seconds(delay), event -> {
+                var state = game.tick(direction);
+                if (state != GameState.RUNNING) {
+                    endGame();
+                }
+                updateScreen(state);
             })
         );
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+    }
+
+    private void endGame() {
+        timeline.stop();
+        menu.setVisible(true);
     }
 
     private void initializeLayers(int[] fgData, int width, int height) {
@@ -88,8 +123,20 @@ public class SnakeController {
         background.setData(bgData);
     }
 
-    private void updateScreen() {
+    private void updateScreen(GameState state) {
         foreground.redraw();
-        score.setText(String.format("%d", game.getScore()));
+        String format;
+        switch (state) {
+            case WIN:
+                format = "You won! Score: %d";
+                break;
+            case LOSE:
+                format = "You lost! Score: %d";
+                break;
+            default:
+                format = "%d";
+                break;
+        }
+        score.setText(String.format(format, game.getScore()));
     }
 }
