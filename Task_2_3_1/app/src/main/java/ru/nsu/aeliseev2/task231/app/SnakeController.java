@@ -4,6 +4,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 import ru.nsu.aeliseev2.task231.app.drawing.TileMap;
@@ -21,6 +22,9 @@ public class SnakeController {
 
     @FXML
     private TileMap foreground;
+
+    @FXML
+    private Label score;
 
     private Game game;
     private Direction direction;
@@ -57,12 +61,12 @@ public class SnakeController {
             new RandomFoodPlacer(3));
         direction = Direction.RIGHT;
         initializeLayers(game.getData(), game.getMapWidth(), game.getMapHeight());
-        foreground.redraw();
+        updateScreen();
 
         Timeline timeline = new Timeline(
             new KeyFrame(Duration.seconds(0.2), event -> {
                 game.tick(direction);
-                foreground.redraw();
+                updateScreen();
             })
         );
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -82,5 +86,10 @@ public class SnakeController {
         }
         foreground.setData(fgData);
         background.setData(bgData);
+    }
+
+    private void updateScreen() {
+        foreground.redraw();
+        score.setText(String.format("%d", game.getScore()));
     }
 }
