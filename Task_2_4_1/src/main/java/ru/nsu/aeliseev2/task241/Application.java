@@ -13,7 +13,13 @@ import ru.nsu.aeliseev2.task241.model.TaskStatus;
 public class Application {
     public static void main(String[] args) throws Exception {
         var git = new CliGitClient();
-        var task = new Task("Task_1_1_1", "primes", Instant.now(), Instant.now());
+        var task = new Task(
+            "Task_1_1_1",
+            "primes",
+            false,
+            Instant.now(),
+            Instant.now()
+        );
         try (var repo = git.clone("https://github.com/aelsi2/OOP")) {
             Path directory = repo.directory().resolve(task.dirName());
             var status = new TaskStatus();

@@ -7,8 +7,15 @@ import java.time.Instant;
  *
  * @param dirName      The name of the directory inside the repo.
  * @param name         The human-readable name of the task.
+ * @param isExtra      Whether this task is an extra task.
  * @param softDeadline The date of the soft deadline for this task.
  * @param hardDeadline The date of the hard deadline for this task.
  */
-public record Task(String dirName, String name, Instant softDeadline, Instant hardDeadline) {
+public record Task(
+    String dirName,
+    String name,
+    boolean isExtra,
+    Instant softDeadline,
+    Instant hardDeadline
+) {
 }
