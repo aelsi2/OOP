@@ -3,7 +3,12 @@ package ru.nsu.aeliseev2.task241.checks;
 import com.google.common.collect.ObjectArrays;
 import com.google.common.io.CharStreams;
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.PosixFilePermission;
+import java.util.Set;
 import ru.nsu.aeliseev2.task241.model.TaskStatus;
 
 public abstract class GradleCheck implements TaskCheck {
@@ -14,12 +19,25 @@ public abstract class GradleCheck implements TaskCheck {
      */
     protected abstract String[] args();
 
+    private void makeGradlewExecutable(Path project) throws IOException {
+        if (!FileSystems.getDefault().supportedFileAttributeViews().contains("posix")) {
+            return;
+        }
+        Path gradlewPath = project.resolve("gradlew");
+        Set<PosixFilePermission> perms = Files.getPosixFilePermissions(gradlewPath);
+        perms.add(PosixFilePermission.OWNER_EXECUTE);
+        perms.add(PosixFilePermission.GROUP_EXECUTE);
+        perms.add(PosixFilePermission.OTHERS_EXECUTE);
+        Files.setPosixFilePermissions(gradlewPath, perms);
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public boolean run(Path project, TaskStatus taskStatus) {
         try {
+            makeGradlewExecutable(project);
             Process process = new ProcessBuilder()
                 .directory(project.toFile())
                 .command(ObjectArrays.concat("./gradlew", args()))
