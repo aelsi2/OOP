@@ -16,7 +16,13 @@ import java.util.stream.Stream;
 import org.xml.sax.InputSource;
 import ru.nsu.aeliseev2.task241.model.TaskStatus;
 
+/**
+ * A task action that runs checkstyle on the project.
+ */
 public class StyleCheck implements TaskCheck {
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean run(Path project, TaskStatus taskStatus) {
         try {
