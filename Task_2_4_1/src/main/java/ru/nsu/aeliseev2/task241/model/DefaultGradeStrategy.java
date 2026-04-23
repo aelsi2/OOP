@@ -31,13 +31,17 @@ public class DefaultGradeStrategy implements GradeStrategy {
         for (Task task : taskDatabase.getTasks()) {
             TaskStatus status = taskDatabase.getStatus(task, student);
             actualPoints += status.extraPoints;
-            if (status.softAccepted != null &&
+            if (status.softAccepted != null && task.softDeadline() != null &&
                 status.softAccepted.toEpochMilli() < task.softDeadline().toEpochMilli()) {
                 actualPoints += 0.5;
             }
-            if (status.hardAccepted != null &&
-                status.hardAccepted.toEpochMilli() < task.hardDeadline().toEpochMilli()) {
-                actualPoints += 0.5;
+            if (status.hardAccepted != null && (task.hardDeadline() == null ||
+                status.hardAccepted.toEpochMilli() < task.hardDeadline().toEpochMilli())) {
+                if (task.softDeadline() == null || status.softAccepted == null) {
+                    actualPoints += 1;
+                } else {
+                    actualPoints += 0.5;
+                }
             }
         }
         return actualPoints;
