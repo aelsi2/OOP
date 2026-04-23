@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'jacoco'
+    id 'application'
 }
 
 group = 'ru.nsu.aeliseev2'
@@ -13,12 +14,20 @@ repositories {
 dependencies {
     implementation 'com.google.guava:guava:33.6.0-jre'
     implementation 'com.github.jknack:handlebars:4.4.0'
-    implementation 'com.puppycrawl.tools:checkstyle:13.4.0'
+    implementation 'com.puppycrawl.tools:checkstyle:10.3'
     implementation 'org.apache.groovy:groovy-all:4.0.21'
 
     testImplementation platform('org.junit:junit-bom:6.0.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+application {
+    mainClass = "ru.nsu.aeliseev2.task241.Application"
+}
+
+run {
+    standardInput = System.in
 }
 
 test {

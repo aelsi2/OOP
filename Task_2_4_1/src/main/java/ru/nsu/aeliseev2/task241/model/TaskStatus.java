@@ -1,6 +1,6 @@
 package ru.nsu.aeliseev2.task241.model;
 
-import java.util.Date;
+import java.time.Instant;
 
 /**
  * The status of a task for a student.
@@ -29,12 +29,12 @@ public class TaskStatus {
     /**
      * The soft accept date for this task.
      */
-    public Date softAccepted = null;
+    public Instant softAccepted = null;
 
     /**
      * The hard accept date for this task.
      */
-    public Date hardAccepted = null;
+    public Instant hardAccepted = null;
 
     /**
      * The extra points given for this task.

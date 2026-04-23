@@ -33,6 +33,7 @@ public class CliGitClient implements GitClient{
     public GitRepo clone(String uri) {
         try {
             Path tempDir = Files.createTempDirectory("aelsi2_task241_");
+            System.err.println("Cloning " + uri + " into " + tempDir.toString());
 
             ProcessBuilder pb = new ProcessBuilder();
             pb.environment().put("GIT_TERMINAL_PROMPT", "0");
