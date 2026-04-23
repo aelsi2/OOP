@@ -1,5 +1,6 @@
 package ru.nsu.aeliseev2.task241.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,6 +14,13 @@ public class TaskDatabase {
     private final List<Task> tasks;
     private final List<Group> groups;
     private final HashMap<Key, TaskStatus> statusMap;
+
+    /**
+     * Initializes a new instance of {@code TaskDatabase}.
+     */
+    public TaskDatabase() {
+        this(new ArrayList<>(), new ArrayList<>());
+    }
 
     /**
      * Initializes a new instance of {@code TaskDatabase}.
