@@ -1,9 +1,9 @@
 package ru.nsu.aeliseev2.task241.git;
 
+import com.google.common.io.CharStreams;
 import com.google.common.io.MoreFiles;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +39,7 @@ public class CliGitRepo implements GitRepo {
             Process process = pb.start();
 
             List<String> result = new ArrayList<>();
-            try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(process.getInputStream()))) {
+            try (BufferedReader reader = process.inputReader()) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     result.add(line);
@@ -49,7 +48,11 @@ public class CliGitRepo implements GitRepo {
 
             int exitCode = process.waitFor();
             if (exitCode != 0) {
-                throw new RuntimeException("Git returned non-zero exit code");
+                String error;
+                try (BufferedReader reader = process.errorReader()) {
+                    error = CharStreams.toString(reader);
+                }
+                throw new RuntimeException("Git returned non-zero exit code:\n" + error);
             }
             return result;
         } catch (IOException | InterruptedException e) {
@@ -71,7 +74,11 @@ public class CliGitRepo implements GitRepo {
 
             int exitCode = process.waitFor();
             if (exitCode != 0) {
-                throw new RuntimeException("Git returned non-zero exit code");
+                String error;
+                try (BufferedReader reader = process.errorReader()) {
+                    error = CharStreams.toString(reader);
+                }
+                throw new RuntimeException("Git returned non-zero exit code:\n" + error);
             }
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
