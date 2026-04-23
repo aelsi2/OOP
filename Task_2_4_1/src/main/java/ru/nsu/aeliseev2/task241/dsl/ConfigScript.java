@@ -29,9 +29,9 @@ public abstract class ConfigScript extends Script {
         return (Path) getBinding().getVariable("scriptPath");
     }
 
-    private List<Grade> grades() {
+    private List<Grade> gradeList() {
         //noinspection unchecked
-        return (List<Grade>) getBinding().getVariable("grades");
+        return (List<Grade>) getBinding().getVariable("gradeList");
     }
 
     /**
@@ -52,7 +52,7 @@ public abstract class ConfigScript extends Script {
         Binding binding = new Binding();
         binding.setVariable("taskDatabase", taskDatabase);
         binding.setVariable("scriptPath", path.toAbsolutePath().getParent());
-        binding.setVariable("grades", grades);
+        binding.setVariable("gradeList", grades);
         GroovyShell shell = new GroovyShell(binding, config);
         shell.parse(path.toFile()).run();
     }
@@ -64,7 +64,7 @@ public abstract class ConfigScript extends Script {
      */
     public void include(String path) {
         try {
-            execute(scriptPath().resolve(path), taskDatabase(), grades());
+            execute(scriptPath().resolve(path), taskDatabase(), gradeList());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -162,7 +162,7 @@ public abstract class ConfigScript extends Script {
      * @param gradesConfig The closure to configure grades with.
      */
     void grades(Closure<Object> gradesConfig) {
-        GradesContext context = new GradesContext(grades());
+        GradesContext context = new GradesContext(gradeList());
         gradesConfig.setDelegate(context);
         gradesConfig.setResolveStrategy(Closure.DELEGATE_ONLY);
         gradesConfig.run();

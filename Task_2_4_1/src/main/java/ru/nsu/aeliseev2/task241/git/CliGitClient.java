@@ -7,7 +7,7 @@ import java.nio.file.Path;
 /**
  * An implementation of {@code GitClient} that uses the Git CLI tool directly.
  */
-public class CliGitClient implements GitClient{
+public class CliGitClient implements GitClient {
     private final String gitCommand;
 
     /**

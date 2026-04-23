@@ -11,6 +11,9 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.util.Set;
 import ru.nsu.aeliseev2.task241.model.TaskStatus;
 
+/**
+ * An abstract check that executes {@code ./gradlew}.
+ */
 public abstract class GradleCheck implements TaskCheck {
     /**
      * The task to build with Gradle.

@@ -31,12 +31,12 @@ public class DefaultGradeStrategy implements GradeStrategy {
         for (Task task : taskDatabase.getTasks()) {
             TaskStatus status = taskDatabase.getStatus(task, student);
             actualPoints += status.extraPoints;
-            if (status.softAccepted != null && task.softDeadline() != null &&
-                status.softAccepted.toEpochMilli() < task.softDeadline().toEpochMilli()) {
+            if (status.softAccepted != null && task.softDeadline() != null
+                && status.softAccepted.toEpochMilli() < task.softDeadline().toEpochMilli()) {
                 actualPoints += 0.5;
             }
-            if (status.hardAccepted != null && (task.hardDeadline() == null ||
-                status.hardAccepted.toEpochMilli() < task.hardDeadline().toEpochMilli())) {
+            if (status.hardAccepted != null && (task.hardDeadline() == null
+                || status.hardAccepted.toEpochMilli() < task.hardDeadline().toEpochMilli())) {
                 if (task.softDeadline() == null || status.softAccepted == null) {
                     actualPoints += 1;
                 } else {
@@ -53,8 +53,8 @@ public class DefaultGradeStrategy implements GradeStrategy {
             .filter(task -> task.hardDeadline().toEpochMilli() <= maxDate.toEpochMilli())
             .allMatch(task -> {
                 TaskStatus status = taskDatabase.getStatus(task, student);
-                return status.hardAccepted != null &&
-                    status.hardAccepted.toEpochMilli() <= task.hardDeadline().toEpochMilli();
+                return status.hardAccepted != null
+                    && status.hardAccepted.toEpochMilli() <= task.hardDeadline().toEpochMilli();
             });
     }
 

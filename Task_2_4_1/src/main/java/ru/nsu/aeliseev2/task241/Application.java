@@ -22,10 +22,18 @@ import ru.nsu.aeliseev2.task241.model.TaskDatabase;
 import ru.nsu.aeliseev2.task241.report.HtmlReportGenerator;
 import ru.nsu.aeliseev2.task241.report.ReportGenerator;
 
+/**
+ * The main application class.
+ */
 public class Application {
     private static final String DEFAULT_CONFIG = "check.groovy";
     private static final String REPO_URI = "https://github.com/%s/OOP";
 
+    /**
+     * The entry point to the application.
+     *
+     * @param args The command line arguments.
+     */
     public static void main(String[] args) {
         String configPath = args.length >= 1 ? args[0] : DEFAULT_CONFIG;
         TaskDatabase taskDatabase = new TaskDatabase();
