@@ -42,7 +42,18 @@ public class TaskDatabase {
      * @return The task status for the specified task+student.
      */
     public TaskStatus getStatus(Task task, Student student) {
-        final Key key = new Key(task.dirName(), student.githubUsername());
+        return getStatus(task.dirName(), student.githubUsername());
+    }
+
+    /**
+     * Gets the status for the specified task+student pair.
+     *
+     * @param task    The task name.
+     * @param student The student username.
+     * @return The task status for the specified task+student.
+     */
+    public TaskStatus getStatus(String task, String student) {
+        final Key key = new Key(task, student);
         TaskStatus status = statusMap.getOrDefault(key, null);
         if (status == null) {
             status = new TaskStatus();
