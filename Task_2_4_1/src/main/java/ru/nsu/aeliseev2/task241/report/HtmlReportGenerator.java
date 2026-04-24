@@ -41,6 +41,26 @@ public class HtmlReportGenerator implements ReportGenerator {
                            double gradeValue) {
     }
 
+    private final Template template;
+
+    /**
+     * Initializes a new instance of {@code HtmlReportGenerator} with the default template.
+     *
+     * @exception IOException Failed to load the default template.
+     */
+    public HtmlReportGenerator() throws IOException {
+        this(new Handlebars().compile("report.html"));
+    }
+
+    /**
+     * Initializes a new instance of {@code HtmlReportGenerator}.
+     *
+     * @param template The handlebars template to use.
+     */
+    public HtmlReportGenerator(Template template) {
+        this.template = template;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -100,8 +120,6 @@ public class HtmlReportGenerator implements ReportGenerator {
         Report report = new Report(groups);
 
         try {
-            Handlebars handlebars = new Handlebars();
-            Template template = handlebars.compile("template.html");
             Writer writer = new OutputStreamWriter(outStream);
             template.apply(report, writer);
             writer.flush();
