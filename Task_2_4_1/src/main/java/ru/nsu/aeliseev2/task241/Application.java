@@ -1,6 +1,5 @@
 package ru.nsu.aeliseev2.task241;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -54,7 +53,7 @@ public class Application {
             new TestCheck(),
             new StyleCheck()
         );
-        ReportGenerator reportGenerator = new HtmlReportGenerator();;
+        ReportGenerator reportGenerator = new HtmlReportGenerator();
 
         for (Group group : taskDatabase.getGroups()) {
             for (Student student : group.students()) {
