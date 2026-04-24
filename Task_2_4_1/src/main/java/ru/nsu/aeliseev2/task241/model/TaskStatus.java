@@ -12,7 +12,7 @@ public class TaskStatus {
     public boolean buildPassed = false;
 
     /**
-     * Gets the value of {@code buildPassed}
+     * Gets the value of {@code buildPassed}.
      *
      * @return The value.
      */
@@ -35,7 +35,7 @@ public class TaskStatus {
     public boolean docPassed = false;
 
     /**
-     * Gets the value of {@code docPassed}
+     * Gets the value of {@code docPassed}.
      *
      * @return The value.
      */
@@ -58,7 +58,7 @@ public class TaskStatus {
     public boolean stylePassed = false;
 
     /**
-     * Gets the value of {@code stylePassed}
+     * Gets the value of {@code stylePassed}.
      *
      * @return The value.
      */
@@ -81,7 +81,7 @@ public class TaskStatus {
     public TestResult tests = new TestResult(0, 0, 0);
 
     /**
-     * Gets the value of {@code tests}
+     * Gets the value of {@code tests}.
      *
      * @return The value.
      */
@@ -104,7 +104,7 @@ public class TaskStatus {
     public Instant softAccepted = null;
 
     /**
-     * Gets the value of {@code softAccepted}
+     * Gets the value of {@code softAccepted}.
      *
      * @return The value.
      */
@@ -127,7 +127,7 @@ public class TaskStatus {
     public Instant hardAccepted = null;
 
     /**
-     * Gets the value of {@code hardAccepted}
+     * Gets the value of {@code hardAccepted}.
      *
      * @return The value.
      */
@@ -150,7 +150,7 @@ public class TaskStatus {
     public double extraPoints = 0;
 
     /**
-     * Gets the value of {@code extraPoints}
+     * Gets the value of {@code extraPoints}.
      *
      * @return The value.
      */
