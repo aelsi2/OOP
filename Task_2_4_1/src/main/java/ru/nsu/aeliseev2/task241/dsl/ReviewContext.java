@@ -2,6 +2,7 @@ package ru.nsu.aeliseev2.task241.dsl;
 
 import java.time.Instant;
 import ru.nsu.aeliseev2.task241.model.TaskDatabase;
+import ru.nsu.aeliseev2.task241.model.TaskStatus;
 
 /**
  * Configuration DSL {@code review} context.
@@ -13,6 +14,7 @@ public class ReviewContext {
     public class AcceptContext {
         private final String taskName;
         private final boolean hard;
+        private double extraValue;
 
         /**
          * Initializes a new instance of {@code AcceptContext}.
@@ -23,19 +25,33 @@ public class ReviewContext {
         public AcceptContext(String taskName, boolean hard) {
             this.taskName = taskName;
             this.hard = hard;
+            this.extraValue = 0;
         }
 
         /**
-         * Specifies the student that solved the task and adds the review to the databse.
+         * Adds extra points for the task.
+         *
+         * @param value The extra points to add.
+         * @return The {@code AcceptContext} to do further configuration with.
+         */
+        public AcceptContext extra(double value) {
+            extraValue += value;
+            return this;
+        }
+
+        /**
+         * Specifies the student that solved the task and adds the review to the database.
          *
          * @param username The GitHub username of the student.
          */
         public void forStudent(String username) {
+            TaskStatus status = taskDatabase.getStatus(taskName, username);
             if (hard) {
-                taskDatabase.getStatus(taskName, username).hardAccepted = date;
+                status.hardAccepted = date;
             } else {
-                taskDatabase.getStatus(taskName, username).softAccepted = date;
+                status.softAccepted = date;
             }
+            status.extraPoints += extraValue;
         }
     }
 
