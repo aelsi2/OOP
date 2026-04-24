@@ -70,32 +70,22 @@ public class ReviewContext {
     }
 
     /**
-     * Begins constructing a new review.
+     * Begins constructing a new task review.
      *
      * @param taskName The name of the task being reviewed.
-     * @param hard     Whether this is a hard review or a soft review.
      * @return The {@code review.accept} context.
      */
-    public AcceptContext accept(String taskName, boolean hard) {
-        return new AcceptContext(taskName, hard);
+    public AcceptContext hardAccept(String taskName) {
+        return new AcceptContext(taskName, false);
     }
 
     /**
-     * Gets the {@code soft} constant for {@code accept}.
+     * Begins constructing a new task review.
      *
-     * @return The {@code soft} value.
+     * @param taskName The name of the task being reviewed.
+     * @return The {@code review.accept} context.
      */
-    public boolean getSoft() {
-        return false;
+    public AcceptContext softAccept(String taskName) {
+        return new AcceptContext(taskName, true);
     }
-
-    /**
-     * Gets the {@code hard} constant for {@code accept}.
-     *
-     * @return The {@code hard} value.
-     */
-    public boolean getHard() {
-        return true;
-    }
-
 }

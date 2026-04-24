@@ -13,35 +13,27 @@ import ru.nsu.aeliseev2.task241.model.Grade;
  */
 public class GradesContext {
     /**
-     * Configuration DSL {@code grades.name} context.
+     * Configuration DSL {@code grades.date} context.
      */
-    public class NameContext {
-        private final String name;
+    public class DateContext {
+        private final Instant date;
 
         /**
-         * Initializes a new instance of {@code NameContext}.
-         *
-         * @param name The name of the grade.
-         */
-        public NameContext(String name) {
-            this.name = name;
-        }
-
-        /**
-         * Specifies the date of evaluation and adds it to the list.
+         * Initializes a new instance of {@code DateContext}.
          *
          * @param date The date of evaluation.
          */
-        public void date(String date) {
-            Instant maxDate;
-            try {
-                maxDate = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE)
-                    .atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
-            } catch (Exception e) {
-                throw new IllegalArgumentException(
-                    "Grade date must be a string in the yyyy-MM-dd format");
-            }
-            grades.add(new Grade(name, new DefaultGradeStrategy(maxDate)));
+        public DateContext(Instant date) {
+            this.date = date;
+        }
+
+        /**
+         * Specifies the name of the grade and adds it to the list.
+         *
+         * @param name The name of the grade.
+         */
+        public void name(String name) {
+            grades.add(new Grade(name, new DefaultGradeStrategy(date)));
         }
 
     }
@@ -60,10 +52,18 @@ public class GradesContext {
     /**
      * Begins constructing a new grade.
      *
-     * @param name The name of the grade.
+     * @param date The date of evaluation.
      * @return The {@code grades.name} context.
      */
-    public NameContext name(String name) {
-        return new NameContext(name);
+    public DateContext date(String date) {
+        Instant maxDate;
+        try {
+            maxDate = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE)
+                .atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+        } catch (Exception e) {
+            throw new IllegalArgumentException(
+                "Grade date must be a string in the yyyy-MM-dd format");
+        }
+        return new DateContext(maxDate);
     }
 }

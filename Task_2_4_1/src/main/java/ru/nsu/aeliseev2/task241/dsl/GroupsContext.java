@@ -12,24 +12,24 @@ public class GroupsContext {
      * Configuration DSL {@code groups.student} context.
      */
     public class StudentContext {
-        private final String name;
+        private final String username;
 
         /**
          * Initializes a new instance of {@code StudentContext}.
          *
-         * @param name The full name of the student.
+         * @param username The GitHub username of the student.
          */
-        public StudentContext(String name) {
-            this.name = name;
+        public StudentContext(String username) {
+            this.username = username;
         }
 
         /**
-         * Specifies the GitHub username of the student and adds them to the database.
+         * Specifies the full name of the student and adds them to the database.
          *
-         * @param githubUsername The GitHub username of the student.
+         * @param fullName The full name of the student.
          */
-        public void username(String githubUsername) {
-            students.add(new Student(name, githubUsername));
+        public void name(String fullName) {
+            students.add(new Student(fullName, username));
         }
     }
 
@@ -38,10 +38,10 @@ public class GroupsContext {
     /**
      * Begins constructing a new student.
      *
-     * @param name The full name of the student.
+     * @param username The GitHub username of the student.
      * @return The {@code groups.student} context.
      */
-    public StudentContext student(String name) {
-        return new StudentContext(name);
+    public StudentContext student(String username) {
+        return new StudentContext(username);
     }
 }

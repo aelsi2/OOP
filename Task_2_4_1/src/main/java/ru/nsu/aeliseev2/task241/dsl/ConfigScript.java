@@ -87,18 +87,15 @@ public abstract class ConfigScript extends Script {
     /**
      * Begins constructing a new task.
      *
-     * @param name       The pretty name of the task.
+     * @param dirName    The name of the task directory.
      * @param taskConfig The closure to configure the task with.
      */
-    public void task(String name, Closure<Object> taskConfig) {
+    public void task(String dirName, Closure<Object> taskConfig) {
         TaskContext context = new TaskContext();
-        context.name = name;
+        context.dirName = dirName;
         taskConfig.setDelegate(context);
         taskConfig.setResolveStrategy(Closure.DELEGATE_ONLY);
         taskConfig.run();
-        if (context.name == null) {
-            throw new IllegalArgumentException("Task must have a name");
-        }
         if (context.dirName == null) {
             throw new IllegalArgumentException("Task must have a directory name");
         }
