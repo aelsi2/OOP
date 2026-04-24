@@ -1,6 +1,7 @@
 package ru.nsu.aeliseev2.task241.model;
 
 import java.time.Instant;
+import java.util.List;
 
 /**
  * An implementation of {@code GradeStrategy} that compares the current number points with the
@@ -18,43 +19,15 @@ public class DefaultGradeStrategy implements GradeStrategy {
         this.maxDate = maxDate;
     }
 
-    private double getMaxPoints(TaskDatabase taskDatabase) {
-        double maxPoints;
-        maxPoints = taskDatabase.getTasks().stream()
-            .filter(task -> task.hardDeadline().toEpochMilli() <= maxDate.toEpochMilli())
-            .count();
-        return maxPoints;
-    }
-
-    private double getActualPoints(Student student, TaskDatabase taskDatabase) {
-        double actualPoints = 0;
-        for (Task task : taskDatabase.getTasks()) {
-            TaskStatus status = taskDatabase.getStatus(task, student);
-            actualPoints += status.extraPoints;
-            if (status.softAccepted != null && task.softDeadline() != null
-                && status.softAccepted.toEpochMilli() < task.softDeadline().toEpochMilli()) {
-                actualPoints += 0.5;
-            }
-            if (status.hardAccepted != null && (task.hardDeadline() == null
-                || status.hardAccepted.toEpochMilli() < task.hardDeadline().toEpochMilli())) {
-                if (task.softDeadline() == null || status.softAccepted == null) {
-                    actualPoints += 1;
-                } else {
-                    actualPoints += 0.5;
-                }
-            }
-        }
-        return actualPoints;
-    }
-
     private boolean extraTasksDone(Student student, TaskDatabase taskDatabase) {
         return taskDatabase.getTasks().stream()
             .filter(Task::isExtra)
-            .filter(task -> task.hardDeadline().toEpochMilli() <= maxDate.toEpochMilli())
+            .filter(task -> task.hardDeadline() == null
+                || task.hardDeadline().toEpochMilli() <= maxDate.toEpochMilli())
             .allMatch(task -> {
                 TaskStatus status = taskDatabase.getStatus(task, student);
-                return status.hardAccepted != null
-                    && status.hardAccepted.toEpochMilli() <= task.hardDeadline().toEpochMilli();
+                return status.hardAccepted != null && (task.hardDeadline() == null
+                    || status.hardAccepted.toEpochMilli() <= task.hardDeadline().toEpochMilli());
             });
     }
 
@@ -62,9 +35,55 @@ public class DefaultGradeStrategy implements GradeStrategy {
      * {@inheritDoc}
      */
     @Override
+    public List<Task> getTasks(TaskDatabase taskDatabase) {
+        return taskDatabase.getTasks().stream()
+            .filter(task -> task.hardDeadline() == null
+                || task.hardDeadline().toEpochMilli() <= maxDate.toEpochMilli())
+            .toList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getTaskPoints(Task task, Student student, TaskDatabase taskDatabase) {
+        double result = 0;
+        TaskStatus status = taskDatabase.getStatus(task, student);
+        result += status.extraPoints;
+        if (status.softAccepted != null && task.softDeadline() != null
+            && status.softAccepted.toEpochMilli() < task.softDeadline().toEpochMilli()) {
+            result += 0.5;
+        }
+        if (status.hardAccepted != null && (task.hardDeadline() == null
+            || status.hardAccepted.toEpochMilli() < task.hardDeadline().toEpochMilli())) {
+            if (task.softDeadline() == null || status.softAccepted == null) {
+                result += 1;
+            } else {
+                result += 0.5;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getTotalPoints(Student student, TaskDatabase taskDatabase) {
+        double totalPoints = 0;
+        for (Task task : getTasks(taskDatabase)) {
+            totalPoints += getTaskPoints(task, student, taskDatabase);
+        }
+        return totalPoints;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public double calculate(Student student, TaskDatabase taskDatabase) {
-        double maxPoints = getMaxPoints(taskDatabase);
-        double actualPoints = getActualPoints(student, taskDatabase);
+        double maxPoints = getTasks(taskDatabase).size();
+        double actualPoints = getTotalPoints(student, taskDatabase);
         if (actualPoints >= maxPoints && extraTasksDone(student, taskDatabase)) {
             return 5;
         }

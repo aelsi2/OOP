@@ -27,7 +27,7 @@ public class StyleCheck implements TaskCheck {
     public boolean run(Path project, TaskStatus taskStatus) {
         try {
             InputSource inputSource = new InputSource(
-                getClass().getResourceAsStream("google_checks.xml")
+                getClass().getResourceAsStream("/google_checks.xml")
             );
             Configuration config = ConfigurationLoader.loadConfiguration(
                 inputSource,
@@ -79,7 +79,8 @@ public class StyleCheck implements TaskCheck {
                     .toList();
             }
             checker.process(files);
-            return events.isEmpty();
+            taskStatus.stylePassed = events.isEmpty();
+            return taskStatus.stylePassed;
         } catch (Exception e) {
             System.err.println("Checkstyle error:\n" + e);
             return false;

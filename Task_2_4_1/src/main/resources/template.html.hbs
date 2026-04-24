@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    table, th, td {
+      border:1px solid black;
+    }
+    table {
+      width:100%
+    }
+</style>
+<body>
+<h1>OOP task report</h1>
+{{#each groups}}
+    <h2>Group {{this.name}}</h2>
+    <h3>Tasks</h3>
+    {{#each tasks}}
+        <h4>{{name}}</h4>
+        <table>
+            <tr>
+                <th>Student</th>
+                <th>Build</th>
+                <th>Javadoc</th>
+                <th>Style</th>
+                <th>Tests</th>
+                {{#if hasSoft}}
+                    <th>Soft</th>
+                {{/if}}
+                <th>Hard</th>
+                <th>Extra</th>
+            </tr>
+            {{#each students}}
+                <tr>
+                    <th>{{studentName}}</th>
+                    <th>{{#if status.buildPassed}}+{{else}}-{{/if}}</th>
+                    <th>{{#if status.docPassed}}+{{else}}-{{/if}}</th>
+                    <th>{{#if status.stylePassed}}+{{else}}-{{/if}}</th>
+                    <th>{{status.tests.total}}/{{status.tests.passed}}/{{status.tests.skipped}}</th>
+                    {{#if ../hasSoft}}
+                        <th>{{#if softAccepted}}+{{else}}-{{/if}}</th>
+                    {{/if}}
+                    <th>{{#if hardAccepted}}+{{else}}-{{/if}}</th>
+                    <th>{{status.extraPoints}}</th>
+                </tr>
+            {{/each}}
+        </table>
+    {{/each}}
+    <h3>Grades</h3>
+    {{#each grades}}
+        <h4>{{name}}</h4>
+        <table>
+            <tr>
+                <th>Student</th>
+                {{#each taskNames}}
+                    <th>{{this}}</th>
+                {{/each}}
+                <th>Total</th>
+                <th>Grade</th>
+            </tr>
+            {{#each students}}
+                <tr>
+                    <th>{{studentName}}</th>
+                    {{#each taskPoints}}
+                        <th>{{this}}</th>
+                    {{/each}}
+                    <th>{{totalPoints}}</th>
+                    <th>{{gradeValue}}</th>
+                </tr>
+            {{/each}}
+        </table>
+    {{/each}}
+    <hr>
+{{/each}}
+</body>
+</html>
