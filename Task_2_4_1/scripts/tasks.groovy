@@ -28,6 +28,6 @@ task("2.2 Hash table") {
 }
 
 grades {
-    name "Mid-semester" date "2025-11-15"
+    name "Mid-semester" date "2025-10-15"
     name "Final" date "2025-12-27"
 }
