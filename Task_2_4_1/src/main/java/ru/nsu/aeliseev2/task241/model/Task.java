@@ -6,7 +6,8 @@ import java.time.Instant;
  * A task to be done by the students.
  *
  * @param dirName      The name of the directory inside the repo.
- * @param name         The human-readable name of the task.
+ * @param name         The short human-readable name of the task.
+ * @param description  A short human-readable description of the task.
  * @param isExtra      Whether this task is an extra task.
  * @param softDeadline The date of the soft deadline for this task.
  * @param hardDeadline The date of the hard deadline for this task.
@@ -14,6 +15,7 @@ import java.time.Instant;
 public record Task(
     String dirName,
     String name,
+    String description,
     boolean isExtra,
     Instant softDeadline,
     Instant hardDeadline

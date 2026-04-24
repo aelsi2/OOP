@@ -129,6 +129,7 @@ public abstract class ConfigScript extends Script {
         taskDatabase().getTasks().add(new Task(
             context.dirName,
             context.name,
+            context.description,
             context.isExtra,
             softDeadline,
             hardDeadline

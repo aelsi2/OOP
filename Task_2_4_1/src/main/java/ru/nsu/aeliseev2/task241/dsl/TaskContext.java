@@ -15,6 +15,11 @@ public class TaskContext {
     public String name = null;
 
     /**
+     * A short description of the task.
+     */
+    public String description = null;
+
+    /**
      * Whether this task is an extra task required for the best grade.
      */
     public boolean isExtra = false;
