@@ -7,6 +7,7 @@ import com.puppycrawl.tools.checkstyle.DefaultLogger;
 import com.puppycrawl.tools.checkstyle.PropertiesExpander;
 import com.puppycrawl.tools.checkstyle.api.AuditEvent;
 import com.puppycrawl.tools.checkstyle.api.AuditListener;
+import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
 import com.puppycrawl.tools.checkstyle.api.Configuration;
 import java.io.File;
 import java.nio.file.Path;
@@ -20,24 +21,48 @@ import ru.nsu.aeliseev2.task241.model.TaskStatus;
  * A task action that runs checkstyle on the project.
  */
 public class StyleCheck implements TaskCheck {
+    private final Configuration configuration;
+
+    private static Configuration getDefaultConfiguration() {
+        InputSource inputSource = new InputSource(
+            StyleCheck.class.getResourceAsStream("/google_checks.xml")
+        );
+        try {
+            return ConfigurationLoader.loadConfiguration(
+                inputSource,
+                new PropertiesExpander(System.getProperties()),
+                ConfigurationLoader.IgnoredModulesOptions.EXECUTE
+            );
+        } catch (CheckstyleException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Initializes a new instance of {@code StyleCheck} using the default configuration.
+     */
+    public StyleCheck() {
+        this(getDefaultConfiguration());
+    }
+
+    /**
+     * Initializes a new instance of {@code StyleCheck}.
+     *
+     * @param configuration The configuration to use.
+     */
+    public StyleCheck(Configuration configuration) {
+        this.configuration = configuration;
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public boolean run(Path project, TaskStatus taskStatus) {
         try {
-            InputSource inputSource = new InputSource(
-                getClass().getResourceAsStream("/google_checks.xml")
-            );
-            Configuration config = ConfigurationLoader.loadConfiguration(
-                inputSource,
-                new PropertiesExpander(System.getProperties()),
-                ConfigurationLoader.IgnoredModulesOptions.EXECUTE
-            );
-
             Checker checker = new Checker();
             checker.setModuleClassLoader(Checker.class.getClassLoader());
-            checker.configure(config);
+            checker.configure(configuration);
 
             List<AuditEvent> events = new ArrayList<>();
             AuditListener listener = new AuditListener() {

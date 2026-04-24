@@ -54,14 +54,7 @@ public class Application {
             new TestCheck(),
             new StyleCheck()
         );
-        ReportGenerator reportGenerator;
-        try {
-            reportGenerator = new HtmlReportGenerator();
-        } catch (Exception e) {
-            System.err.println("Error while loading report template:");
-            e.printStackTrace(System.err);
-            return;
-        }
+        ReportGenerator reportGenerator = new HtmlReportGenerator();;
 
         for (Group group : taskDatabase.getGroups()) {
             for (Student student : group.students()) {
