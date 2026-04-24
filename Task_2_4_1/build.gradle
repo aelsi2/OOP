@@ -26,8 +26,9 @@ application {
     mainClass = "ru.nsu.aeliseev2.task241.Application"
 }
 
-run {
-    standardInput = System.in
+tasks.named("run") {
+    standardOutput = new FileOutputStream(layout.buildDirectory.file("reports/oop.html")
+            .get().asFile)
 }
 
 test {
