@@ -26,7 +26,8 @@ public class HtmlReportGenerator implements ReportGenerator {
     record ReportGroup(String name, List<ReportTask> tasks, List<ReportGrade> grades) {
     }
 
-    record ReportTask(String name, List<ReportTaskItem> students, boolean hasSoft) {
+    record ReportTask(String name, String description, List<ReportTaskItem> students,
+                      boolean hasSoft) {
     }
 
     record ReportTaskItem(String studentName, TaskStatus status,
@@ -65,7 +66,8 @@ public class HtmlReportGenerator implements ReportGenerator {
                     );
                 }
                 reportTasks.add(
-                    new ReportTask(task.name(), items, task.softDeadline() != null)
+                    new ReportTask(task.name(), task.description(), items,
+                        task.softDeadline() != null)
                 );
             }
             List<ReportGrade> reportGrades = new ArrayList<>();

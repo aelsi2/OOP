@@ -2,77 +2,85 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>OOP task report</title>
 </head>
 <style>
     table, th, td {
-      border:1px solid black;
+      border: 1px solid black;
+      text-align: center;
     }
     table {
-      width:100%
+      width: 100%;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
 </style>
 <body>
-<h1>OOP task report</h1>
-{{#each groups}}
-    <h2>Group {{this.name}}</h2>
-    <h3>Tasks</h3>
-    {{#each tasks}}
-        <h4>{{name}}</h4>
-        <table>
-            <tr>
-                <th>Student</th>
-                <th>Build</th>
-                <th>Javadoc</th>
-                <th>Style</th>
-                <th>Tests</th>
-                {{#if hasSoft}}
-                    <th>Soft</th>
-                {{/if}}
-                <th>Hard</th>
-                <th>Extra</th>
-            </tr>
-            {{#each students}}
+<div class="container">
+    <h1>OOP task report</h1>
+    {{#each groups}}
+        <h2>Group {{this.name}}</h2>
+        <hr>
+        <h3>Tasks</h3>
+        {{#each tasks}}
+            <h4>{{name}}{{#if description}} ({{description}}){{/if}}</h4>
+            <table>
                 <tr>
-                    <th>{{studentName}}</th>
-                    <th>{{#if status.buildPassed}}+{{else}}-{{/if}}</th>
-                    <th>{{#if status.docPassed}}+{{else}}-{{/if}}</th>
-                    <th>{{#if status.stylePassed}}+{{else}}-{{/if}}</th>
-                    <th>{{status.tests.total}}/{{status.tests.passed}}/{{status.tests.skipped}}</th>
-                    {{#if ../hasSoft}}
-                        <th>{{#if softAccepted}}+{{else}}-{{/if}}</th>
+                    <th>Student</th>
+                    <th>Build</th>
+                    <th>Javadoc</th>
+                    <th>Style</th>
+                    <th>Tests</th>
+                    {{#if hasSoft}}
+                        <th>Soft</th>
                     {{/if}}
-                    <th>{{#if hardAccepted}}+{{else}}-{{/if}}</th>
-                    <th>{{status.extraPoints}}</th>
+                    <th>Hard</th>
+                    <th>Extra</th>
                 </tr>
-            {{/each}}
-        </table>
-    {{/each}}
-    <h3>Grades</h3>
-    {{#each grades}}
-        <h4>{{name}}</h4>
-        <table>
-            <tr>
-                <th>Student</th>
-                {{#each taskNames}}
-                    <th>{{this}}</th>
+                {{#each students}}
+                    <tr>
+                        <td>{{studentName}}</td>
+                        <td>{{#if status.buildPassed}}+{{else}}-{{/if}}</td>
+                        <td>{{#if status.docPassed}}+{{else}}-{{/if}}</td>
+                        <td>{{#if status.stylePassed}}+{{else}}-{{/if}}</td>
+                        <td>{{status.tests.total}}/{{status.tests.passed}}/{{status.tests.skipped}}</td>
+                        {{#if ../hasSoft}}
+                            <td>{{#if softAccepted}}+{{else}}-{{/if}}</td>
+                        {{/if}}
+                        <td>{{#if hardAccepted}}+{{else}}-{{/if}}</td>
+                        <td>{{status.extraPoints}}</td>
+                    </tr>
                 {{/each}}
-                <th>Total</th>
-                <th>Grade</th>
-            </tr>
-            {{#each students}}
+            </table>
+        {{/each}}
+        <h3>Grades</h3>
+        {{#each grades}}
+            <h4>{{name}}</h4>
+            <table>
                 <tr>
-                    <th>{{studentName}}</th>
-                    {{#each taskPoints}}
+                    <th>Student</th>
+                    {{#each taskNames}}
                         <th>{{this}}</th>
                     {{/each}}
-                    <th>{{totalPoints}}</th>
-                    <th>{{gradeValue}}</th>
+                    <th>Total</th>
+                    <th>Grade</th>
                 </tr>
-            {{/each}}
-        </table>
+                {{#each students}}
+                    <tr>
+                        <td>{{studentName}}</td>
+                        {{#each taskPoints}}
+                            <td>{{this}}</td>
+                        {{/each}}
+                        <td>{{totalPoints}}</td>
+                        <td>{{gradeValue}}</td>
+                    </tr>
+                {{/each}}
+            </table>
+        {{/each}}
     {{/each}}
-    <hr>
-{{/each}}
+</div>
 </body>
 </html>
