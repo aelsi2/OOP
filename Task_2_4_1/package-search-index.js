@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ru.nsu.aeliseev2.task241"},{"l":"ru.nsu.aeliseev2.task241.checks"},{"l":"ru.nsu.aeliseev2.task241.dsl"},{"l":"ru.nsu.aeliseev2.task241.git"},{"l":"ru.nsu.aeliseev2.task241.model"},{"l":"ru.nsu.aeliseev2.task241.report"}];updateSearchResults();
