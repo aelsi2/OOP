@@ -43,13 +43,19 @@ public class HtmlReportGenerator implements ReportGenerator {
 
     private final Template template;
 
+    private static Template getDefaultTemplate() {
+        try {
+            return new Handlebars().compile("report.html");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * Initializes a new instance of {@code HtmlReportGenerator} with the default template.
-     *
-     * @exception IOException Failed to load the default template.
      */
-    public HtmlReportGenerator() throws IOException {
-        this(new Handlebars().compile("report.html"));
+    public HtmlReportGenerator() {
+        this(getDefaultTemplate());
     }
 
     /**
