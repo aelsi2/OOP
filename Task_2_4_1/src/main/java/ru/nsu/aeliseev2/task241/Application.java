@@ -1,5 +1,6 @@
 package ru.nsu.aeliseev2.task241;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -53,7 +54,14 @@ public class Application {
             new TestCheck(),
             new StyleCheck()
         );
-        ReportGenerator reportGenerator = new HtmlReportGenerator();
+        ReportGenerator reportGenerator;
+        try {
+            reportGenerator = new HtmlReportGenerator();
+        } catch (Exception e) {
+            System.err.println("Error while loading report template:");
+            e.printStackTrace(System.err);
+            return;
+        }
 
         for (Group group : taskDatabase.getGroups()) {
             for (Student student : group.students()) {
