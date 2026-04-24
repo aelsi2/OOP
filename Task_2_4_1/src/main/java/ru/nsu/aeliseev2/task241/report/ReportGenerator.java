@@ -10,7 +10,7 @@ import ru.nsu.aeliseev2.task241.model.TaskDatabase;
  */
 public interface ReportGenerator {
     /**
-     * Generates the report file and outputs
+     * Generates the report file and outputs.
      *
      * @param outStream    The stream to write the report to.
      * @param taskDatabase The task database.
