@@ -6,11 +6,8 @@ import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 import org.codehaus.groovy.control.CompilerConfiguration;
 import ru.nsu.aeliseev2.task241.model.Grade;
 import ru.nsu.aeliseev2.task241.model.Group;
@@ -96,40 +93,14 @@ public abstract class ConfigScript extends Script {
         taskConfig.setDelegate(context);
         taskConfig.setResolveStrategy(Closure.DELEGATE_ONLY);
         taskConfig.run();
-        if (context.dirName == null) {
-            throw new IllegalArgumentException("Task must have a directory name");
-        }
-        Instant softDeadline = null;
-        Instant hardDeadline = null;
-        if (context.softDeadline != null) {
-            try {
-                softDeadline = LocalDate.parse(
-                    context.softDeadline,
-                    DateTimeFormatter.ISO_LOCAL_DATE
-                ).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
-            } catch (Exception e) {
-                throw new IllegalArgumentException(
-                    "Soft deadline must be a string in the yyyy-MM-dd format");
-            }
-        }
-        if (context.hardDeadline != null) {
-            try {
-                hardDeadline = LocalDate.parse(
-                    context.hardDeadline,
-                    DateTimeFormatter.ISO_LOCAL_DATE
-                ).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
-            } catch (Exception e) {
-                throw new IllegalArgumentException(
-                    "Hard deadline must be a string in the yyyy-MM-dd format");
-            }
-        }
+        Objects.requireNonNull(context.dirName, "Task must have a directory name");
         taskDatabase().getTasks().add(new Task(
             context.dirName,
             context.name,
             context.description,
             context.isExtra,
-            softDeadline,
-            hardDeadline
+            DateUtils.parseDate(context.softDeadline),
+            DateUtils.parseDate(context.hardDeadline)
         ));
     }
 
@@ -140,15 +111,8 @@ public abstract class ConfigScript extends Script {
      * @param reviewConfig The closure to configure the review with.
      */
     void review(String date, Closure<Object> reviewConfig) {
-        Instant reviewDate;
-        try {
-            reviewDate = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE)
-                .atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
-        } catch (Exception e) {
-            throw new IllegalArgumentException(
-                "Review date must be a string in the yyyy-MM-dd format");
-        }
-        ReviewContext context = new ReviewContext(reviewDate, taskDatabase());
+        Objects.requireNonNull(date, "Review must have a date");
+        ReviewContext context = new ReviewContext(DateUtils.parseDate(date), taskDatabase());
         reviewConfig.setDelegate(context);
         reviewConfig.setResolveStrategy(Closure.DELEGATE_ONLY);
         reviewConfig.run();
