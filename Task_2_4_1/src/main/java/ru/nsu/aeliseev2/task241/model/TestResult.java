@@ -14,7 +14,7 @@ public record TestResult(int total, int passed, int skipped) {
      * @return {@code true} if there was at least one test, and all tests passed, {@code false}
      *     otherwise.
      */
-    boolean allPassed() {
+    public boolean allPassed() {
         return total > 0 && total == passed;
     }
 }
