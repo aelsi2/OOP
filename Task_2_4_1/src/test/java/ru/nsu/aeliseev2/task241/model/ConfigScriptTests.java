@@ -1,11 +1,13 @@
 package ru.nsu.aeliseev2.task241.model;
 
+import com.google.common.io.MoreFiles;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -39,7 +41,7 @@ class ConfigScriptTests {
     void groups() {
         TaskDatabase taskDatabase = new TaskDatabase();
         List<Grade> grades = new ArrayList<>();
-        execute("/scripts/groups.groovy", taskDatabase, grades);
+        execute("/dsl/groups.groovy", taskDatabase, grades);
         List<Group> expected = List.of(
             new Group(
                 "24213",
@@ -62,7 +64,7 @@ class ConfigScriptTests {
     void tasks() {
         TaskDatabase taskDatabase = new TaskDatabase();
         List<Grade> grades = new ArrayList<>();
-        execute("/scripts/tasks.groovy", taskDatabase, grades);
+        execute("/dsl/tasks.groovy", taskDatabase, grades);
         List<Task> expected = List.of(
             new Task(
                 "Task_1_1_1",
@@ -121,7 +123,7 @@ class ConfigScriptTests {
     void grades() {
         TaskDatabase taskDatabase = new TaskDatabase();
         List<Grade> grades = new ArrayList<>();
-        execute("/scripts/grades.groovy", taskDatabase, grades);
+        execute("/dsl/grades.groovy", taskDatabase, grades);
         Assertions.assertAll(
             () -> Assertions.assertEquals(2, grades.size()),
             () -> Assertions.assertEquals("Mid-semester", grades.get(0).name()),
@@ -137,7 +139,7 @@ class ConfigScriptTests {
     void review() {
         TaskDatabase taskDatabase = new TaskDatabase();
         List<Grade> grades = new ArrayList<>();
-        execute("/scripts/review.groovy", taskDatabase, grades);
+        execute("/dsl/review.groovy", taskDatabase, grades);
         Assertions.assertAll(
             () -> Assertions.assertEquals(
                 LocalDate.of(2025, 9, 12)
@@ -165,7 +167,48 @@ class ConfigScriptTests {
         TaskDatabase taskDatabase = new TaskDatabase();
         List<Grade> grades = new ArrayList<>();
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            execute("/scripts/bad_date.groovy", taskDatabase, grades);
+            execute("/dsl/bad_date.groovy", taskDatabase, grades);
         });
+    }
+
+    @Test
+    void include() throws IOException {
+        TaskDatabase taskDatabase = new TaskDatabase();
+        List<Grade> grades = new ArrayList<>();
+        List<Group> expected = List.of(
+            new Group(
+                "24213",
+                List.of(
+                    new Student("Andrey Eliseev", "aelsi2"),
+                    new Student("Klim Sadov", "7AD0VNIK")
+                )
+            ),
+            new Group(
+                "24214",
+                List.of(
+                    new Student("Matvey Zenin", "Proletcultist")
+                )
+            )
+        );
+        Path tempDir = null;
+        try {
+            tempDir = Files.createTempDirectory("aelsi2_task241_test_");
+            try (InputStream stream =
+                     ConfigScriptTests.class.getResourceAsStream("/dsl/groups.groovy")) {
+                Assertions.assertNotNull(stream);
+                Files.copy(stream, tempDir.resolve("groups.groovy"));
+            }
+            try (InputStream stream =
+                     ConfigScriptTests.class.getResourceAsStream("/dsl/include.groovy")) {
+                Assertions.assertNotNull(stream);
+                Files.copy(stream, tempDir.resolve("include.groovy"));
+            }
+            ConfigScript.execute(tempDir.resolve("include.groovy"), taskDatabase, grades);
+            Assertions.assertEquals(expected, taskDatabase.getGroups());
+        } finally {
+            if (tempDir != null) {
+                MoreFiles.deleteRecursively(tempDir);
+            }
+        }
     }
 }
