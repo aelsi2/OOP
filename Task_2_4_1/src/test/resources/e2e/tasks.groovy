@@ -1,3 +1,5 @@
+package e2e
+
 task("Task_1_1_1") {
     name = "1.1.1"
     description = "Heap sort"

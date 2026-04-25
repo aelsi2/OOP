@@ -1,3 +1,5 @@
+package e2e
+
 include "tasks.groovy"
 include "groups.groovy"
 
