@@ -26,8 +26,9 @@ public class DefaultGradeStrategy implements GradeStrategy {
                 || task.hardDeadline().toEpochMilli() <= maxDate.toEpochMilli())
             .allMatch(task -> {
                 TaskStatus status = taskDatabase.getStatus(task, student);
-                return status.hardAccepted != null && (task.hardDeadline() == null
-                    || status.hardAccepted.toEpochMilli() <= task.hardDeadline().toEpochMilli());
+                return status.getHardAccepted() != null && (task.hardDeadline() == null
+                    || status.getHardAccepted().toEpochMilli()
+                    <= task.hardDeadline().toEpochMilli());
             });
     }
 
@@ -49,14 +50,14 @@ public class DefaultGradeStrategy implements GradeStrategy {
     public double getTaskPoints(Task task, Student student, TaskDatabase taskDatabase) {
         double result = 0;
         TaskStatus status = taskDatabase.getStatus(task, student);
-        result += status.extraPoints;
-        if (status.softAccepted != null && task.softDeadline() != null
-            && status.softAccepted.toEpochMilli() < task.softDeadline().toEpochMilli()) {
+        result += status.getExtraPoints();
+        if (status.getSoftAccepted() != null && task.softDeadline() != null
+            && status.getSoftAccepted().toEpochMilli() < task.softDeadline().toEpochMilli()) {
             result += 0.5;
         }
-        if (status.hardAccepted != null && (task.hardDeadline() == null
-            || status.hardAccepted.toEpochMilli() < task.hardDeadline().toEpochMilli())) {
-            if (task.softDeadline() == null || status.softAccepted == null) {
+        if (status.getHardAccepted() != null && (task.hardDeadline() == null
+            || status.getHardAccepted().toEpochMilli() < task.hardDeadline().toEpochMilli())) {
+            if (task.softDeadline() == null || status.getSoftAccepted() == null) {
                 result += 1;
             } else {
                 result += 0.5;

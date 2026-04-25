@@ -56,10 +56,11 @@ public class TestCheck extends GradleCheck {
                 }
             }
 
-            taskStatus.tests = new TestResult(total, passed, skipped);
+            TestResult tests = new TestResult(total, passed, skipped);
+            taskStatus.setTests(tests);
             System.err.printf(
                 "Total: %d, Passed: %d, Skipped: %d%n",
-                taskStatus.tests.total(), taskStatus.tests.passed(), taskStatus.tests.skipped()
+                tests.total(), tests.passed(), tests.skipped()
             );
             return result;
         } catch (Exception e) {

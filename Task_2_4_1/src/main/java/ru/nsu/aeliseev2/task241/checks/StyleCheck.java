@@ -104,8 +104,8 @@ public class StyleCheck implements TaskCheck {
                     .toList();
             }
             checker.process(files);
-            taskStatus.stylePassed = events.isEmpty();
-            return taskStatus.stylePassed;
+            taskStatus.setStylePassed(events.isEmpty());
+            return taskStatus.getStylePassed();
         } catch (Exception e) {
             System.err.println("Checkstyle error:\n" + e);
             return false;

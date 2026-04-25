@@ -47,11 +47,11 @@ public class ReviewContext {
         public void forStudent(String username) {
             TaskStatus status = taskDatabase.getStatus(taskName, username);
             if (hard) {
-                status.hardAccepted = date;
+                status.setHardAccepted(date);
             } else {
-                status.softAccepted = date;
+                status.setSoftAccepted(date);
             }
-            status.extraPoints += extraValue;
+            status.setExtraPoints(status.getExtraPoints() + extraValue);
         }
     }
 

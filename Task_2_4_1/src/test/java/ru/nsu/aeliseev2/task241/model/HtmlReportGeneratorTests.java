@@ -70,14 +70,14 @@ class HtmlReportGeneratorTests {
         taskDatabase.getGroups().add(new Group("24214", List.of(
             new Student("Nikolay Mashkin", "LookAsLukas")
         )));
-        taskDatabase.getStatus("1", "M1KoTiK").buildPassed = true;
-        taskDatabase.getStatus("1", "M1KoTiK").docPassed = false;
-        taskDatabase.getStatus("1", "M1KoTiK").stylePassed = true;
-        taskDatabase.getStatus("1", "M1KoTiK").tests = new TestResult(2, 2, 0);
-        taskDatabase.getStatus("2", "M1KoTiK").tests = new TestResult(2, 0, 0);
-        taskDatabase.getStatus("2", "M1KoTiK").extraPoints = 1;
-        taskDatabase.getStatus("1", "LookAsLukas").softAccepted = Instant.EPOCH;
-        taskDatabase.getStatus("2", "LookAsLukas").hardAccepted = Instant.EPOCH;
+        taskDatabase.getStatus("1", "M1KoTiK").setBuildPassed(true);
+        taskDatabase.getStatus("1", "M1KoTiK").setDocPassed(false);
+        taskDatabase.getStatus("1", "M1KoTiK").setStylePassed(true);
+        taskDatabase.getStatus("1", "M1KoTiK").setTests(new TestResult(2, 2, 0));
+        taskDatabase.getStatus("2", "M1KoTiK").setTests(new TestResult(2, 0, 0));
+        taskDatabase.getStatus("2", "M1KoTiK").setExtraPoints(1);
+        taskDatabase.getStatus("1", "LookAsLukas").setSoftAccepted(Instant.EPOCH);
+        taskDatabase.getStatus("2", "LookAsLukas").setHardAccepted(Instant.EPOCH);
         List<Grade> grades = List.of(
             new Grade("Mid", new DummyGradeStrategy(1)),
             new Grade("Final", new DummyGradeStrategy(2))

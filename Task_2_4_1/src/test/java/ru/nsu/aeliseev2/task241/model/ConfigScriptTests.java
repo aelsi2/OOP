@@ -144,20 +144,20 @@ class ConfigScriptTests {
             () -> Assertions.assertEquals(
                 LocalDate.of(2025, 9, 12)
                     .atStartOfDay().atZone(ZoneId.systemDefault()).toInstant(),
-                taskDatabase.getStatus("1", "aelsi2").hardAccepted
+                taskDatabase.getStatus("1", "aelsi2").getHardAccepted()
             ),
             () -> Assertions.assertEquals(2,
-                taskDatabase.getStatus("1", "aelsi2").extraPoints
+                taskDatabase.getStatus("1", "aelsi2").getExtraPoints()
             ),
             () -> Assertions.assertEquals(
                 LocalDate.of(2025, 9, 12)
                     .atStartOfDay().atZone(ZoneId.systemDefault()).toInstant(),
-                taskDatabase.getStatus("1", "7AD0VNIK").softAccepted
+                taskDatabase.getStatus("1", "7AD0VNIK").getSoftAccepted()
             ),
             () -> Assertions.assertEquals(
                 LocalDate.of(2025, 9, 12)
                     .atStartOfDay().atZone(ZoneId.systemDefault()).toInstant(),
-                taskDatabase.getStatus("2", "7AD0VNIK").hardAccepted
+                taskDatabase.getStatus("2", "7AD0VNIK").getHardAccepted()
             )
         );
     }
