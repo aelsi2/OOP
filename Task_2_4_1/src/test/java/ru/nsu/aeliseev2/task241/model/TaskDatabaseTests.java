@@ -21,13 +21,13 @@ class TaskDatabaseTests {
         TaskStatus status = taskDatabase.getStatus(task, student);
         Assertions.assertAll(
             () -> Assertions.assertNotNull(status),
-            () -> Assertions.assertFalse(status.buildPassed),
-            () -> Assertions.assertFalse(status.docPassed),
-            () -> Assertions.assertFalse(status.stylePassed),
-            () -> Assertions.assertEquals(new TestResult(0, 0, 0), status.tests),
-            () -> Assertions.assertNull(status.softAccepted),
-            () -> Assertions.assertNull(status.hardAccepted),
-            () -> Assertions.assertEquals(0, status.extraPoints)
+            () -> Assertions.assertFalse(status.getBuildPassed()),
+            () -> Assertions.assertFalse(status.getDocPassed()),
+            () -> Assertions.assertFalse(status.getStylePassed()),
+            () -> Assertions.assertEquals(new TestResult(0, 0, 0), status.getTests()),
+            () -> Assertions.assertNull(status.getSoftAccepted()),
+            () -> Assertions.assertNull(status.getHardAccepted()),
+            () -> Assertions.assertEquals(0, status.getExtraPoints())
         );
     }
 

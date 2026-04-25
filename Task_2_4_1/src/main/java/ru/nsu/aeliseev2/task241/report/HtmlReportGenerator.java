@@ -80,8 +80,8 @@ public class HtmlReportGenerator implements ReportGenerator {
                 for (Student student : group.students()) {
                     TaskStatus status = taskDatabase.getStatus(task, student);
 
-                    Instant softActual = status.softAccepted;
-                    Instant hardActual = status.hardAccepted;
+                    Instant softActual = status.getSoftAccepted();
+                    Instant hardActual = status.getHardAccepted();
                     boolean soft = softActual != null && (task.softDeadline() == null
                         || softActual.toEpochMilli() <= task.softDeadline().toEpochMilli());
                     boolean hard = hardActual != null && (task.hardDeadline() == null

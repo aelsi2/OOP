@@ -120,7 +120,7 @@ class DefaultGradeStrategyTests {
         final Student student = new Student("Vonavi Navi Chivonavi", "vonyaet");
         taskDatabase.getTasks().add(task);
         taskDatabase.getGroups().add(new Group("group", List.of(student)));
-        taskDatabase.getStatus(task, student).softAccepted = Instant.ofEpochMilli(9000);
+        taskDatabase.getStatus(task, student).setSoftAccepted(Instant.ofEpochMilli(9000));
 
         final GradeStrategy strategy = new DefaultGradeStrategy(Instant.ofEpochMilli(50000));
         Assertions.assertEquals(0.5, strategy.getTaskPoints(task, student, taskDatabase));
@@ -140,8 +140,8 @@ class DefaultGradeStrategyTests {
         final Student student = new Student("Vonavi Navi Chivonavi", "vonyaet");
         taskDatabase.getTasks().add(task);
         taskDatabase.getGroups().add(new Group("group", List.of(student)));
-        taskDatabase.getStatus(task, student).softAccepted = Instant.ofEpochMilli(15000);
-        taskDatabase.getStatus(task, student).hardAccepted = Instant.ofEpochMilli(17000);
+        taskDatabase.getStatus(task, student).setSoftAccepted(Instant.ofEpochMilli(15000));
+        taskDatabase.getStatus(task, student).setHardAccepted(Instant.ofEpochMilli(17000));
 
         final GradeStrategy strategy = new DefaultGradeStrategy(Instant.ofEpochMilli(50000));
         Assertions.assertEquals(0.5, strategy.getTaskPoints(task, student, taskDatabase));
@@ -161,8 +161,8 @@ class DefaultGradeStrategyTests {
         final Student student = new Student("Vonavi Navi Chivonavi", "vonyaet");
         taskDatabase.getTasks().add(task);
         taskDatabase.getGroups().add(new Group("group", List.of(student)));
-        taskDatabase.getStatus(task, student).softAccepted = Instant.ofEpochMilli(5000);
-        taskDatabase.getStatus(task, student).hardAccepted = Instant.ofEpochMilli(10000);
+        taskDatabase.getStatus(task, student).setSoftAccepted(Instant.ofEpochMilli(5000));
+        taskDatabase.getStatus(task, student).setHardAccepted(Instant.ofEpochMilli(10000));
 
         final GradeStrategy strategy = new DefaultGradeStrategy(Instant.ofEpochMilli(50000));
         Assertions.assertEquals(1, strategy.getTaskPoints(task, student, taskDatabase));
@@ -182,8 +182,8 @@ class DefaultGradeStrategyTests {
         final Student student = new Student("Vonavi Navi Chivonavi", "vonyaet");
         taskDatabase.getTasks().add(task);
         taskDatabase.getGroups().add(new Group("group", List.of(student)));
-        taskDatabase.getStatus(task, student).softAccepted = Instant.ofEpochMilli(15000);
-        taskDatabase.getStatus(task, student).hardAccepted = Instant.ofEpochMilli(30000);
+        taskDatabase.getStatus(task, student).setSoftAccepted(Instant.ofEpochMilli(15000));
+        taskDatabase.getStatus(task, student).setHardAccepted(Instant.ofEpochMilli(30000));
 
         final GradeStrategy strategy = new DefaultGradeStrategy(Instant.ofEpochMilli(50000));
         Assertions.assertEquals(0, strategy.getTaskPoints(task, student, taskDatabase));
@@ -203,7 +203,7 @@ class DefaultGradeStrategyTests {
         final Student student = new Student("Vonavi Navi Chivonavi", "vonyaet");
         taskDatabase.getTasks().add(task);
         taskDatabase.getGroups().add(new Group("group", List.of(student)));
-        taskDatabase.getStatus(task, student).hardAccepted = Instant.ofEpochMilli(10000);
+        taskDatabase.getStatus(task, student).setHardAccepted(Instant.ofEpochMilli(10000));
 
         final GradeStrategy strategy = new DefaultGradeStrategy(Instant.ofEpochMilli(50000));
         Assertions.assertEquals(1, strategy.getTaskPoints(task, student, taskDatabase));
@@ -223,9 +223,9 @@ class DefaultGradeStrategyTests {
         final Student student = new Student("Vonavi Navi Chivonavi", "vonyaet");
         taskDatabase.getTasks().add(task);
         taskDatabase.getGroups().add(new Group("group", List.of(student)));
-        taskDatabase.getStatus(task, student).softAccepted = Instant.ofEpochMilli(12000);
-        taskDatabase.getStatus(task, student).hardAccepted = Instant.ofEpochMilli(17000);
-        taskDatabase.getStatus(task, student).extraPoints = 1;
+        taskDatabase.getStatus(task, student).setSoftAccepted(Instant.ofEpochMilli(12000));
+        taskDatabase.getStatus(task, student).setHardAccepted(Instant.ofEpochMilli(17000));
+        taskDatabase.getStatus(task, student).setExtraPoints(1);
 
         final GradeStrategy strategy = new DefaultGradeStrategy(Instant.ofEpochMilli(50000));
         Assertions.assertEquals(2, strategy.getTaskPoints(task, student, taskDatabase));
@@ -270,15 +270,19 @@ class DefaultGradeStrategyTests {
         ));
         final Student student = new Student("Vonavi Navi Chivonavi", "vonyaet");
         taskDatabase.getGroups().add(new Group("group", List.of(student)));
-        taskDatabase.getStatus(taskDatabase.getTasks().get(0), student).softAccepted =
-            Instant.ofEpochMilli(16000);
-        taskDatabase.getStatus(taskDatabase.getTasks().get(0), student).hardAccepted =
-            Instant.ofEpochMilli(19000);
-        taskDatabase.getStatus(taskDatabase.getTasks().get(1), student).softAccepted =
-            Instant.ofEpochMilli(24000);
-        taskDatabase.getStatus(taskDatabase.getTasks().get(1), student).hardAccepted =
-            Instant.ofEpochMilli(29000);
-        taskDatabase.getStatus(taskDatabase.getTasks().get(1), student).extraPoints = 0.75;
+        taskDatabase.getStatus(taskDatabase.getTasks().get(0), student).setSoftAccepted(
+            Instant.ofEpochMilli(16000)
+        );
+        taskDatabase.getStatus(taskDatabase.getTasks().get(0), student).setHardAccepted(
+            Instant.ofEpochMilli(19000)
+        );
+        taskDatabase.getStatus(taskDatabase.getTasks().get(1), student).setSoftAccepted(
+            Instant.ofEpochMilli(24000)
+        );
+        taskDatabase.getStatus(taskDatabase.getTasks().get(1), student).setHardAccepted(
+            Instant.ofEpochMilli(29000)
+        );
+        taskDatabase.getStatus(taskDatabase.getTasks().get(1), student).setExtraPoints(0.75);
 
         final GradeStrategy strategy = new DefaultGradeStrategy(Instant.ofEpochMilli(50000));
         Assertions.assertEquals(2.25, strategy.getTotalPoints(student, taskDatabase));
@@ -315,10 +319,10 @@ class DefaultGradeStrategyTests {
         final Student student = new Student("Vonavi Navi Chivonavi", "vonyaet");
         taskDatabase.getGroups().add(new Group("group", List.of(student)));
 
-        taskDatabase.getStatus(tasks.get(0), student).softAccepted = Instant.ofEpochMilli(5000);
-        taskDatabase.getStatus(tasks.get(0), student).hardAccepted = Instant.ofEpochMilli(15000);
-        taskDatabase.getStatus(tasks.get(1), student).softAccepted = Instant.ofEpochMilli(25000);
-        taskDatabase.getStatus(tasks.get(1), student).hardAccepted = Instant.ofEpochMilli(35000);
+        taskDatabase.getStatus(tasks.get(0), student).setSoftAccepted(Instant.ofEpochMilli(5000));
+        taskDatabase.getStatus(tasks.get(0), student).setHardAccepted(Instant.ofEpochMilli(15000));
+        taskDatabase.getStatus(tasks.get(1), student).setSoftAccepted(Instant.ofEpochMilli(25000));
+        taskDatabase.getStatus(tasks.get(1), student).setHardAccepted(Instant.ofEpochMilli(35000));
 
         final GradeStrategy strategy = new DefaultGradeStrategy(Instant.ofEpochMilli(105000));
         final double value = strategy.calculate(student, taskDatabase);
@@ -356,12 +360,12 @@ class DefaultGradeStrategyTests {
         final Student student = new Student("Vonavi Navi Chivonavi", "vonyaet");
         taskDatabase.getGroups().add(new Group("group", List.of(student)));
 
-        taskDatabase.getStatus(tasks.get(0), student).softAccepted = Instant.ofEpochMilli(5000);
-        taskDatabase.getStatus(tasks.get(0), student).hardAccepted = Instant.ofEpochMilli(15000);
-        taskDatabase.getStatus(tasks.get(1), student).softAccepted = Instant.ofEpochMilli(25000);
-        taskDatabase.getStatus(tasks.get(1), student).hardAccepted = Instant.ofEpochMilli(35000);
-        taskDatabase.getStatus(tasks.get(2), student).softAccepted = Instant.ofEpochMilli(45000);
-        taskDatabase.getStatus(tasks.get(2), student).hardAccepted = Instant.ofEpochMilli(55000);
+        taskDatabase.getStatus(tasks.get(0), student).setSoftAccepted(Instant.ofEpochMilli(5000));
+        taskDatabase.getStatus(tasks.get(0), student).setHardAccepted(Instant.ofEpochMilli(15000));
+        taskDatabase.getStatus(tasks.get(1), student).setSoftAccepted(Instant.ofEpochMilli(25000));
+        taskDatabase.getStatus(tasks.get(1), student).setHardAccepted(Instant.ofEpochMilli(35000));
+        taskDatabase.getStatus(tasks.get(2), student).setSoftAccepted(Instant.ofEpochMilli(45000));
+        taskDatabase.getStatus(tasks.get(2), student).setHardAccepted(Instant.ofEpochMilli(55000));
 
         final GradeStrategy strategy = new DefaultGradeStrategy(Instant.ofEpochMilli(105000));
         final double value = strategy.calculate(student, taskDatabase);
@@ -399,14 +403,14 @@ class DefaultGradeStrategyTests {
         final Student student = new Student("Vonavi Navi Chivonavi", "vonyaet");
         taskDatabase.getGroups().add(new Group("group", List.of(student)));
 
-        taskDatabase.getStatus(tasks.get(0), student).softAccepted = Instant.ofEpochMilli(5000);
-        taskDatabase.getStatus(tasks.get(0), student).hardAccepted = Instant.ofEpochMilli(15000);
-        taskDatabase.getStatus(tasks.get(1), student).softAccepted = Instant.ofEpochMilli(25000);
-        taskDatabase.getStatus(tasks.get(1), student).hardAccepted = Instant.ofEpochMilli(35000);
-        taskDatabase.getStatus(tasks.get(2), student).softAccepted = Instant.ofEpochMilli(45000);
-        taskDatabase.getStatus(tasks.get(2), student).hardAccepted = Instant.ofEpochMilli(55000);
-        taskDatabase.getStatus(tasks.get(3), student).softAccepted = Instant.ofEpochMilli(65000);
-        taskDatabase.getStatus(tasks.get(3), student).hardAccepted = Instant.ofEpochMilli(75000);
+        taskDatabase.getStatus(tasks.get(0), student).setSoftAccepted(Instant.ofEpochMilli(5000));
+        taskDatabase.getStatus(tasks.get(0), student).setHardAccepted(Instant.ofEpochMilli(15000));
+        taskDatabase.getStatus(tasks.get(1), student).setSoftAccepted(Instant.ofEpochMilli(25000));
+        taskDatabase.getStatus(tasks.get(1), student).setHardAccepted(Instant.ofEpochMilli(35000));
+        taskDatabase.getStatus(tasks.get(2), student).setSoftAccepted(Instant.ofEpochMilli(45000));
+        taskDatabase.getStatus(tasks.get(2), student).setHardAccepted(Instant.ofEpochMilli(55000));
+        taskDatabase.getStatus(tasks.get(3), student).setSoftAccepted(Instant.ofEpochMilli(65000));
+        taskDatabase.getStatus(tasks.get(3), student).setHardAccepted(Instant.ofEpochMilli(75000));
 
         final GradeStrategy strategy = new DefaultGradeStrategy(Instant.ofEpochMilli(105000));
         final double value = strategy.calculate(student, taskDatabase);
@@ -444,16 +448,16 @@ class DefaultGradeStrategyTests {
         final Student student = new Student("Vonavi Navi Chivonavi", "vonyaet");
         taskDatabase.getGroups().add(new Group("group", List.of(student)));
 
-        taskDatabase.getStatus(tasks.get(0), student).softAccepted = Instant.ofEpochMilli(5000);
-        taskDatabase.getStatus(tasks.get(0), student).hardAccepted = Instant.ofEpochMilli(15000);
-        taskDatabase.getStatus(tasks.get(1), student).softAccepted = Instant.ofEpochMilli(25000);
-        taskDatabase.getStatus(tasks.get(1), student).hardAccepted = Instant.ofEpochMilli(35000);
-        taskDatabase.getStatus(tasks.get(2), student).softAccepted = Instant.ofEpochMilli(45000);
-        taskDatabase.getStatus(tasks.get(2), student).hardAccepted = Instant.ofEpochMilli(55000);
-        taskDatabase.getStatus(tasks.get(3), student).softAccepted = Instant.ofEpochMilli(65000);
-        taskDatabase.getStatus(tasks.get(3), student).hardAccepted = Instant.ofEpochMilli(75000);
-        taskDatabase.getStatus(tasks.get(4), student).softAccepted = Instant.ofEpochMilli(85000);
-        taskDatabase.getStatus(tasks.get(4), student).hardAccepted = Instant.ofEpochMilli(95000);
+        taskDatabase.getStatus(tasks.get(0), student).setSoftAccepted(Instant.ofEpochMilli(5000));
+        taskDatabase.getStatus(tasks.get(0), student).setHardAccepted(Instant.ofEpochMilli(15000));
+        taskDatabase.getStatus(tasks.get(1), student).setSoftAccepted(Instant.ofEpochMilli(25000));
+        taskDatabase.getStatus(tasks.get(1), student).setHardAccepted(Instant.ofEpochMilli(35000));
+        taskDatabase.getStatus(tasks.get(2), student).setSoftAccepted(Instant.ofEpochMilli(45000));
+        taskDatabase.getStatus(tasks.get(2), student).setHardAccepted(Instant.ofEpochMilli(55000));
+        taskDatabase.getStatus(tasks.get(3), student).setSoftAccepted(Instant.ofEpochMilli(65000));
+        taskDatabase.getStatus(tasks.get(3), student).setHardAccepted(Instant.ofEpochMilli(75000));
+        taskDatabase.getStatus(tasks.get(4), student).setSoftAccepted(Instant.ofEpochMilli(85000));
+        taskDatabase.getStatus(tasks.get(4), student).setHardAccepted(Instant.ofEpochMilli(95000));
 
         final GradeStrategy strategy = new DefaultGradeStrategy(Instant.ofEpochMilli(105000));
         final double value = strategy.calculate(student, taskDatabase);
@@ -491,15 +495,15 @@ class DefaultGradeStrategyTests {
         final Student student = new Student("Vonavi Navi Chivonavi", "vonyaet");
         taskDatabase.getGroups().add(new Group("group", List.of(student)));
 
-        taskDatabase.getStatus(tasks.get(0), student).softAccepted = Instant.ofEpochMilli(5000);
-        taskDatabase.getStatus(tasks.get(0), student).hardAccepted = Instant.ofEpochMilli(15000);
-        taskDatabase.getStatus(tasks.get(1), student).softAccepted = Instant.ofEpochMilli(25000);
-        taskDatabase.getStatus(tasks.get(1), student).hardAccepted = Instant.ofEpochMilli(35000);
-        taskDatabase.getStatus(tasks.get(2), student).softAccepted = Instant.ofEpochMilli(45000);
-        taskDatabase.getStatus(tasks.get(2), student).hardAccepted = Instant.ofEpochMilli(55000);
-        taskDatabase.getStatus(tasks.get(3), student).softAccepted = Instant.ofEpochMilli(65000);
-        taskDatabase.getStatus(tasks.get(3), student).hardAccepted = Instant.ofEpochMilli(75000);
-        taskDatabase.getStatus(tasks.get(3), student).extraPoints = 1;
+        taskDatabase.getStatus(tasks.get(0), student).setSoftAccepted(Instant.ofEpochMilli(5000));
+        taskDatabase.getStatus(tasks.get(0), student).setHardAccepted(Instant.ofEpochMilli(15000));
+        taskDatabase.getStatus(tasks.get(1), student).setSoftAccepted(Instant.ofEpochMilli(25000));
+        taskDatabase.getStatus(tasks.get(1), student).setHardAccepted(Instant.ofEpochMilli(35000));
+        taskDatabase.getStatus(tasks.get(2), student).setSoftAccepted(Instant.ofEpochMilli(45000));
+        taskDatabase.getStatus(tasks.get(2), student).setHardAccepted(Instant.ofEpochMilli(55000));
+        taskDatabase.getStatus(tasks.get(3), student).setSoftAccepted(Instant.ofEpochMilli(65000));
+        taskDatabase.getStatus(tasks.get(3), student).setHardAccepted(Instant.ofEpochMilli(75000));
+        taskDatabase.getStatus(tasks.get(3), student).setExtraPoints(1);
 
         final GradeStrategy strategy = new DefaultGradeStrategy(Instant.ofEpochMilli(105000));
         final double value = strategy.calculate(student, taskDatabase);
@@ -537,16 +541,16 @@ class DefaultGradeStrategyTests {
         final Student student = new Student("Vonavi Navi Chivonavi", "vonyaet");
         taskDatabase.getGroups().add(new Group("group", List.of(student)));
 
-        taskDatabase.getStatus(tasks.get(0), student).softAccepted = Instant.ofEpochMilli(5000);
-        taskDatabase.getStatus(tasks.get(0), student).hardAccepted = Instant.ofEpochMilli(15000);
-        taskDatabase.getStatus(tasks.get(1), student).softAccepted = Instant.ofEpochMilli(25000);
-        taskDatabase.getStatus(tasks.get(1), student).hardAccepted = Instant.ofEpochMilli(35000);
-        taskDatabase.getStatus(tasks.get(2), student).softAccepted = Instant.ofEpochMilli(45000);
-        taskDatabase.getStatus(tasks.get(2), student).hardAccepted = Instant.ofEpochMilli(55000);
-        taskDatabase.getStatus(tasks.get(3), student).softAccepted = Instant.ofEpochMilli(65000);
-        taskDatabase.getStatus(tasks.get(3), student).hardAccepted = Instant.ofEpochMilli(75000);
-        taskDatabase.getStatus(tasks.get(4), student).softAccepted = Instant.ofEpochMilli(85000);
-        taskDatabase.getStatus(tasks.get(4), student).hardAccepted = Instant.ofEpochMilli(95000);
+        taskDatabase.getStatus(tasks.get(0), student).setSoftAccepted(Instant.ofEpochMilli(5000));
+        taskDatabase.getStatus(tasks.get(0), student).setHardAccepted(Instant.ofEpochMilli(15000));
+        taskDatabase.getStatus(tasks.get(1), student).setSoftAccepted(Instant.ofEpochMilli(25000));
+        taskDatabase.getStatus(tasks.get(1), student).setHardAccepted(Instant.ofEpochMilli(35000));
+        taskDatabase.getStatus(tasks.get(2), student).setSoftAccepted(Instant.ofEpochMilli(45000));
+        taskDatabase.getStatus(tasks.get(2), student).setHardAccepted(Instant.ofEpochMilli(55000));
+        taskDatabase.getStatus(tasks.get(3), student).setSoftAccepted(Instant.ofEpochMilli(65000));
+        taskDatabase.getStatus(tasks.get(3), student).setHardAccepted(Instant.ofEpochMilli(75000));
+        taskDatabase.getStatus(tasks.get(4), student).setSoftAccepted(Instant.ofEpochMilli(85000));
+        taskDatabase.getStatus(tasks.get(4), student).setHardAccepted(Instant.ofEpochMilli(95000));
 
         final GradeStrategy strategy = new DefaultGradeStrategy(Instant.ofEpochMilli(105000));
         final double value = strategy.calculate(student, taskDatabase);
@@ -584,10 +588,10 @@ class DefaultGradeStrategyTests {
         final Student student = new Student("Vonavi Navi Chivonavi", "vonyaet");
         taskDatabase.getGroups().add(new Group("group", List.of(student)));
 
-        taskDatabase.getStatus(tasks.get(0), student).softAccepted = Instant.ofEpochMilli(5000);
-        taskDatabase.getStatus(tasks.get(0), student).hardAccepted = Instant.ofEpochMilli(15000);
-        taskDatabase.getStatus(tasks.get(1), student).softAccepted = Instant.ofEpochMilli(25000);
-        taskDatabase.getStatus(tasks.get(1), student).hardAccepted = Instant.ofEpochMilli(35000);
+        taskDatabase.getStatus(tasks.get(0), student).setSoftAccepted(Instant.ofEpochMilli(5000));
+        taskDatabase.getStatus(tasks.get(0), student).setHardAccepted(Instant.ofEpochMilli(15000));
+        taskDatabase.getStatus(tasks.get(1), student).setSoftAccepted(Instant.ofEpochMilli(25000));
+        taskDatabase.getStatus(tasks.get(1), student).setHardAccepted(Instant.ofEpochMilli(35000));
 
         final GradeStrategy strategy = new DefaultGradeStrategy(
             Instant.now().plus(10, ChronoUnit.DAYS)

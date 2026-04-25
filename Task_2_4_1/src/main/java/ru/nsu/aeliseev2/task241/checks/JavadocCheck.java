@@ -21,6 +21,7 @@ public class JavadocCheck extends GradleCheck {
     @Override
     public boolean run(Path project, TaskStatus taskStatus) {
         System.err.println("Generating docs for " + project.toString());
-        return taskStatus.docPassed = super.run(project, taskStatus);
+        taskStatus.setDocPassed(super.run(project, taskStatus));
+        return taskStatus.getDocPassed();
     }
 }

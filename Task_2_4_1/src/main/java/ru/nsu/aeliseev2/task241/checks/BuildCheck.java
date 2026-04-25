@@ -21,6 +21,7 @@ public class BuildCheck extends GradleCheck {
     @Override
     public boolean run(Path project, TaskStatus taskStatus) {
         System.err.println("Building " + project.toString());
-        return taskStatus.buildPassed = super.run(project, taskStatus);
+        taskStatus.setBuildPassed(super.run(project, taskStatus));
+        return taskStatus.getBuildPassed();
     }
 }

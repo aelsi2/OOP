@@ -9,10 +9,11 @@ public class TaskStatus {
     /**
      * Whether {@code ./gradlew build} completed successfully.
      */
-    public boolean buildPassed = false;
+    private boolean buildPassed = false;
 
     /**
-     * Gets the value of {@code buildPassed}.
+     * Whether {@code ./gradlew build} completed successfully.
+     * Gets the value.
      *
      * @return The value.
      */
@@ -21,7 +22,8 @@ public class TaskStatus {
     }
 
     /**
-     * Sets the value of {@code buildPassed}.
+     * Whether {@code ./gradlew build} completed successfully.
+     * Sets the value.
      *
      * @param value The value.
      */
@@ -32,10 +34,11 @@ public class TaskStatus {
     /**
      * Whether {@code ./gradlew javadoc} completed successfully.
      */
-    public boolean docPassed = false;
+    private boolean docPassed = false;
 
     /**
-     * Gets the value of {@code docPassed}.
+     * Whether {@code ./gradlew javadoc} completed successfully.
+     * Gets the value.
      *
      * @return The value.
      */
@@ -44,7 +47,8 @@ public class TaskStatus {
     }
 
     /**
-     * Sets the value of {@code docPassed}.
+     * Whether {@code ./gradlew javadoc} completed successfully.
+     * Sets the value.
      *
      * @param value The value.
      */
@@ -55,10 +59,11 @@ public class TaskStatus {
     /**
      * Whether checkstyle completed successfully.
      */
-    public boolean stylePassed = false;
+    private boolean stylePassed = false;
 
     /**
-     * Gets the value of {@code stylePassed}.
+     * Whether checkstyle completed successfully.
+     * Gets the value.
      *
      * @return The value.
      */
@@ -67,7 +72,8 @@ public class TaskStatus {
     }
 
     /**
-     * Sets the value of {@code stylePassed}.
+     * Whether checkstyle completed successfully.
+     * Sets the value.
      *
      * @param value The value.
      */
@@ -78,10 +84,11 @@ public class TaskStatus {
     /**
      * The result of {@code ./gradlew test}.
      */
-    public TestResult tests = new TestResult(0, 0, 0);
+    private TestResult tests = new TestResult(0, 0, 0);
 
     /**
-     * Gets the value of {@code tests}.
+     * The result of {@code ./gradlew test}.
+     * Gets the value.
      *
      * @return The value.
      */
@@ -90,7 +97,8 @@ public class TaskStatus {
     }
 
     /**
-     * Sets the value of {@code tests}.
+     * The result of {@code ./gradlew test}.
+     * Sets the value.
      *
      * @param value The value.
      */
@@ -101,10 +109,11 @@ public class TaskStatus {
     /**
      * The soft accept date for this task.
      */
-    public Instant softAccepted = null;
+    private Instant softAccepted = null;
 
     /**
-     * Gets the value of {@code softAccepted}.
+     * The soft accept date for this task.
+     * Gets the value.
      *
      * @return The value.
      */
@@ -113,7 +122,8 @@ public class TaskStatus {
     }
 
     /**
-     * Sets the value of {@code softAccepted}.
+     * The soft accept date for this task.
+     * Sets the value.
      *
      * @param value The value.
      */
@@ -124,10 +134,11 @@ public class TaskStatus {
     /**
      * The hard accept date for this task.
      */
-    public Instant hardAccepted = null;
+    private Instant hardAccepted = null;
 
     /**
-     * Gets the value of {@code hardAccepted}.
+     * The hard accept date for this task.
+     * Gets the value.
      *
      * @return The value.
      */
@@ -136,7 +147,8 @@ public class TaskStatus {
     }
 
     /**
-     * Sets the value of {@code hardAccepted}.
+     * The hard accept date for this task.
+     * Sets the value.
      *
      * @param value The value.
      */
@@ -147,10 +159,11 @@ public class TaskStatus {
     /**
      * The extra points given for this task.
      */
-    public double extraPoints = 0;
+    private double extraPoints = 0;
 
     /**
-     * Gets the value of {@code extraPoints}.
+     * The extra points given for this task.
+     * Gets the value.
      *
      * @return The value.
      */
@@ -159,7 +172,8 @@ public class TaskStatus {
     }
 
     /**
-     * Sets the value of {@code extraPoints}.
+     * The extra points given for this task.
+     * Sets the value.
      *
      * @param value The value.
      */
