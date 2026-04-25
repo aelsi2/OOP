@@ -1,0 +1,87 @@
+report begin
+group group
+task task1
+description task
+hasSoft false
+name Pesi Kotik
+build true
+doc false
+style true
+tests.total 2
+tests.passed 2
+tests.skipped 0
+tests.allPassed true
+soft false
+hard false
+extra 0.0
+task task2
+description task
+hasSoft true
+name Pesi Kotik
+build false
+doc false
+style false
+tests.total 2
+tests.passed 0
+tests.skipped 0
+tests.allPassed false
+soft false
+hard false
+extra 1.0
+grade Mid
+task task1
+student Pesi Kotik
+points 1.0
+total 67.0
+value 4.5
+grade Final
+task task1
+task task2
+student Pesi Kotik
+points 1.0
+points 1.0
+total 67.0
+value 4.5
+group 24214
+task task1
+description task
+hasSoft false
+name Nikolay Mashkin
+build false
+doc false
+style false
+tests.total 0
+tests.passed 0
+tests.skipped 0
+tests.allPassed false
+soft true
+hard false
+extra 0.0
+task task2
+description task
+hasSoft true
+name Nikolay Mashkin
+build false
+doc false
+style false
+tests.total 0
+tests.passed 0
+tests.skipped 0
+tests.allPassed false
+soft false
+hard true
+extra 0.0
+grade Mid
+task task1
+student Nikolay Mashkin
+points 1.0
+total 67.0
+value 4.5
+grade Final
+task task1
+task task2
+student Nikolay Mashkin
+points 1.0
+points 1.0
+total 67.0
+value 4.5

@@ -1,0 +1,36 @@
+report begin
+{{~#each groups}}
+group {{this.name}}
+{{~#each tasks}}
+task {{name}}
+description {{description}}
+hasSoft {{hasSoft}}
+{{~#each students}}
+name {{studentName}}
+build {{status.buildPassed}}
+doc {{status.docPassed}}
+style {{status.stylePassed}}
+tests.total {{status.tests.total}}
+tests.passed {{status.tests.passed}}
+tests.skipped {{status.tests.skipped}}
+tests.allPassed {{status.tests.allPassed}}
+soft {{softAccepted}}
+hard {{hardAccepted}}
+extra {{status.extraPoints}}
+{{~/each}}
+{{~/each}}
+{{~#each grades}}
+grade {{name}}
+{{~#each taskNames}}
+task {{this}}
+{{~/each}}
+{{~#each students}}
+student {{studentName}}
+{{~#each taskPoints}}
+points {{this}}
+{{~/each}}
+total {{totalPoints}}
+value {{gradeValue}}
+{{~/each}}
+{{~/each}}
+{{~/each}}
