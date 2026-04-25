@@ -44,7 +44,7 @@ public class CliGitClient implements GitClient {
             if (exitCode != 0) {
                 throw new RuntimeException("Git returned non-zero exit code");
             }
-            return new CliGitRepo(gitCommand, tempDir);
+            return new CliGitRepo(tempDir);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
