@@ -1,0 +1,4 @@
+package scripts
+
+review("xd") {
+}

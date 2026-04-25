@@ -1,10 +1,8 @@
 package ru.nsu.aeliseev2.task241.dsl;
 
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 import ru.nsu.aeliseev2.task241.model.DefaultGradeStrategy;
 import ru.nsu.aeliseev2.task241.model.Grade;
 
@@ -56,14 +54,7 @@ public class GradesContext {
      * @return The {@code grades.name} context.
      */
     public DateContext date(String date) {
-        Instant maxDate;
-        try {
-            maxDate = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE)
-                .atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
-        } catch (Exception e) {
-            throw new IllegalArgumentException(
-                "Grade date must be a string in the yyyy-MM-dd format");
-        }
-        return new DateContext(maxDate);
+        Objects.requireNonNull(date, "Grade must have a date");
+        return new DateContext(DateUtils.parseDate(date));
     }
 }
