@@ -7,4 +7,5 @@ group("24213") {
 
 group("24214") {
     student "LookAsLukas" name "Nikolay Mashkin"
+    student "Proletcultist" name "Matvey Zenin"
 }
