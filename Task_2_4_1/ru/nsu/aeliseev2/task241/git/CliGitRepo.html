@@ -94,8 +94,7 @@ implements <a href="GitRepo.html" title="interface in ru.nsu.aeliseev2.task241.g
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,java.nio.file.Path)" class="member-name-link">CliGitRepo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;gitCommand,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/file/Path.html" title="class or interface in java.nio.file" class="external-link">Path</a>&nbsp;repoDirectory)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.nio.file.Path)" class="member-name-link">CliGitRepo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/file/Path.html" title="class or interface in java.nio.file" class="external-link">Path</a>&nbsp;repoDirectory)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Initializes a new instance of <code>CliGitRepo</code>.</div>
 </div>
@@ -113,16 +112,6 @@ implements <a href="GitRepo.html" title="interface in ru.nsu.aeliseev2.task241.g
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#branches()" class="member-name-link">branches</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets the list of branches in this git repository.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkout(java.lang.String)" class="member-name-link">checkout</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;branch)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Switches the repository to the specified branch.</div>
-</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#close()" class="member-name-link">close</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -151,14 +140,12 @@ implements <a href="GitRepo.html" title="interface in ru.nsu.aeliseev2.task241.g
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(java.lang.String,java.nio.file.Path)">
+<section class="detail" id="&lt;init&gt;(java.nio.file.Path)">
 <h3>CliGitRepo</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CliGitRepo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;gitCommand,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/file/Path.html" title="class or interface in java.nio.file" class="external-link">Path</a>&nbsp;repoDirectory)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">CliGitRepo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/nio/file/Path.html" title="class or interface in java.nio.file" class="external-link">Path</a>&nbsp;repoDirectory)</span></div>
 <div class="block">Initializes a new instance of <code>CliGitRepo</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>gitCommand</code> - The Git command name.</dd>
 <dd><code>repoDirectory</code> - The directory the repository is located in.</dd>
 </dl>
 </section>
@@ -171,32 +158,6 @@ implements <a href="GitRepo.html" title="interface in ru.nsu.aeliseev2.task241.g
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
-<li>
-<section class="detail" id="branches()">
-<h3>branches</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">branches</span>()</div>
-<div class="block">Gets the list of branches in this git repository.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="GitRepo.html#branches()">branches</a></code>&nbsp;in interface&nbsp;<code><a href="GitRepo.html" title="interface in ru.nsu.aeliseev2.task241.git">GitRepo</a></code></dd>
-<dt>Returns:</dt>
-<dd>The list of branches.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="checkout(java.lang.String)">
-<h3>checkout</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">checkout</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;branch)</span></div>
-<div class="block">Switches the repository to the specified branch.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="GitRepo.html#checkout(java.lang.String)">checkout</a></code>&nbsp;in interface&nbsp;<code><a href="GitRepo.html" title="interface in ru.nsu.aeliseev2.task241.git">GitRepo</a></code></dd>
-<dt>Parameters:</dt>
-<dd><code>branch</code> - The branch to switch to.</dd>
-</dl>
-</section>
-</li>
 <li>
 <section class="detail" id="directory()">
 <h3>directory</h3>
