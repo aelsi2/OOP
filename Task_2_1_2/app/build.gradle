@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'ru.nsu.aeliseev2.task212'
+version = 'unspecified'
+
+application {
+    mainClass = "ru.nsu.aeliseev2.task212.app.PrimeCheckerApp"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':common')
+}
