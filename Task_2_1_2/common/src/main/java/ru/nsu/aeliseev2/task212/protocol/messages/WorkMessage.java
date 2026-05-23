@@ -1,15 +1,14 @@
 package ru.nsu.aeliseev2.task212.protocol.messages;
 
 import java.nio.ByteBuffer;
-import java.nio.LongBuffer;
 
 /**
  * Message sent by the client (master) to a server (slave) to schedule a new work unit.
  *
- * @param id The id of the work unit.
- * @param data The array to look for primes in.
+ * @param id         The id of the work unit.
+ * @param data       The array to look for primes in.
  * @param startIndex The start index in the array.
- * @param endIndex The end index in the array.
+ * @param endIndex   The end index in the array.
  */
 public record WorkMessage(long id, long[] data, int startIndex, int endIndex) implements Message {
     private static final byte MESSAGE_TYPE = 1;
@@ -45,15 +44,16 @@ public record WorkMessage(long id, long[] data, int startIndex, int endIndex) im
                 this.dataIndex = 0;
             }
 
-            LongBuffer longBuffer = buffer.asLongBuffer();
             int dataRemaining = message.data.length - dataIndex;
-            int bufferRemaining = longBuffer.remaining();
+            int bufferRemaining = buffer.remaining() / 8;
 
             int receiveLength = Integer.min(dataRemaining, bufferRemaining);
-            longBuffer.get(message.data, dataIndex, receiveLength);
+            for (int i = 0; i < receiveLength; i++) {
+                message.data[dataIndex + i] = buffer.getLong();
+            }
             dataIndex += receiveLength;
 
-            if (dataIndex == message.data.length - 1) {
+            if (dataIndex == message.data.length) {
                 Message msg = message;
                 message = null;
                 return msg;
@@ -78,19 +78,19 @@ public record WorkMessage(long id, long[] data, int startIndex, int endIndex) im
                     return false;
                 }
                 buffer.putLong(id);
-                buffer.putInt(data.length);
+                buffer.putInt(endIndex - startIndex);
                 writtenHeader = true;
             }
 
-            LongBuffer longBuffer = buffer.asLongBuffer();
             int dataRemaining = endIndex - dataIndex;
-            int bufferRemaining = longBuffer.remaining();
+            int bufferRemaining = buffer.remaining() / 8;
 
             int sendLength = Integer.min(dataRemaining, bufferRemaining);
-            buffer.asLongBuffer().put(data, dataIndex, sendLength);
+            for (int i = 0; i < sendLength; i++) {
+                buffer.putLong(data[dataIndex + i]);
+            }
             dataIndex += sendLength;
-
-            return dataIndex == data.length - 1;
+            return dataIndex == endIndex;
         }
     }
 

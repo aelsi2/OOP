@@ -2,147 +2,194 @@ package ru.nsu.aeliseev2.task212.app.client;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import ru.nsu.aeliseev2.task212.utils.RemoteServer;
+import ru.nsu.aeliseev2.task212.utils.WorkStatus;
 import ru.nsu.aeliseev2.task212.utils.WorkUnit;
 
+/**
+ * A client that schedules calculations on multiple servers.
+ */
 public class PrimeClient implements Closeable {
     private static final long HEARTBEAT_TIMEOUT = 1000;
 
     private final Collection<RemoteServer> servers;
     private final Selector selector;
-    private final ArrayList<ServerConnection> connections;
+    private final HashMap<SelectionKey, ClientConnection> connections;
 
-    private long jobId;
-
+    /**
+     * Initializes a new instance of {@code PrimeClient}.
+     *
+     * @param servers The list of the servers to use.
+     * @throws IOException {@code Selector} open error.
+     */
     public PrimeClient(Collection<RemoteServer> servers) throws IOException {
         this.servers = servers;
         this.selector = Selector.open();
-        this.connections = new ArrayList<>();
-        this.jobId = 0;
+        this.connections = new HashMap<>();
     }
 
+    /**
+     * Terminates the connection.
+     *
+     * @param connection The connection to terminate.
+     */
+    private void disconnectServer(ClientConnection connection) {
+        connections.remove(connection.key());
+        try {
+            connection.close();
+        } catch (IOException ioException) {
+            System.err.println("Close failed: " + ioException.getMessage());
+        }
+    }
+
+    /**
+     * Handles timeouts on all connections.
+     */
+    private void handleTimeouts() {
+        Iterator<ClientConnection> connectionIterator = connections.values().iterator();
+        while (connectionIterator.hasNext()) {
+            ClientConnection connection = connectionIterator.next();
+            if (connection.handleTimeouts()) {
+                System.err.println("Connection timed out");
+                connectionIterator.remove();
+                try {
+                    connection.close();
+                } catch (IOException ioException) {
+                    System.err.println("Close failed: " + ioException.getMessage());
+                }
+                scheduleWorkUnits(connection.scheduledWorkUnits());
+            }
+        }
+    }
+
+    /**
+     * Performs a handshake with the servers.
+     *
+     * @throws IOException {@code Selector} error.
+     */
     public void connect() throws IOException {
         for (RemoteServer server : servers) {
             try {
-                ServerConnection connection = new ServerConnection(server, selector);
-                connections.add(connection);
+                ClientConnection connection = new ClientConnection(server, selector);
+                connections.put(connection.key(), connection);
             } catch (IOException exception) {
                 System.err.println("Connection failed: " + exception.getMessage());
             }
         }
-        int readyCount = 0;
-        while (readyCount < connections.size()) {
+        HashSet<SelectionKey> readyKeys = new HashSet<>();
+        while (readyKeys.size() < connections.size()) {
             selector.select(HEARTBEAT_TIMEOUT);
 
-            Iterator<ServerConnection> iterator = connections.iterator();
+            Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
             while (iterator.hasNext()) {
-                ServerConnection connection = iterator.next();
+                SelectionKey key = iterator.next();
+                ClientConnection connection = connections.get(key);
                 try {
-                    connection.process();
+                    connection.handleOps();
                     if (connection.isReady()) {
-                        readyCount += 1;
+                        readyKeys.add(key);
                     }
                 } catch (Exception exception) {
-                    iterator.remove();
                     System.err.println("Handshake failed: " + exception.getMessage());
-                    try {
-                        connection.close();
-                    } catch (IOException ioException) {
-                        System.err.println("Close failed");
-                    }
+                    readyKeys.remove(key);
+                    disconnectServer(connection);
                 }
+                iterator.remove();
             }
-
+            handleTimeouts();
         }
     }
 
+    /**
+     * Schedules a collection of work units on established connections.
+     *
+     * @param workUnits The work units to schedule.
+     */
     private void scheduleWorkUnits(Collection<WorkUnit> workUnits) {
-        Iterator<ServerConnection> connectionIter = connections.iterator();
-        Iterator<WorkUnit> unitIter = workUnits.iterator();
-        while (unitIter.hasNext()) {
-            WorkUnit unit = unitIter.next();
-            if (connectionIter.hasNext()) {
-                ServerConnection connection = connectionIter.next();
+        Iterator<ClientConnection> connectionsIterator = connections.values().iterator();
+        for (WorkUnit unit : workUnits) {
+            if (connectionsIterator.hasNext()) {
+                ClientConnection connection = connectionsIterator.next();
                 connection.schedule(unit);
             } else {
-                connectionIter = connections.iterator();
-                if (!connectionIter.hasNext()) {
+                connectionsIterator = connections.values().iterator();
+                if (!connectionsIterator.hasNext()) {
                     throw new RuntimeException("All servers are dead");
                 }
-                ServerConnection connection = connectionIter.next();
+                ClientConnection connection = connectionsIterator.next();
                 connection.schedule(unit);
             }
-
         }
     }
 
-    public boolean check(long[] numbers) throws IOException {
+    /**
+     * Checks if the specified array contains any non-prime (composite numbers).
+     *
+     * @param numbers    The array to search for composite numbers.
+     * @param startIndex The start index in the number array.
+     * @param endIndex   The start index in the number array.
+     * @return {@code true} if {@code numbers} contains at least one composite number, {@code false}
+     *     otherwise.
+     */
+    public boolean hasComposites(long[] numbers, int startIndex, int endIndex) throws IOException {
         if (connections.size() == 0) {
             throw new IllegalStateException("No active connections");
         }
 
-        final int numCons = connections.size();
-        final int numPerConn = numbers.length / numCons;
-        final int numExtra = numbers.length % numCons;
-
-        HashMap<Long, WorkUnit> workUnits = new HashMap<>();
-        for (int connIndex = 0; connIndex < numCons; connIndex++) {
-            int numStart = numPerConn * connIndex;
-            int numEnd = numStart + numPerConn + (connIndex == numCons - 1 ? numExtra : 0);
-            WorkUnit unit = new WorkUnit(jobId++, numbers, numStart, numEnd);
-            workUnits.put(unit.id, unit);
-        }
+        Map<Long, WorkUnit> workUnits = WorkUnit.split(
+            numbers, startIndex, endIndex, connections.size());
         scheduleWorkUnits(workUnits.values());
 
         while (true) {
             selector.select(HEARTBEAT_TIMEOUT);
-            Iterator<ServerConnection> iterator = connections.iterator();
-            while (iterator.hasNext()) {
-                ServerConnection connection = iterator.next();
+            Iterator<SelectionKey> keyIterator = selector.selectedKeys().iterator();
+            while (keyIterator.hasNext()) {
+                SelectionKey key = keyIterator.next();
+                ClientConnection connection = connections.get(key);
                 try {
-                    if (!connection.process()) {
-                        continue;
-                    }
-
-                    boolean allFalse = true;
-                    for (WorkUnit unit : workUnits.values()) {
-                        if (unit.hasPrimes) {
+                    if (connection.handleOps()) {
+                        WorkStatus status = WorkUnit.getStatus(workUnits.values());
+                        if (status == WorkStatus.HAS_COMPOSITES) {
                             return true;
                         }
-                        if (!unit.isComplete) {
-                            allFalse = false;
-                            break;
+                        if (status == WorkStatus.ALL_PRIMES) {
+                            return false;
                         }
                     }
-                    if (allFalse) {
-                        return false;
-                    }
-
                 } catch (Exception exception) {
-                    iterator.remove();
                     System.err.println("Connection error: " + exception.getMessage());
-                    try {
-                        connection.close();
-                    } catch (IOException ioException) {
-                        System.err.println("Close failed");
-                    }
-                    scheduleWorkUnits(connection.unfinishedWorkUnits());
+                    disconnectServer(connection);
+                    scheduleWorkUnits(connection.scheduledWorkUnits());
                 }
+                keyIterator.remove();
             }
+            handleTimeouts();
         }
-
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void close() throws IOException {
-        selector.close();
-        for (ServerConnection connection : connections) {
-            connection.close();
+    public void close() {
+        try {
+            selector.close();
+        } catch (IOException exception) {
+            System.err.println("Selector close failed: " + exception.getMessage());
+        }
+        for (ClientConnection connection : connections.values()) {
+            try {
+                connection.close();
+            } catch (IOException exception) {
+                System.err.println("Connection close failed: " + exception.getMessage());
+            }
         }
     }
 }

@@ -25,10 +25,14 @@ public abstract class PrimeChecker {
     /**
      * Checks if the specified array contains any non-prime (composite numbers).
      *
-     * @param numbers The array to search for composite numbers.
-     * @exception InterruptedException The operation was interrupted.
+     * @param numbers    The array to search for composite numbers.
+     * @param startIndex The start index in the number array.
+     * @param endIndex   The start index in the number array.
      * @return {@code true} if {@code numbers} contains at least one composite number, {@code false}
      *     otherwise.
+     * @throws InterruptedException The operation was interrupted.
      */
-    public abstract boolean hasComposites(long[] numbers) throws InterruptedException;
+    public abstract boolean hasComposites(
+        long[] numbers, int startIndex, int endIndex
+    ) throws InterruptedException;
 }

@@ -19,6 +19,7 @@ public class MessageWriter {
      * @param message The message to enqueue.
      */
     public void enqueue(Message message) {
+        System.err.println("Enqueued message: " + message);
         messages.add(message);
     }
 
