@@ -8,8 +8,10 @@ import java.nio.LongBuffer;
  *
  * @param id The id of the work unit.
  * @param data The array to look for primes in.
+ * @param startIndex The start index in the array.
+ * @param endIndex The end index in the array.
  */
-public record WorkMessage(long id, long[] data) implements Message {
+public record WorkMessage(long id, long[] data, int startIndex, int endIndex) implements Message {
     private static final byte MESSAGE_TYPE = 1;
     private static final int HEADER_SIZE = 12;
 
@@ -39,7 +41,7 @@ public record WorkMessage(long id, long[] data) implements Message {
                 }
                 long id = buffer.getLong();
                 long[] data = new long[buffer.getInt()];
-                this.message = new WorkMessage(id, data);
+                this.message = new WorkMessage(id, data, 0, data.length);
                 this.dataIndex = 0;
             }
 
@@ -62,7 +64,7 @@ public record WorkMessage(long id, long[] data) implements Message {
 
     private class Serializer implements Message.Serializer {
         boolean writtenHeader;
-        int dataIndex = 0;
+        int dataIndex = startIndex;
 
         @Override
         public byte type() {
@@ -81,7 +83,7 @@ public record WorkMessage(long id, long[] data) implements Message {
             }
 
             LongBuffer longBuffer = buffer.asLongBuffer();
-            int dataRemaining = data.length - dataIndex;
+            int dataRemaining = endIndex - dataIndex;
             int bufferRemaining = longBuffer.remaining();
 
             int sendLength = Integer.min(dataRemaining, bufferRemaining);
