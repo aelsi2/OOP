@@ -5,10 +5,10 @@ import java.nio.ByteBuffer;
 /**
  * Message sent by a server (slave) to the client (master) to report the result of a work unit.
  *
- * @param id The id of the work unit.
- * @param hasPrime Whether the array contained prime numbers.
+ * @param id            The id of the work unit.
+ * @param hasComposites Whether the array contained a composite number.
  */
-public record ResultMessage(long id, boolean hasPrime) implements Message {
+public record ResultMessage(long id, boolean hasComposites) implements Message {
     private static final byte MESSAGE_TYPE = 3;
     private static final int MESSAGE_SIZE = 9;
 
@@ -41,8 +41,8 @@ public record ResultMessage(long id, boolean hasPrime) implements Message {
                 return null;
             }
             long id = buffer.getLong();
-            boolean hasPrime = buffer.get() != 0;
-            return new ResultMessage(id, hasPrime);
+            boolean hasComposites = buffer.get() != 0;
+            return new ResultMessage(id, hasComposites);
         }
     }
 
@@ -58,7 +58,7 @@ public record ResultMessage(long id, boolean hasPrime) implements Message {
                 return false;
             }
             buffer.putLong(id);
-            buffer.put((byte)(hasPrime ? 1 : 0));
+            buffer.put((byte) (hasComposites ? 1 : 0));
             return true;
         }
     }

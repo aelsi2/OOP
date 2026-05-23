@@ -9,15 +9,24 @@ import ru.nsu.aeliseev2.task212.app.client.PrimeClient;
 import ru.nsu.aeliseev2.task212.app.server.PrimeServer;
 import ru.nsu.aeliseev2.task212.utils.Port;
 
+/**
+ * A distributed client+server application for finding composite numbers.
+ */
 public class PrimeCheckerApp {
     private static void printHelp() {
-        System.err.println("""
+        System.err.print("""
             Usage:
             prime-checker listen <PORT>
             prime-checker check <HOST:PORT>, <HOST:PORT>, <HOST:PORT>, ...
             """);
     }
 
+    /**
+     * Runs the application in server mode.
+     *
+     * @param args Application command line arguments.
+     * @return Return code of the application.
+     */
     private static int runListen(String[] args) {
         if (args.length != 2) {
             throw new IllegalArgumentException("A port number needs to be specified");
@@ -32,6 +41,13 @@ public class PrimeCheckerApp {
         return 0;
     }
 
+    /**
+     * Runs the application in client mode.
+     *
+     * @param args Application command line arguments.
+     * @return Return code of the application.
+     * @throws IOException I/O error.
+     */
     private static int runCheck(String[] args) throws IOException {
         if (args.length < 2) {
             throw new IllegalArgumentException("At least one host needs to be provided.");
@@ -49,20 +65,24 @@ public class PrimeCheckerApp {
         while (scanner.hasNextLong()) {
             array[numCount++] = scanner.nextLong();
             if (numCount == array.length) {
-                long[] newArray = new long[args.length * 2];
+                long[] newArray = new long[array.length * 2];
                 System.arraycopy(array, 0, newArray, 0, array.length);
                 array = newArray;
             }
         }
-
-        long[] numbers = new long[numCount];
-        System.arraycopy(array, 0, numbers, 0, numCount);
-
         client.connect();
-        System.out.println(client.check(numbers));
+        boolean result = client.hasComposites(array, 0, numCount);
+        System.out.println(result);
         return 0;
     }
 
+    /**
+     * Runs the application.
+     *
+     * @param args Command line arguments.
+     * @return Return code of the application.
+     * @throws IOException I/O error.
+     */
     private static int run(String[] args) throws IOException {
         if (args.length < 1) {
             throw new IllegalArgumentException("An action needs to be specified.");
@@ -76,6 +96,11 @@ public class PrimeCheckerApp {
         }
     }
 
+    /**
+     * The main entry point of the application.
+     *
+     * @param args Application command line arguments.
+     */
     public static void main(String[] args) {
         try {
             System.exit(run(args));

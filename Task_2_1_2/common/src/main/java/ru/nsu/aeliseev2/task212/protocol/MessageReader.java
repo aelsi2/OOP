@@ -45,7 +45,12 @@ public class MessageReader {
             currentDeserializer = deserializers.get(type);
         }
         try {
-            return currentDeserializer.read(buffer);
+            Message message = currentDeserializer.read(buffer);
+            if (message != null) {
+                currentDeserializer = null;
+                System.err.println("Received message: " + message);
+            }
+            return message;
         } catch (Exception e) {
             throw new ProtocolException(e.getCause());
         }
