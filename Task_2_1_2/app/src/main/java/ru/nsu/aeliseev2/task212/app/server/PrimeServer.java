@@ -78,8 +78,7 @@ public class PrimeServer implements AutoCloseable {
         SocketChannel clientSocket = null;
         try {
             clientSocket = serverSocket.accept();
-            System.err.println("Incoming connection: " +
-                clientSocket.getRemoteAddress());
+            System.err.println("Incoming connection: " + clientSocket.getRemoteAddress());
             ServerConnection connection =
                 new ServerConnection(clientSocket, selector, algorithm);
             connections.put(connection.key(), connection);
