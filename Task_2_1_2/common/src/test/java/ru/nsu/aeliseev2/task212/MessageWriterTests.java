@@ -3,8 +3,6 @@ package ru.nsu.aeliseev2.task212;
 import java.nio.ByteBuffer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.nsu.aeliseev2.task212.messages.IntMessage;
-import ru.nsu.aeliseev2.task212.messages.ShortMessage;
 import ru.nsu.aeliseev2.task212.protocol.MessageWriter;
 
 class MessageWriterTests {

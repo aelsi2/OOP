@@ -1,11 +1,11 @@
-package ru.nsu.aeliseev2.task212.messages;
+package ru.nsu.aeliseev2.task212;
 
 import java.nio.ByteBuffer;
 import ru.nsu.aeliseev2.task212.protocol.messages.Message;
 
-public record IntMessage(int number) implements Message {
-    private static final byte MESSAGE_TYPE = 0;
-    private static final int MESSAGE_SIZE = 4;
+record ShortMessage(short number) implements Message {
+    private static final byte MESSAGE_TYPE = 1;
+    private static final int MESSAGE_SIZE = 2;
 
     public static class Deserializer implements Message.Deserializer {
         private Deserializer() {
@@ -23,8 +23,8 @@ public record IntMessage(int number) implements Message {
             if (buffer.remaining() < MESSAGE_SIZE) {
                 return null;
             }
-            int number = buffer.getInt();
-            return new IntMessage(number);
+            short number = buffer.getShort();
+            return new ShortMessage(number);
         }
     }
 
@@ -39,7 +39,7 @@ public record IntMessage(int number) implements Message {
             if (buffer.remaining() < MESSAGE_SIZE) {
                 return false;
             }
-            buffer.putInt(number);
+            buffer.putShort(number);
             return true;
         }
     }
