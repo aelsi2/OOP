@@ -42,11 +42,7 @@ public class PrimeClient implements Closeable {
      */
     private void disconnectServer(ClientConnection connection) {
         connections.remove(connection.key());
-        try {
-            connection.close();
-        } catch (IOException ioException) {
-            System.err.println("Close failed: " + ioException.getMessage());
-        }
+        connection.close();
     }
 
     /**
@@ -59,11 +55,7 @@ public class PrimeClient implements Closeable {
             if (connection.handleTimeouts()) {
                 System.err.println("Connection timed out");
                 connectionIterator.remove();
-                try {
-                    connection.close();
-                } catch (IOException ioException) {
-                    System.err.println("Close failed: " + ioException.getMessage());
-                }
+                connection.close();
                 scheduleWorkUnits(connection.scheduledWorkUnits());
             }
         }
@@ -185,11 +177,7 @@ public class PrimeClient implements Closeable {
             System.err.println("Selector close failed: " + exception.getMessage());
         }
         for (ClientConnection connection : connections.values()) {
-            try {
-                connection.close();
-            } catch (IOException exception) {
-                System.err.println("Connection close failed: " + exception.getMessage());
-            }
+            connection.close();
         }
     }
 }

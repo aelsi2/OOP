@@ -3,9 +3,11 @@ package ru.nsu.aeliseev2.task212.app.server;
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.channels.CancelledKeyException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
+import java.util.ArrayList;
 import java.util.List;
 import ru.nsu.aeliseev2.task212.algorithms.PrimeChecker;
 import ru.nsu.aeliseev2.task212.protocol.MessageReader;
@@ -32,6 +34,8 @@ public class ServerConnection implements Closeable {
     private final MessageWriter writer;
     private final MessageReader reader;
 
+    private final ArrayList<Thread> threads;
+
     /**
      * Initializes a new instance of {@code ServerConnection}.
      *
@@ -56,6 +60,7 @@ public class ServerConnection implements Closeable {
             PingMessage.Deserializer.INSTANCE,
             new WorkMessage.Deserializer()
         ));
+        this.threads = new ArrayList<>();
     }
 
     /**
@@ -64,7 +69,7 @@ public class ServerConnection implements Closeable {
      * @param workMessage The work unit (in form of a message) to schedule.
      */
     private void scheduleWork(WorkMessage workMessage) {
-        new Thread(() -> {
+        Thread thread = new Thread(() -> {
             boolean result = false;
             try {
                 result = algorithm.hasComposites(
@@ -75,14 +80,25 @@ public class ServerConnection implements Closeable {
             } catch (InterruptedException e) {
                 System.err.println("Work thread interrupted");
             }
-            synchronized (writer) {
-                writer.enqueue(
-                    new ResultMessage(workMessage.id(), result)
-                );
-                key.interestOps(key.interestOps() | SelectionKey.OP_WRITE);
-                selector.wakeup();
+            try {
+                synchronized (writer) {
+                    writer.enqueue(
+                        new ResultMessage(workMessage.id(), result)
+                    );
+                    key.interestOps(key.interestOps() | SelectionKey.OP_WRITE);
+                    selector.wakeup();
+                }
+            } catch (CancelledKeyException exception) {
+                System.err.println("Work thread interrupted");
             }
-        }).start();
+            synchronized (threads) {
+                threads.remove(Thread.currentThread());
+            }
+        });
+        synchronized (threads) {
+            threads.add(thread);
+        }
+        thread.start();
     }
 
     /**
@@ -149,8 +165,17 @@ public class ServerConnection implements Closeable {
      * {@inheritDoc}
      */
     @Override
-    public void close() throws IOException {
+    public void close() {
         key.cancel();
-        channel.close();
+        try {
+            channel.close();
+        } catch (IOException exception) {
+            System.err.println("Channel close failed: " + exception.getMessage());
+        }
+        synchronized (threads) {
+            for (Thread thread : threads) {
+                thread.interrupt();
+            }
+        }
     }
 }
