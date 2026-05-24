@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ru.nsu.aeliseev2.task212.algorithms"},{"l":"ru.nsu.aeliseev2.task212.protocol"},{"l":"ru.nsu.aeliseev2.task212.protocol.messages"},{"l":"ru.nsu.aeliseev2.task212.utils"}];updateSearchResults();
