@@ -2,6 +2,7 @@ package ru.nsu.aeliseev2.task212;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ru.nsu.aeliseev2.task212.algorithms.PrimeChecker;
 
 class IsPrimeTests {
     @Test
