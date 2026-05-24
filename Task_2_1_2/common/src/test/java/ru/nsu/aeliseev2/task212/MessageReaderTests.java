@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test;
 import ru.nsu.aeliseev2.task212.protocol.MessageReader;
 import ru.nsu.aeliseev2.task212.protocol.ProtocolException;
 
-public class MessageReaderTests {
+class MessageReaderTests {
     @Test
     void readBasic() throws ProtocolException {
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        final ByteBuffer buffer = ByteBuffer.allocate(1024);
         buffer.put(new byte[]{0, 0, 0, 0, (byte) 255});
         buffer.flip();
 
@@ -22,7 +22,7 @@ public class MessageReaderTests {
 
     @Test
     void readMany() throws ProtocolException {
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        final ByteBuffer buffer = ByteBuffer.allocate(1024);
         buffer.put(new byte[]{0, 0, 0, 0, 1});
         buffer.put(new byte[]{0, 0, 0, 0, 2});
         buffer.put(new byte[]{0, 0, 0, 0, 3});
@@ -41,7 +41,7 @@ public class MessageReaderTests {
 
     @Test
     void readUnknown() {
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        final ByteBuffer buffer = ByteBuffer.allocate(1024);
         buffer.put(new byte[]{50, 0, 0, 0, (byte) 255});
         buffer.flip();
 
@@ -51,7 +51,7 @@ public class MessageReaderTests {
 
     @Test
     void readPartial() throws ProtocolException {
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        final ByteBuffer buffer = ByteBuffer.allocate(1024);
         buffer.put(new byte[]{0, 0});
         buffer.flip();
 
@@ -66,7 +66,7 @@ public class MessageReaderTests {
 
     @Test
     void readDifferent() throws ProtocolException {
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        final ByteBuffer buffer = ByteBuffer.allocate(1024);
         buffer.put(new byte[]{0, 0, 0, 0, 25, 1, (byte) 0xDE, (byte) 0xAD, 0, 0, 0, 0, 23});
         buffer.flip();
 
