@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.nsu.aeliseev2.task212.protocol.MessageReader;
 import ru.nsu.aeliseev2.task212.protocol.ProtocolException;
+import ru.nsu.aeliseev2.task212.protocol.messages.Message;
 
 class MessageReaderTests {
     @Test
@@ -77,5 +78,25 @@ class MessageReaderTests {
         Assertions.assertEquals(new IntMessage(25), reader.read(buffer));
         Assertions.assertEquals(new ShortMessage((short) 0xDEAD), reader.read(buffer));
         Assertions.assertEquals(new IntMessage(23), reader.read(buffer));
+    }
+
+    @Test
+    void readMessageError() {
+        final ByteBuffer buffer = ByteBuffer.allocate(1024);
+        buffer.put((byte) 255);
+        buffer.flip();
+        Message.Deserializer deserializer = new Message.Deserializer() {
+            @Override
+            public byte type() {
+                return (byte) 255;
+            }
+
+            @Override
+            public Message read(ByteBuffer buffer) throws ProtocolException {
+                throw new ProtocolException("Invalid message");
+            }
+        };
+        MessageReader reader = new MessageReader(List.of(deserializer));
+        Assertions.assertThrows(ProtocolException.class, () -> reader.read(buffer));
     }
 }

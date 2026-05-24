@@ -1,6 +1,7 @@
 package ru.nsu.aeliseev2.task212.protocol.messages;
 
 import java.nio.ByteBuffer;
+import ru.nsu.aeliseev2.task212.protocol.ProtocolException;
 
 /**
  * A message sent between a client (master) and a server (slave).
@@ -23,8 +24,9 @@ public interface Message {
          * @param buffer The buffer to read the message from.
          * @return The parsed message or {@code null}, if there wasn't enough data in the buffer to
          *     read the message completely.
+         * @exception ProtocolException Protocol violation.
          */
-        Message read(ByteBuffer buffer);
+        Message read(ByteBuffer buffer) throws ProtocolException;
     }
 
     /**
