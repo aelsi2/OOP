@@ -52,7 +52,7 @@ public class MessageReader {
             }
             return message;
         } catch (Exception e) {
-            throw new ProtocolException(e.getCause());
+            throw new ProtocolException(e);
         }
     }
 }
