@@ -1,7 +1,8 @@
-package ru.nsu.aeliseev2.task211;
+package ru.nsu.aeliseev2.task212;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ru.nsu.aeliseev2.task212.algorithms.PrimeChecker;
 
 abstract class HasCompositesTests {
     protected abstract PrimeChecker getChecker();
@@ -9,19 +10,19 @@ abstract class HasCompositesTests {
     @Test
     void testEmpty() throws InterruptedException {
         long[] primes = new long[]{};
-        Assertions.assertFalse(getChecker().hasComposites(primes));
+        Assertions.assertFalse(getChecker().hasComposites(primes, 0, primes.length));
     }
 
     @Test
     void testSmallAllPrimes() throws InterruptedException {
         long[] primes = new long[]{3, 7, 13};
-        Assertions.assertFalse(getChecker().hasComposites(primes));
+        Assertions.assertFalse(getChecker().hasComposites(primes, 0, primes.length));
     }
 
     @Test
     void testSmallComposite() throws InterruptedException {
         long[] primes = new long[]{3, 7, 8};
-        Assertions.assertTrue(getChecker().hasComposites(primes));
+        Assertions.assertTrue(getChecker().hasComposites(primes, 0, primes.length));
     }
 
     @Test
@@ -38,7 +39,7 @@ abstract class HasCompositesTests {
             42797, 35323, 56681, 55663, 28603, 17209, 58111, 70429, 44087, 33617, 23167, 24509,
             64951, 12721, 27509, 24821, 77549, 48449, 83969, 72467, 20023, 56167, 62417, 11489,
         };
-        Assertions.assertFalse(getChecker().hasComposites(primes));
+        Assertions.assertFalse(getChecker().hasComposites(primes, 0, primes.length));
     }
 
     @Test
@@ -55,7 +56,7 @@ abstract class HasCompositesTests {
             42797, 35323, 56681, 55663, 28603, 17209, 58111, 70429, 44087, 33617, 23167, 24509,
             64951, 12721, 27509, 24821, 77549, 48449, 83969, 72467, 20023, 56167, 62417, 11489,
         };
-        Assertions.assertTrue(getChecker().hasComposites(primes));
+        Assertions.assertTrue(getChecker().hasComposites(primes, 0, primes.length));
     }
 
     @Test
@@ -72,7 +73,7 @@ abstract class HasCompositesTests {
             42797, 35323, 56681, 55663, 28603, 17209, 58111, 70429, 44087, 33617, 23167, 24509,
             64951, 12721, 27509, 24821, 77549, 48449, 83969, 72467, 20023, 56167, 62417, 11489,
         };
-        Assertions.assertTrue(getChecker().hasComposites(primes));
+        Assertions.assertTrue(getChecker().hasComposites(primes, 0, primes.length));
     }
 
     @Test
@@ -89,7 +90,7 @@ abstract class HasCompositesTests {
             42797, 35323, 56681, 55663, 28603, 17209, 58111, 70429, 44087, 33617, 23167, 24509,
             64951, 12721, 27509, 24821, 77549, 48449, 83969, 72467, 20023, 56167, 62419, 11489,
         };
-        Assertions.assertTrue(getChecker().hasComposites(primes));
+        Assertions.assertTrue(getChecker().hasComposites(primes, 0, primes.length));
     }
 
     @Test
@@ -103,7 +104,7 @@ abstract class HasCompositesTests {
             71508467, 54426353, 57828313, 58697599, 56104249, 5829149, 76559447, 82266337,
             54307927, 51279169, 67616431, 39061439,
         };
-        Assertions.assertFalse(getChecker().hasComposites(primes));
+        Assertions.assertFalse(getChecker().hasComposites(primes, 0, primes.length));
     }
 
     @Test
@@ -117,6 +118,6 @@ abstract class HasCompositesTests {
             71508467, 54426353, 57828313, 58697599, 56104249, 5829149, 76559447, 82266337,
             54307927, 51279169, 67616431, 39061439, 2904597430475773L
         };
-        Assertions.assertTrue(getChecker().hasComposites(primes));
+        Assertions.assertTrue(getChecker().hasComposites(primes, 0, primes.length));
     }
 }
