@@ -1,7 +1,7 @@
 package ru.nsu.aeliseev2.task212.utils;
 
 /**
- * A helper class for parsing port numbers;
+ * A helper class for parsing port numbers.
  */
 public final class Port {
     private Port() {
