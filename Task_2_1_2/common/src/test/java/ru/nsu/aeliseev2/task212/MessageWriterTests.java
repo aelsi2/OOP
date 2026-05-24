@@ -8,8 +8,8 @@ import ru.nsu.aeliseev2.task212.protocol.MessageWriter;
 class MessageWriterTests {
     @Test
     void writeBasic() {
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
-        MessageWriter writer = new MessageWriter();
+        final ByteBuffer buffer = ByteBuffer.allocate(1024);
+        final MessageWriter writer = new MessageWriter();
         writer.enqueue(new ShortMessage((short) 123));
 
         Assertions.assertTrue(writer.hasData());
@@ -25,8 +25,8 @@ class MessageWriterTests {
 
     @Test
     void writeMany() {
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
-        MessageWriter writer = new MessageWriter();
+        final ByteBuffer buffer = ByteBuffer.allocate(1024);
+        final MessageWriter writer = new MessageWriter();
         writer.enqueue(new ShortMessage((short) 123));
         writer.enqueue(new IntMessage((short) 456));
         writer.enqueue(new ShortMessage((short) 678));
@@ -47,8 +47,8 @@ class MessageWriterTests {
 
     @Test
     void writePartial() {
-        ByteBuffer buffer = ByteBuffer.allocate(5);
-        MessageWriter writer = new MessageWriter();
+        final ByteBuffer buffer = ByteBuffer.allocate(5);
+        final MessageWriter writer = new MessageWriter();
         writer.enqueue(new ShortMessage((short) 123));
         writer.enqueue(new IntMessage((short) 456));
         writer.enqueue(new ShortMessage((short) 678));
