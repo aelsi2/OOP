@@ -49,6 +49,9 @@ public class MessageWriter {
                     break;
                 }
             } else if (!messages.isEmpty()) {
+                if (!buffer.hasRemaining()) {
+                    break;
+                }
                 currentSerializer = messages.remove().serialize();
                 buffer.put(currentSerializer.type());
             }
