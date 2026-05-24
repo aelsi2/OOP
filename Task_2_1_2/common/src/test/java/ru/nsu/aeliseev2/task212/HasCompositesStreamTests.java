@@ -1,4 +1,7 @@
-package ru.nsu.aeliseev2.task211;
+package ru.nsu.aeliseev2.task212;
+
+import ru.nsu.aeliseev2.task212.algorithms.ParallelStreamPrimeChecker;
+import ru.nsu.aeliseev2.task212.algorithms.PrimeChecker;
 
 class HasCompositesStreamTests extends HasCompositesTests {
     @Override
