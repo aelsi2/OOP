@@ -38,10 +38,15 @@ public class MessageWriter {
      * @param buffer The buffer to write to.
      */
     public void write(ByteBuffer buffer) {
-        while (buffer.hasRemaining() && hasData()) {
+        while (hasData()) {
             if (currentSerializer != null) {
+                int oldPosition = buffer.position();
                 if (currentSerializer.write(buffer)) {
                     currentSerializer = null;
+                }
+                if (buffer.position() == oldPosition) {
+                    // Serializer wasn't able to write any data.
+                    break;
                 }
             } else if (!messages.isEmpty()) {
                 currentSerializer = messages.remove().serialize();

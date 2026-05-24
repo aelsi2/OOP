@@ -231,8 +231,12 @@ class ClientConnection implements Closeable {
      * {@inheritDoc}
      */
     @Override
-    public void close() throws IOException {
+    public void close() {
         key.cancel();
-        channel.close();
+        try {
+            channel.close();
+        } catch (IOException exception) {
+            System.err.println("Channel close failed: " + exception.getMessage());
+        }
     }
 }

@@ -94,14 +94,15 @@ public class WorkUnit {
      * @return The status of the group.
      */
     public static WorkStatus getStatus(Collection<WorkUnit> units) {
+        boolean allReady = true;
         for (WorkUnit unit : units) {
             if (unit.status == WorkStatus.HAS_COMPOSITES) {
                 return WorkStatus.HAS_COMPOSITES;
             }
             if (unit.status == WorkStatus.WORKING) {
-                return WorkStatus.WORKING;
+                allReady = false;
             }
         }
-        return WorkStatus.ALL_PRIMES;
+        return allReady ? WorkStatus.ALL_PRIMES : WorkStatus.WORKING;
     }
 }

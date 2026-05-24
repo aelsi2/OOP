@@ -65,11 +65,7 @@ public class PrimeServer implements AutoCloseable {
      */
     private void disconnectClient(ServerConnection connection) {
         connections.remove(connection.key());
-        try {
-            connection.close();
-        } catch (IOException ioException) {
-            System.err.println("Close failed: " + ioException.getMessage());
-        }
+        connection.close();
     }
 
     /**
@@ -154,11 +150,7 @@ public class PrimeServer implements AutoCloseable {
             System.err.println("Server socket close failed: " + exception.getMessage());
         }
         for (ServerConnection connection : connections.values()) {
-            try {
-                connection.close();
-            } catch (IOException exception) {
-                System.err.println("Connection close failed: " + exception.getMessage());
-            }
+            connection.close();
         }
     }
 }
