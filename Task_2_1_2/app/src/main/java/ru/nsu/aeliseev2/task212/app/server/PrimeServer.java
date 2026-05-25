@@ -2,6 +2,10 @@ package ru.nsu.aeliseev2.task212.app.server;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.NetworkInterface;
+import java.net.StandardProtocolFamily;
+import java.nio.ByteBuffer;
+import java.nio.channels.DatagramChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
@@ -9,31 +13,50 @@ import java.nio.channels.SocketChannel;
 import java.util.HashMap;
 import java.util.Iterator;
 import ru.nsu.aeliseev2.task212.algorithms.PrimeChecker;
+import ru.nsu.aeliseev2.task212.protocol.DiscoverMessage;
+import ru.nsu.aeliseev2.task212.protocol.ProtocolException;
 
 /**
  * A server that receives requests from clients and performs calculations.
  */
 public class PrimeServer implements AutoCloseable {
+    private final InetSocketAddress dataAddress;
+    private final InetSocketAddress discoverAddress;
     private final HashMap<SelectionKey, ServerConnection> connections;
     private final ServerSocketChannel serverSocket;
+    private final DatagramChannel discoverSocket;
     private final Selector selector;
     private final PrimeChecker algorithm;
+    private final SelectionKey discoverKey;
+    private final ByteBuffer discoverReceiveBuffer;
+    private final ByteBuffer discoverSendBuffer;
 
     /**
      * Initializes a new instance of {@code PrimeServer}.
      *
-     * @param port      The port to listen on.
-     * @param algorithm The algorithm to use to find composite numbers.
+     * @param dataAddress       The address to listen for connections on.
+     * @param discoverAddress   The multicast address to listen for discover messages on.
+     * @param discoverInterface The interface to listen for discover messages on.
+     * @param algorithm         The algorithm to use to find composite numbers.
      * @throws IOException Socket
      */
-    public PrimeServer(int port, PrimeChecker algorithm) throws IOException {
+    public PrimeServer(InetSocketAddress dataAddress, InetSocketAddress discoverAddress,
+                       NetworkInterface discoverInterface, PrimeChecker algorithm) throws IOException {
         Selector selector = null;
         ServerSocketChannel serverSocket = null;
+        DatagramChannel discoverSocket = null;
         try {
-            serverSocket = ServerSocketChannel.open();
             selector = Selector.open();
+
+            discoverSocket = DatagramChannel.open(StandardProtocolFamily.INET6);
+            discoverSocket.configureBlocking(false);
+            discoverSocket.join(discoverAddress.getAddress(), discoverInterface);
+            discoverSocket.bind(new InetSocketAddress(discoverAddress.getPort()));
+            this.discoverKey = discoverSocket.register(selector, SelectionKey.OP_READ);
+
+            serverSocket = ServerSocketChannel.open();
             serverSocket.configureBlocking(false);
-            serverSocket.bind(new InetSocketAddress(port));
+            serverSocket.bind(dataAddress);
             serverSocket.register(selector, SelectionKey.OP_ACCEPT);
         } catch (IOException exception) {
             try {
@@ -50,12 +73,24 @@ public class PrimeServer implements AutoCloseable {
             } catch (IOException ioException) {
                 System.err.println("Socket close failed: " + exception.getMessage());
             }
+            try {
+                if (discoverSocket != null) {
+                    discoverSocket.close();
+                }
+            } catch (IOException ioException) {
+                System.err.println("Discover socket close failed: " + exception.getMessage());
+            }
             throw exception;
         }
+        this.dataAddress = dataAddress;
+        this.discoverAddress = discoverAddress;
         this.serverSocket = serverSocket;
+        this.discoverSocket = discoverSocket;
         this.selector = selector;
         this.connections = new HashMap<>();
         this.algorithm = algorithm;
+        this.discoverReceiveBuffer = ByteBuffer.allocate(DiscoverMessage.MAX_SIZE);
+        this.discoverSendBuffer = ByteBuffer.allocate(DiscoverMessage.MAX_SIZE);
     }
 
     /**
@@ -113,11 +148,33 @@ public class PrimeServer implements AutoCloseable {
     }
 
     /**
+     * Handles discover messages.
+     */
+    private void handleDiscover() {
+        try {
+            discoverReceiveBuffer.clear();
+            discoverSocket.receive(discoverReceiveBuffer);
+            discoverReceiveBuffer.flip();
+            DiscoverMessage discoverMessage = DiscoverMessage.read(discoverReceiveBuffer);
+            System.err.println("Incoming discover message: " + discoverMessage);
+
+            discoverSendBuffer.clear();
+            new DiscoverMessage(dataAddress).write(discoverSendBuffer);
+            discoverSendBuffer.flip();
+            discoverSocket.send(discoverSendBuffer, discoverMessage.address());
+        } catch (ProtocolException | IOException exception) {
+            System.err.println("Discover read error: " + exception.getMessage());
+        }
+    }
+
+    /**
      * Begins listening for incoming connections and servicing them. Blocks indefinitely.
      *
-     * @throws IOException Client accept error.
+     * @throws IOException Selector error.
      */
     public void listen() throws IOException {
+        System.err.println("Listening for discover messages on UDP " + discoverAddress);
+        System.err.println("Listening for connections on TCP " + dataAddress);
         while (true) {
             selector.select();
             Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
@@ -125,6 +182,8 @@ public class PrimeServer implements AutoCloseable {
                 SelectionKey key = iterator.next();
                 if (key.isAcceptable()) {
                     acceptClient(key);
+                } else if (key.equals(discoverKey)) {
+                    handleDiscover();
                 } else {
                     handleOps(key);
                 }
@@ -147,6 +206,11 @@ public class PrimeServer implements AutoCloseable {
             serverSocket.close();
         } catch (IOException exception) {
             System.err.println("Server socket close failed: " + exception.getMessage());
+        }
+        try {
+            discoverSocket.close();
+        } catch (IOException exception) {
+            System.err.println("Discover socket close failed: " + exception.getMessage());
         }
         for (ServerConnection connection : connections.values()) {
             connection.close();

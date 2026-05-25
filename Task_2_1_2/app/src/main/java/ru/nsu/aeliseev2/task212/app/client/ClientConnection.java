@@ -2,6 +2,7 @@ package ru.nsu.aeliseev2.task212.app.client;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -16,7 +17,6 @@ import ru.nsu.aeliseev2.task212.protocol.ProtocolException;
 import ru.nsu.aeliseev2.task212.protocol.messages.Message;
 import ru.nsu.aeliseev2.task212.protocol.messages.PingMessage;
 import ru.nsu.aeliseev2.task212.protocol.messages.ResultMessage;
-import ru.nsu.aeliseev2.task212.utils.RemoteServer;
 import ru.nsu.aeliseev2.task212.utils.WorkStatus;
 import ru.nsu.aeliseev2.task212.utils.WorkUnit;
 
@@ -55,12 +55,12 @@ class ClientConnection implements Closeable {
      * @param selector The selector to register the socket with.
      * @throws IOException Connection failed.
      */
-    public ClientConnection(RemoteServer server, Selector selector) throws IOException {
+    public ClientConnection(InetSocketAddress server, Selector selector) throws IOException {
         SocketChannel channel = null;
         try {
             channel = SocketChannel.open();
             channel.configureBlocking(false);
-            channel.connect(server.getAddress());
+            channel.connect(server);
             this.key = channel.register(selector, SelectionKey.OP_CONNECT);
         } catch (IOException exception) {
             if (channel != null) {

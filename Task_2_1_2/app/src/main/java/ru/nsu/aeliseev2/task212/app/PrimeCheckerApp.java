@@ -1,13 +1,17 @@
 package ru.nsu.aeliseev2.task212.app;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import ru.nsu.aeliseev2.task212.algorithms.ParallelStreamPrimeChecker;
 import ru.nsu.aeliseev2.task212.algorithms.PrimeChecker;
 import ru.nsu.aeliseev2.task212.app.client.PrimeClient;
 import ru.nsu.aeliseev2.task212.app.server.PrimeServer;
-import ru.nsu.aeliseev2.task212.utils.Port;
+import ru.nsu.aeliseev2.task212.utils.AddressParser;
 
 /**
  * A distributed client+server application for finding composite numbers.
@@ -16,8 +20,9 @@ public class PrimeCheckerApp {
     private static void printHelp() {
         System.err.print("""
             Usage:
-            prime-checker listen <PORT>
-            prime-checker check <HOST:PORT>, <HOST:PORT>, <HOST:PORT>, ...
+            prime-check listen <DATA IP>:<DATA PORT> <DISCOVER IFACE> <DISCOVER IP>:<DISCOVER PORT>
+            prime-check check <HOST>:<PORT>, <HOST>:<PORT>, <HOST>:<PORT>, ...
+            prime-check check-net <DISCOVER IFACE> <DISCOVER IP>:<DISCOVER PORT>
             """);
     }
 
@@ -28,12 +33,20 @@ public class PrimeCheckerApp {
      * @return Return code of the application.
      */
     private static int runListen(String[] args) {
-        if (args.length != 2) {
-            throw new IllegalArgumentException("A port number needs to be specified");
+        if (args.length != 4) {
+            throw new IllegalArgumentException("Unexpected number of arguments");
         }
-        int port = Port.parse(args[1]);
+        InetSocketAddress dataAddress = AddressParser.parse(args[1]);
+        NetworkInterface discoverInterface;
+        try {
+            discoverInterface = NetworkInterface.getByName(args[2]);
+        } catch (SocketException exception) {
+            throw new IllegalArgumentException("Invalid interface name.");
+        }
+        InetSocketAddress discoverAddress = AddressParser.parse(args[3]);
         PrimeChecker algorithm = new ParallelStreamPrimeChecker();
-        try (PrimeServer server = new PrimeServer(port, algorithm)) {
+        try (PrimeServer server = new PrimeServer(
+            dataAddress, discoverAddress, discoverInterface, algorithm)) {
             server.listen();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -52,28 +65,68 @@ public class PrimeCheckerApp {
         if (args.length < 2) {
             throw new IllegalArgumentException("At least one host needs to be provided.");
         }
-        ArrayList<ru.nsu.aeliseev2.task212.utils.RemoteServer> servers = new ArrayList<>();
+        ArrayList<InetSocketAddress> servers = new ArrayList<>();
         for (int i = 1; i < args.length; i++) {
-            servers.add(ru.nsu.aeliseev2.task212.utils.RemoteServer.parse(args[i]));
+            servers.add(AddressParser.parse(args[i]));
         }
-        PrimeClient client = new PrimeClient(servers);
+        try (PrimeClient client = new PrimeClient(servers)) {
+            int numCount = 0;
+            long[] array = new long[4];
 
-        int numCount = 0;
-        long[] array = new long[4];
-
-        Scanner scanner = new Scanner(System.in);
-        while (scanner.hasNextLong()) {
-            array[numCount++] = scanner.nextLong();
-            if (numCount == array.length) {
-                long[] newArray = new long[array.length * 2];
-                System.arraycopy(array, 0, newArray, 0, array.length);
-                array = newArray;
+            Scanner scanner = new Scanner(System.in);
+            while (scanner.hasNextLong()) {
+                array[numCount++] = scanner.nextLong();
+                if (numCount == array.length) {
+                    long[] newArray = new long[array.length * 2];
+                    System.arraycopy(array, 0, newArray, 0, array.length);
+                    array = newArray;
+                }
             }
+            client.connect();
+            boolean result = client.hasComposites(array, 0, numCount);
+            System.out.println(result);
+            return 0;
         }
-        client.connect();
-        boolean result = client.hasComposites(array, 0, numCount);
-        System.out.println(result);
-        return 0;
+    }
+
+    /**
+     * Runs the application in client mode.
+     *
+     * @param args Application command line arguments.
+     * @return Return code of the application.
+     * @throws IOException I/O error.
+     */
+    private static int runCheckNet(String[] args) throws IOException {
+        if (args.length != 3) {
+            throw new IllegalArgumentException("Unexpected number of arguments.");
+        }
+        NetworkInterface discoverInterface;
+        try {
+            discoverInterface = NetworkInterface.getByName(args[1]);
+        } catch (SocketException exception) {
+            throw new IllegalArgumentException("Invalid interface name.");
+        }
+        InetSocketAddress discoverAddress = AddressParser.parse(args[2]);
+        List<InetSocketAddress> servers = ServerFinder.discover(discoverAddress, discoverInterface);
+
+        try (PrimeClient client = new PrimeClient(servers)) {
+            int numCount = 0;
+            long[] array = new long[4];
+
+            Scanner scanner = new Scanner(System.in);
+            while (scanner.hasNextLong()) {
+                array[numCount++] = scanner.nextLong();
+                if (numCount == array.length) {
+                    long[] newArray = new long[array.length * 2];
+                    System.arraycopy(array, 0, newArray, 0, array.length);
+                    array = newArray;
+                }
+            }
+            client.connect();
+            boolean result = client.hasComposites(array, 0, numCount);
+            System.out.println(result);
+            return 0;
+        }
     }
 
     /**
@@ -91,6 +144,8 @@ public class PrimeCheckerApp {
             return runListen(args);
         } else if (args[0].equalsIgnoreCase("check")) {
             return runCheck(args);
+        } else if (args[0].equalsIgnoreCase("check-net")) {
+            return runCheckNet(args);
         } else {
             throw new IllegalArgumentException("Unknown action: " + args[0]);
         }

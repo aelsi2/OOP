@@ -2,6 +2,7 @@ package ru.nsu.aeliseev2.task212.app.client;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.util.Collection;
@@ -9,7 +10,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import ru.nsu.aeliseev2.task212.utils.RemoteServer;
 import ru.nsu.aeliseev2.task212.utils.WorkStatus;
 import ru.nsu.aeliseev2.task212.utils.WorkUnit;
 
@@ -19,7 +19,7 @@ import ru.nsu.aeliseev2.task212.utils.WorkUnit;
 public class PrimeClient implements Closeable {
     private static final long HEARTBEAT_TIMEOUT = 1000;
 
-    private final Collection<RemoteServer> servers;
+    private final Collection<InetSocketAddress> servers;
     private final Selector selector;
     private final HashMap<SelectionKey, ClientConnection> connections;
 
@@ -29,7 +29,7 @@ public class PrimeClient implements Closeable {
      * @param servers The list of the servers to use.
      * @throws IOException {@code Selector} open error.
      */
-    public PrimeClient(Collection<RemoteServer> servers) throws IOException {
+    public PrimeClient(Collection<InetSocketAddress> servers) throws IOException {
         this.servers = servers;
         this.selector = Selector.open();
         this.connections = new HashMap<>();
@@ -67,7 +67,7 @@ public class PrimeClient implements Closeable {
      * @throws IOException {@code Selector} error.
      */
     public void connect() throws IOException {
-        for (RemoteServer server : servers) {
+        for (InetSocketAddress server : servers) {
             try {
                 ClientConnection connection = new ClientConnection(server, selector);
                 connections.put(connection.key(), connection);
