@@ -9,7 +9,7 @@ import ru.nsu.aeliseev2.task212.protocol.ProtocolException;
 
 class DiscoverMessageTests {
     @Test
-    void roundTripIPv4() throws ProtocolException {
+    void roundTripIpv4() throws ProtocolException {
         DiscoverMessage message = new DiscoverMessage(new InetSocketAddress("127.0.0.1", 8080));
         ByteBuffer buffer = ByteBuffer.allocate(DiscoverMessage.MAX_SIZE);
         message.write(buffer);
@@ -19,7 +19,7 @@ class DiscoverMessageTests {
     }
 
     @Test
-    void roundTripIPv6() throws ProtocolException {
+    void roundTripIpv6() throws ProtocolException {
         DiscoverMessage message = new DiscoverMessage(new InetSocketAddress("::1", 8080));
         ByteBuffer buffer = ByteBuffer.allocate(DiscoverMessage.MAX_SIZE);
         message.write(buffer);
