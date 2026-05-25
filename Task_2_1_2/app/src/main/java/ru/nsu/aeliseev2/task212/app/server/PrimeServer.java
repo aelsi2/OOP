@@ -40,8 +40,10 @@ public class PrimeServer implements AutoCloseable {
      * @param algorithm         The algorithm to use to find composite numbers.
      * @throws IOException Socket
      */
-    public PrimeServer(InetSocketAddress dataAddress, InetSocketAddress discoverAddress,
-                       NetworkInterface discoverInterface, PrimeChecker algorithm) throws IOException {
+    public PrimeServer(
+        InetSocketAddress dataAddress, InetSocketAddress discoverAddress,
+        NetworkInterface discoverInterface, PrimeChecker algorithm
+    ) throws IOException {
         Selector selector = null;
         ServerSocketChannel serverSocket = null;
         DatagramChannel discoverSocket = null;
