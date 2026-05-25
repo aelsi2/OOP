@@ -74,6 +74,9 @@ public record DiscoverMessage(InetSocketAddress address) {
             default:
                 throw new ProtocolException("Unknown IP version.");
         }
+        if (buffer.remaining() < byteAddress.length + 2) {
+            throw new ProtocolException("Ip address too short.");
+        }
         buffer.get(byteAddress);
         InetAddress address;
         try {
